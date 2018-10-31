@@ -70,17 +70,92 @@ CMakeFiles/Assignment_1.dir/src/Main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Assignment_1.dir/src/Main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eyal/Desktop/SPL/Assignment-1/src/Main.cpp -o CMakeFiles/Assignment_1.dir/src/Main.cpp.s
 
+CMakeFiles/Assignment_1.dir/src/Customer.cpp.o: CMakeFiles/Assignment_1.dir/flags.make
+CMakeFiles/Assignment_1.dir/src/Customer.cpp.o: ../src/Customer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eyal/Desktop/SPL/Assignment-1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Assignment_1.dir/src/Customer.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Assignment_1.dir/src/Customer.cpp.o -c /home/eyal/Desktop/SPL/Assignment-1/src/Customer.cpp
+
+CMakeFiles/Assignment_1.dir/src/Customer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Assignment_1.dir/src/Customer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eyal/Desktop/SPL/Assignment-1/src/Customer.cpp > CMakeFiles/Assignment_1.dir/src/Customer.cpp.i
+
+CMakeFiles/Assignment_1.dir/src/Customer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Assignment_1.dir/src/Customer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eyal/Desktop/SPL/Assignment-1/src/Customer.cpp -o CMakeFiles/Assignment_1.dir/src/Customer.cpp.s
+
+CMakeFiles/Assignment_1.dir/src/Dish.cpp.o: CMakeFiles/Assignment_1.dir/flags.make
+CMakeFiles/Assignment_1.dir/src/Dish.cpp.o: ../src/Dish.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eyal/Desktop/SPL/Assignment-1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Assignment_1.dir/src/Dish.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Assignment_1.dir/src/Dish.cpp.o -c /home/eyal/Desktop/SPL/Assignment-1/src/Dish.cpp
+
+CMakeFiles/Assignment_1.dir/src/Dish.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Assignment_1.dir/src/Dish.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eyal/Desktop/SPL/Assignment-1/src/Dish.cpp > CMakeFiles/Assignment_1.dir/src/Dish.cpp.i
+
+CMakeFiles/Assignment_1.dir/src/Dish.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Assignment_1.dir/src/Dish.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eyal/Desktop/SPL/Assignment-1/src/Dish.cpp -o CMakeFiles/Assignment_1.dir/src/Dish.cpp.s
+
+CMakeFiles/Assignment_1.dir/src/Table.cpp.o: CMakeFiles/Assignment_1.dir/flags.make
+CMakeFiles/Assignment_1.dir/src/Table.cpp.o: ../src/Table.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eyal/Desktop/SPL/Assignment-1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Assignment_1.dir/src/Table.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Assignment_1.dir/src/Table.cpp.o -c /home/eyal/Desktop/SPL/Assignment-1/src/Table.cpp
+
+CMakeFiles/Assignment_1.dir/src/Table.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Assignment_1.dir/src/Table.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eyal/Desktop/SPL/Assignment-1/src/Table.cpp > CMakeFiles/Assignment_1.dir/src/Table.cpp.i
+
+CMakeFiles/Assignment_1.dir/src/Table.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Assignment_1.dir/src/Table.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eyal/Desktop/SPL/Assignment-1/src/Table.cpp -o CMakeFiles/Assignment_1.dir/src/Table.cpp.s
+
+CMakeFiles/Assignment_1.dir/src/Restaurant.cpp.o: CMakeFiles/Assignment_1.dir/flags.make
+CMakeFiles/Assignment_1.dir/src/Restaurant.cpp.o: ../src/Restaurant.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eyal/Desktop/SPL/Assignment-1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Assignment_1.dir/src/Restaurant.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Assignment_1.dir/src/Restaurant.cpp.o -c /home/eyal/Desktop/SPL/Assignment-1/src/Restaurant.cpp
+
+CMakeFiles/Assignment_1.dir/src/Restaurant.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Assignment_1.dir/src/Restaurant.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eyal/Desktop/SPL/Assignment-1/src/Restaurant.cpp > CMakeFiles/Assignment_1.dir/src/Restaurant.cpp.i
+
+CMakeFiles/Assignment_1.dir/src/Restaurant.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Assignment_1.dir/src/Restaurant.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eyal/Desktop/SPL/Assignment-1/src/Restaurant.cpp -o CMakeFiles/Assignment_1.dir/src/Restaurant.cpp.s
+
+CMakeFiles/Assignment_1.dir/src/Action.cpp.o: CMakeFiles/Assignment_1.dir/flags.make
+CMakeFiles/Assignment_1.dir/src/Action.cpp.o: ../src/Action.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/eyal/Desktop/SPL/Assignment-1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Assignment_1.dir/src/Action.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Assignment_1.dir/src/Action.cpp.o -c /home/eyal/Desktop/SPL/Assignment-1/src/Action.cpp
+
+CMakeFiles/Assignment_1.dir/src/Action.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Assignment_1.dir/src/Action.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/eyal/Desktop/SPL/Assignment-1/src/Action.cpp > CMakeFiles/Assignment_1.dir/src/Action.cpp.i
+
+CMakeFiles/Assignment_1.dir/src/Action.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Assignment_1.dir/src/Action.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/eyal/Desktop/SPL/Assignment-1/src/Action.cpp -o CMakeFiles/Assignment_1.dir/src/Action.cpp.s
+
 # Object files for target Assignment_1
 Assignment_1_OBJECTS = \
-"CMakeFiles/Assignment_1.dir/src/Main.cpp.o"
+"CMakeFiles/Assignment_1.dir/src/Main.cpp.o" \
+"CMakeFiles/Assignment_1.dir/src/Customer.cpp.o" \
+"CMakeFiles/Assignment_1.dir/src/Dish.cpp.o" \
+"CMakeFiles/Assignment_1.dir/src/Table.cpp.o" \
+"CMakeFiles/Assignment_1.dir/src/Restaurant.cpp.o" \
+"CMakeFiles/Assignment_1.dir/src/Action.cpp.o"
 
 # External object files for target Assignment_1
 Assignment_1_EXTERNAL_OBJECTS =
 
 Assignment_1: CMakeFiles/Assignment_1.dir/src/Main.cpp.o
+Assignment_1: CMakeFiles/Assignment_1.dir/src/Customer.cpp.o
+Assignment_1: CMakeFiles/Assignment_1.dir/src/Dish.cpp.o
+Assignment_1: CMakeFiles/Assignment_1.dir/src/Table.cpp.o
+Assignment_1: CMakeFiles/Assignment_1.dir/src/Restaurant.cpp.o
+Assignment_1: CMakeFiles/Assignment_1.dir/src/Action.cpp.o
 Assignment_1: CMakeFiles/Assignment_1.dir/build.make
 Assignment_1: CMakeFiles/Assignment_1.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/eyal/Desktop/SPL/Assignment-1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable Assignment_1"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/eyal/Desktop/SPL/Assignment-1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable Assignment_1"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Assignment_1.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

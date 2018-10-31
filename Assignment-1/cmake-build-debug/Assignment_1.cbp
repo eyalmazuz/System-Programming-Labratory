@@ -99,7 +99,22 @@
 		<Unit filename="/home/eyal/Desktop/SPL/Assignment-1/include/Table.h">
 			<Option target="Assignment_1"/>
 		</Unit>
+		<Unit filename="/home/eyal/Desktop/SPL/Assignment-1/src/Action.cpp">
+			<Option target="Assignment_1"/>
+		</Unit>
+		<Unit filename="/home/eyal/Desktop/SPL/Assignment-1/src/Customer.cpp">
+			<Option target="Assignment_1"/>
+		</Unit>
+		<Unit filename="/home/eyal/Desktop/SPL/Assignment-1/src/Dish.cpp">
+			<Option target="Assignment_1"/>
+		</Unit>
 		<Unit filename="/home/eyal/Desktop/SPL/Assignment-1/src/Main.cpp">
+			<Option target="Assignment_1"/>
+		</Unit>
+		<Unit filename="/home/eyal/Desktop/SPL/Assignment-1/src/Restaurant.cpp">
+			<Option target="Assignment_1"/>
+		</Unit>
+		<Unit filename="/home/eyal/Desktop/SPL/Assignment-1/src/Table.cpp">
 			<Option target="Assignment_1"/>
 		</Unit>
 		<Unit filename="/home/eyal/Desktop/SPL/Assignment-1/CMakeLists.txt">

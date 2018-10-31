@@ -123,6 +123,87 @@ Assignment_1/fast:
 	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/build
 .PHONY : Assignment_1/fast
 
+src/Action.o: src/Action.cpp.o
+
+.PHONY : src/Action.o
+
+# target to build an object file
+src/Action.cpp.o:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Action.cpp.o
+.PHONY : src/Action.cpp.o
+
+src/Action.i: src/Action.cpp.i
+
+.PHONY : src/Action.i
+
+# target to preprocess a source file
+src/Action.cpp.i:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Action.cpp.i
+.PHONY : src/Action.cpp.i
+
+src/Action.s: src/Action.cpp.s
+
+.PHONY : src/Action.s
+
+# target to generate assembly for a file
+src/Action.cpp.s:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Action.cpp.s
+.PHONY : src/Action.cpp.s
+
+src/Customer.o: src/Customer.cpp.o
+
+.PHONY : src/Customer.o
+
+# target to build an object file
+src/Customer.cpp.o:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Customer.cpp.o
+.PHONY : src/Customer.cpp.o
+
+src/Customer.i: src/Customer.cpp.i
+
+.PHONY : src/Customer.i
+
+# target to preprocess a source file
+src/Customer.cpp.i:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Customer.cpp.i
+.PHONY : src/Customer.cpp.i
+
+src/Customer.s: src/Customer.cpp.s
+
+.PHONY : src/Customer.s
+
+# target to generate assembly for a file
+src/Customer.cpp.s:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Customer.cpp.s
+.PHONY : src/Customer.cpp.s
+
+src/Dish.o: src/Dish.cpp.o
+
+.PHONY : src/Dish.o
+
+# target to build an object file
+src/Dish.cpp.o:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Dish.cpp.o
+.PHONY : src/Dish.cpp.o
+
+src/Dish.i: src/Dish.cpp.i
+
+.PHONY : src/Dish.i
+
+# target to preprocess a source file
+src/Dish.cpp.i:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Dish.cpp.i
+.PHONY : src/Dish.cpp.i
+
+src/Dish.s: src/Dish.cpp.s
+
+.PHONY : src/Dish.s
+
+# target to generate assembly for a file
+src/Dish.cpp.s:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Dish.cpp.s
+.PHONY : src/Dish.cpp.s
+
 src/Main.o: src/Main.cpp.o
 
 .PHONY : src/Main.o
@@ -150,6 +231,60 @@ src/Main.cpp.s:
 	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Main.cpp.s
 .PHONY : src/Main.cpp.s
 
+src/Restaurant.o: src/Restaurant.cpp.o
+
+.PHONY : src/Restaurant.o
+
+# target to build an object file
+src/Restaurant.cpp.o:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Restaurant.cpp.o
+.PHONY : src/Restaurant.cpp.o
+
+src/Restaurant.i: src/Restaurant.cpp.i
+
+.PHONY : src/Restaurant.i
+
+# target to preprocess a source file
+src/Restaurant.cpp.i:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Restaurant.cpp.i
+.PHONY : src/Restaurant.cpp.i
+
+src/Restaurant.s: src/Restaurant.cpp.s
+
+.PHONY : src/Restaurant.s
+
+# target to generate assembly for a file
+src/Restaurant.cpp.s:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Restaurant.cpp.s
+.PHONY : src/Restaurant.cpp.s
+
+src/Table.o: src/Table.cpp.o
+
+.PHONY : src/Table.o
+
+# target to build an object file
+src/Table.cpp.o:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Table.cpp.o
+.PHONY : src/Table.cpp.o
+
+src/Table.i: src/Table.cpp.i
+
+.PHONY : src/Table.i
+
+# target to preprocess a source file
+src/Table.cpp.i:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Table.cpp.i
+.PHONY : src/Table.cpp.i
+
+src/Table.s: src/Table.cpp.s
+
+.PHONY : src/Table.s
+
+# target to generate assembly for a file
+src/Table.cpp.s:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Table.cpp.s
+.PHONY : src/Table.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -159,9 +294,24 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... Assignment_1"
+	@echo "... src/Action.o"
+	@echo "... src/Action.i"
+	@echo "... src/Action.s"
+	@echo "... src/Customer.o"
+	@echo "... src/Customer.i"
+	@echo "... src/Customer.s"
+	@echo "... src/Dish.o"
+	@echo "... src/Dish.i"
+	@echo "... src/Dish.s"
 	@echo "... src/Main.o"
 	@echo "... src/Main.i"
 	@echo "... src/Main.s"
+	@echo "... src/Restaurant.o"
+	@echo "... src/Restaurant.i"
+	@echo "... src/Restaurant.s"
+	@echo "... src/Table.o"
+	@echo "... src/Table.i"
+	@echo "... src/Table.s"
 .PHONY : help
 
 

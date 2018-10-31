@@ -8,4 +8,9 @@ add_executable(Assignment_1 src/Main.cpp
         include/Customer.h
         include/Dish.h
         include/Restaurant.h
-        include/Table.h)
+        include/Table.h
+        src/Customer.cpp
+        src/Dish.cpp
+        src/Table.cpp
+        src/Restaurant.cpp
+        src/Action.cpp)
