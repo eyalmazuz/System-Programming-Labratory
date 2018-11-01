@@ -19,3 +19,5 @@ void Table::closeTable() { open = false; }
 void Table::addCustomer(Customer *customer) { customersList.push_back(customer); }
 
 Table::~Table() { }
+
+Table::Table(const Table &other) {}

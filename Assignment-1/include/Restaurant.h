@@ -30,6 +30,12 @@ private:
     std::vector<Table*> tables;
     std::vector<Dish> menu;
     std::vector<BaseAction*> actionsLog;
+
+    void readFile(const std::string &configFilePath);
+    DishType convert(std::string type);
+    void clean();
+    void copy(Restaurant &other);
+    void steal(Restaurant &other);
 };
 
 #endif
