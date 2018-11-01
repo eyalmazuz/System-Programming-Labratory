@@ -14,17 +14,18 @@ int Customer::getId() const { return id; }
 
 //Vegetarian Customer
 VegetarianCustomer::VegetarianCustomer(std::string name, int id) :Customer(name, id){}
-
+std::string VegetarianCustomer::toString() const {return getName()+",veg";}
 
 
 //Cheap Customer
 CheapCustomer::CheapCustomer(std::string name, int id) :Customer(name, id){}
-
+std::string CheapCustomer::toString() const {return getName()+",chp";}
 
 
 //Spicy Customer
 SpicyCustomer::SpicyCustomer(std::string name, int id) :Customer(name, id){}
-
+std::string SpicyCustomer::toString() const {return getName()+",spc";}
 
 //Alcoholic Customer
 AlchoholicCustomer::AlchoholicCustomer(std::string name, int id) :Customer(name, id){}
+std::string AlchoholicCustomer::toString() const {return getName()+",alc";}

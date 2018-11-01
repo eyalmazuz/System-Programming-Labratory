@@ -12,24 +12,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="de404cc4-8be9-47bb-8950-d95f08dc6b0b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Action.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Customer.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Dish.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Restaurant.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Table.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Assignment_1.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Assignment_1.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Assignment_1.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Assignment_1.dir/DependInfo.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Assignment_1.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Assignment_1.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Assignment_1.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Assignment_1.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Assignment_1.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Assignment_1.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Assignment_1.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Assignment_1.dir/progress.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/Customer.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Customer.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/Restaurant.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Restaurant.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/Table.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Table.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Customer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Customer.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Table.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Table.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -73,11 +72,42 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="627254352">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.12" value="1" />
+          <entry key="project.open.time.2" value="1" />
+          <entry key="project.opened" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="h" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="ObjectiveC" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="cpp" value="109" />
+          <entry key="h" value="266" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="ObjectiveC" value="375" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FileEditorManager">
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
-        <leaf>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Restaurant.cpp">
               <provider selected="true" editor-type-id="text-editor" />
@@ -86,8 +116,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Table.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="240">
-                  <caret line="16" column="41" selection-start-line="16" selection-start-column="41" selection-end-line="16" selection-end-column="41" />
+                <state relative-caret-position="270">
+                  <caret line="18" column="82" selection-start-line="18" selection-start-column="82" selection-end-line="18" selection-end-column="82" />
                 </state>
               </provider>
             </entry>
@@ -112,8 +142,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Dish.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="240">
-                  <caret line="16" selection-start-line="16" selection-end-line="16" />
+                <state>
+                  <caret column="2" selection-start-column="2" selection-end-column="2" />
                 </state>
               </provider>
             </entry>
@@ -121,8 +151,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Customer.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="405">
-                  <caret line="27" selection-start-line="27" selection-end-line="27" />
+                <state relative-caret-position="390">
+                  <caret line="26" column="67" selection-start-line="26" selection-start-column="67" selection-end-line="26" selection-end-column="67" />
                 </state>
               </provider>
             </entry>
@@ -130,7 +160,7 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/include/Dish.h">
               <provider selected="true" editor-type-id="text-editor">
@@ -140,43 +170,36 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/include/Customer.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="363">
+                <state relative-caret-position="675">
                   <caret line="47" column="24" selection-start-line="47" selection-start-column="6" selection-end-line="47" selection-end-column="24" />
-                  <folding>
-                    <element signature="e#41#58#0" expanded="true" />
-                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/include/Action.h">
-              <provider selected="true" editor-type-id="text-editor" />
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-315" />
+              </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/include/Table.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="375">
-                  <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-                  <folding>
-                    <element signature="e#35#52#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="405">
+                  <caret line="29" column="10" lean-forward="true" selection-start-line="29" selection-start-column="10" selection-end-line="29" selection-end-column="10" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/include/Restaurant.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="150">
-                  <caret line="10" column="16" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="16" />
-                  <folding>
-                    <element signature="e#45#62#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="315">
+                  <caret line="25" column="46" selection-start-line="25" selection-start-column="46" selection-end-line="25" selection-end-column="46" />
                 </state>
               </provider>
             </entry>
@@ -194,11 +217,13 @@
         <option value="$PROJECT_DIR$/include/Action.h" />
         <option value="$PROJECT_DIR$/src/Main.cpp" />
         <option value="$PROJECT_DIR$/include/Customer.h" />
-        <option value="$PROJECT_DIR$/src/Customer.cpp" />
         <option value="$PROJECT_DIR$/include/Dish.h" />
-        <option value="$PROJECT_DIR$/src/Dish.cpp" />
-        <option value="$PROJECT_DIR$/src/Table.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/src/Dish.cpp" />
+        <option value="$PROJECT_DIR$/src/Customer.cpp" />
+        <option value="$PROJECT_DIR$/src/Table.cpp" />
+        <option value="$PROJECT_DIR$/include/Table.h" />
+        <option value="$PROJECT_DIR$/include/Restaurant.h" />
       </list>
     </option>
   </component>
@@ -246,6 +271,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="language.cpp" />
@@ -295,19 +321,21 @@
       <updated>1541018374386</updated>
       <workItem from="1541018375847" duration="571000" />
       <workItem from="1541018956854" duration="1961000" />
+      <workItem from="1541021250322" duration="449000" />
+      <workItem from="1541060218981" duration="697000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2532000" />
+    <option name="totallyTimeSpent" value="3678000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
+    <frame x="-1" y="25" width="1922" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="1" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="2" visible="true" weight="0.18594356" />
+      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.18996799" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32901832" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -320,16 +348,16 @@
       <window_info anchor="bottom" id="Terminal" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="CMake" order="12" visible="true" weight="0.30810812" />
+      <window_info anchor="bottom" id="CMake" order="12" weight="0.3083512" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18594356" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="1" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.18996799" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32901832" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -342,7 +370,7 @@
       <window_info anchor="bottom" id="Terminal" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="CMake" order="12" visible="true" weight="0.3085221" />
+      <window_info anchor="bottom" id="CMake" order="12" visible="true" weight="0.3083512" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -356,35 +384,16 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main.cpp">
+    <entry file="file://$PROJECT_DIR$/main.cpp" />
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="17" selection-start-column="17" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Action.cpp">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Customer.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Dish.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/Action.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/Table.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-          <folding>
-            <element signature="e#35#52#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.cpp">
       <provider selected="true" editor-type-id="text-editor">
@@ -396,34 +405,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+    <entry file="file://$PROJECT_DIR$/src/Dish.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="17" selection-start-column="17" selection-end-column="17" />
+          <caret column="2" selection-start-column="2" selection-end-column="2" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Restaurant.cpp">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/Restaurant.h">
+    <entry file="file://$PROJECT_DIR$/src/Customer.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="16" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="16" />
-          <folding>
-            <element signature="e#45#62#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="390">
+          <caret line="26" column="67" selection-start-line="26" selection-start-column="67" selection-end-line="26" selection-end-column="67" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Action.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Table.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="41" selection-start-line="16" selection-start-column="41" selection-end-line="16" selection-end-column="41" />
+        <state relative-caret-position="270">
+          <caret line="18" column="82" selection-start-line="18" selection-start-column="82" selection-end-line="18" selection-end-column="82" />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/Table.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="29" column="10" lean-forward="true" selection-start-line="29" selection-start-column="10" selection-end-line="29" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/Action.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-315" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/Dish.h">
@@ -435,11 +450,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/include/Customer.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
+        <state relative-caret-position="675">
           <caret line="47" column="24" selection-start-line="47" selection-start-column="6" selection-end-line="47" selection-end-column="24" />
-          <folding>
-            <element signature="e#41#58#0" expanded="true" />
-          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/Restaurant.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="25" column="46" selection-start-line="25" selection-start-column="46" selection-end-line="25" selection-end-column="46" />
         </state>
       </provider>
     </entry>

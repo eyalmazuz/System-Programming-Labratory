@@ -15,3 +15,5 @@ bool Table::isOpen() { return open; }
 void Table::openTable() { open = true; }
 
 void Table::closeTable() { open = false; }
+
+void Table::addCustomer(Customer *customer) { customersList.push_back(customer); }

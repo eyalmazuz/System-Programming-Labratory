@@ -21,6 +21,14 @@ public:
     void closeTable();
     int getBill();
     bool isOpen();
+
+    //rule of 5
+    virtual ~Table();
+    Table & operator=(const Table &other);
+    Table (const Table &other);
+    Table & operator=(Table &&other);
+    Table (Table &&other);
+
 private:
     int capacity;
     bool open;
