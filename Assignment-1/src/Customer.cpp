@@ -13,19 +13,23 @@ std::string Customer::getName() const { return  name; }
 int Customer::getId() const { return id; }
 
 //Vegetarian Customer
-VegetarianCustomer::VegetarianCustomer(std::string name, int id) :Customer(name, id){}
+VegetarianCustomer::VegetarianCustomer(std::string name, int id) : Customer(name, id){}
+std::vector<int> VegetarianCustomer::order(const std::vector<Dish> &menu) {}
 std::string VegetarianCustomer::toString() const {return getName()+",veg";}
 
 
 //Cheap Customer
-CheapCustomer::CheapCustomer(std::string name, int id) :Customer(name, id){}
+CheapCustomer::CheapCustomer(std::string name, int id) : Customer(name, id){}
+std::vector<int> CheapCustomer::order(const std::vector<Dish> &menu) {}
 std::string CheapCustomer::toString() const {return getName()+",chp";}
 
 
 //Spicy Customer
 SpicyCustomer::SpicyCustomer(std::string name, int id) :Customer(name, id){}
+std::vector<int> SpicyCustomer::order(const std::vector<Dish> &menu) {}
 std::string SpicyCustomer::toString() const {return getName()+",spc";}
 
 //Alcoholic Customer
 AlchoholicCustomer::AlchoholicCustomer(std::string name, int id) :Customer(name, id){}
+std::vector<int> AlchoholicCustomer::order(const std::vector<Dish> &menu) {}
 std::string AlchoholicCustomer::toString() const {return getName()+",alc";}

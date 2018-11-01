@@ -19,7 +19,7 @@ public:
     std::vector<Dish>& getMenu();
 
     //rule of 5
-    ~Restaurant();
+    virtual ~Restaurant();
     Restaurant(Restaurant &other);
     Restaurant & operator=(Restaurant &other);
     Restaurant(Restaurant &&other);
