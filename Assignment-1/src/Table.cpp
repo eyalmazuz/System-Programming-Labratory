@@ -6,7 +6,7 @@
 
 //constructor
 
-Table::Table(int t_capacity) : capacity(t_capacity){}
+Table::Table(int t_capacity) : capacity(t_capacity), open(false){ }
 
 Table::Table(const Table &other) {
     copy(other);
@@ -47,11 +47,31 @@ bool Table::isOpen() { return open; }
 
 void Table::openTable() { open = true; }
 
-void Table::closeTable() { open = false; }
+void Table::closeTable() { open = false;
+    customersList.clear();
+    orderList.clear();
+}
 
 void Table::addCustomer(Customer *customer) { customersList.push_back(customer); }
 
-Customer* Table::getCustomer(int id) {return customersList[id]; }
+void Table::removeCustomer(int id) {
+    for(int i = 0; i < customersList.size(); i++){
+        if(customersList[i]->getId() == id){
+            customersList.erase(customersList.begin()+i);
+        }
+    }
+}
+
+std::vector<OrderPair>& Table::getOrders() { return orderList; }
+
+Customer* Table::getCustomer(int id) {
+    for(int i = 0; i < customersList.size(); i++){
+        if(customersList[i]->getId() == id){
+            return customersList[i];
+        }
+    }
+
+}
 
 //helper function
 
@@ -68,8 +88,12 @@ void Table::copy(const Table &other){
     capacity = other.capacity;
     open = other.open;
     for(int i = 0; i <other.customersList.size(); i++){
-//        customersList.push_back(new Customer(*other.tables[i]));
+       customersList.push_back(other.customersList[i]);
     }
+    for(int i = 0; i <other.orderList.size(); i++){
+        orderList.push_back(other.orderList[i]);
+    }
+
 }
 
 void Table::steal(const Table &other) {
@@ -78,5 +102,12 @@ void Table::steal(const Table &other) {
     customersList = other.customersList;
     for(int i = 0; i < other.orderList.size(); i++){
         orderList.push_back(other.orderList[i]);
+    }
+}
+
+void Table::changeOrderList(std::vector<OrderPair> newOrderList) {
+    orderList.clear();
+    for (int i = 0; i < newOrderList.size(); ++i) {
+        orderList.push_back(newOrderList[i]);
     }
 }

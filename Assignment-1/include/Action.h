@@ -19,10 +19,12 @@ public:
     virtual void act(Restaurant& restaurant)=0;
     virtual std::string toString() const=0;
     virtual ~BaseAction();
+
 protected:
     void complete();
     void error(std::string errorMsg);
     std::string getErrorMsg() const;
+
 private:
     std::string errorMsg;
     ActionStatus status;
@@ -49,6 +51,9 @@ public:
     Order(int id);
     void act(Restaurant &restaurant);
     std::string toString() const;
+    ~Order();
+    int getTableID();
+
 private:
     const int tableId;
 };
@@ -59,6 +64,10 @@ public:
     MoveCustomer(int src, int dst, int customerId);
     void act(Restaurant &restaurant);
     std::string toString() const;
+    int getSrc();
+    int getDst();
+    int getID();
+
 private:
     const int srcTable;
     const int dstTable;
@@ -71,6 +80,8 @@ public:
     Close(int id);
     void act(Restaurant &restaurant);
     std::string toString() const;
+    int getId();
+
 private:
     const int tableId;
 };
@@ -99,6 +110,8 @@ public:
     PrintTableStatus(int id);
     void act(Restaurant &restaurant);
     std::string toString() const;
+    int getId();
+
 private:
     const int tableId;
 };

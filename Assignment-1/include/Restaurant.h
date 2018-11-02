@@ -27,6 +27,14 @@ public:
 
     //helper methods
 	void execute(OpenTable &action);
+	void execute(Order &action);
+	void execute(MoveCustomer &action);
+	void execute(PrintTableStatus &action);
+	void execute(Close &action);
+	void execute(CloseAll &action);
+	void execute(PrintMenu &action);
+	void execute(BackupRestaurant &action);
+	void execute(RestoreResturant &action);
 
 private:
     bool open;
@@ -36,10 +44,12 @@ private:
 
     void readFile(const std::string &configFilePath);
     DishType convert(std::string type);
+    std::string reverseCOnvert(DishType type);
     void clean();
     void copy(Restaurant &other);
     void steal(Restaurant &other);
-    bool checkOpenValid(std::vector<std::string> tokens);
+    bool checkOpenValid(std::vector<std::string> tokens, Table &table);
+    bool checkTable(int src, int dst);
 };
 
 #endif

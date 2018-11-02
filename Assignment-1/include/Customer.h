@@ -33,6 +33,8 @@ public:
     std::vector<int> order(const std::vector<Dish> &menu);
     std::string toString() const;
 private:
+    bool ordered;
+    void sortByPrice(std::vector<Dish> &menu);
 };
 
 
@@ -42,6 +44,7 @@ public:
     std::vector<int> order(const std::vector<Dish> &menu);
     std::string toString() const;
 private:
+    bool firstorder;
 };
 
 
@@ -51,6 +54,9 @@ public:
     std::vector<int> order(const std::vector<Dish> &menu);
     std::string toString() const;
 private:
+    bool ordered;
+    int prevPrice;
+    bool done;
 };
 
 

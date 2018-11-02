@@ -21,6 +21,7 @@ public:
     void closeTable();
     int getBill();
     bool isOpen();
+    void changeOrderList(std::vector<OrderPair> orderList);
 
     //rule of 5
     virtual ~Table();
