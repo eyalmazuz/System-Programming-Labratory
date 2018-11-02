@@ -25,6 +25,9 @@ public:
     Restaurant(Restaurant &&other);
     Restaurant &operator=(Restaurant &&other);
 
+    //helper methods
+	void execute(OpenTable &action);
+
 private:
     bool open;
     std::vector<Table*> tables;
@@ -36,6 +39,7 @@ private:
     void clean();
     void copy(Restaurant &other);
     void steal(Restaurant &other);
+    bool checkOpenValid(std::vector<std::string> tokens);
 };
 
 #endif

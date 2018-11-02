@@ -4,6 +4,8 @@
 CMakeFiles/Assignment_1.dir/src/Action.cpp.o: ../include/Action.h
 CMakeFiles/Assignment_1.dir/src/Action.cpp.o: ../include/Customer.h
 CMakeFiles/Assignment_1.dir/src/Action.cpp.o: ../include/Dish.h
+CMakeFiles/Assignment_1.dir/src/Action.cpp.o: ../include/Restaurant.h
+CMakeFiles/Assignment_1.dir/src/Action.cpp.o: ../include/Table.h
 CMakeFiles/Assignment_1.dir/src/Action.cpp.o: ../src/Action.cpp
 
 CMakeFiles/Assignment_1.dir/src/Customer.cpp.o: ../include/Customer.h

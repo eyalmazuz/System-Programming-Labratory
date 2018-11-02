@@ -12,7 +12,7 @@ int main(int argc, char** argv){
     }
     string configurationFile = argv[1];
     Restaurant rest(configurationFile);
-    //rest.start();
+    rest.start();
     if(backup!=nullptr){
         delete backup;
         backup = nullptr;

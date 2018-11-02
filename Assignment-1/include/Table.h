@@ -34,6 +34,11 @@ private:
     bool open;
     std::vector<Customer*> customersList;
     std::vector<OrderPair> orderList; //A list of pairs for each order in a table - (customer_id, Dish)
+
+    //helper function
+    void clean();
+    void steal(const Table &other);
+    void copy(const Table  &other);
 };
 
 
