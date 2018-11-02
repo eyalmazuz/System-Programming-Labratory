@@ -12,7 +12,7 @@
 
 Restaurant::Restaurant() { }
 
-Restaurant::Restaurant(const std::string &configFilePath) {
+Restaurant::Restaurant(const std::string &configFilePath){
     readFile(configFilePath);
 }
 
@@ -163,7 +163,8 @@ void Restaurant::readFile(const std::string &configFilePath) {
                         ss.ignore();
                 }
                 for(int i = 0; i < numberOfTables; i++){
-                    Table *t = new Table(vect[i]);
+                    Table *t = nullptr;
+                    t =  new Table(vect[i]);
                     tables.push_back(t);
                 }
 
