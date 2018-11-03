@@ -38,7 +38,7 @@ void OpenTable::act(Restaurant &restaurant) {
 }
 
 std::string OpenTable::toString() const {
-    std::string s ="open " +  std::to_string(tableId) + " ";
+    std::string s ="open " +  std::to_string(tableId+1) + " ";
     for (int i = 0; i < customers.size(); i++){
         s += customers[i]->toString() + " ";
     }
@@ -50,12 +50,14 @@ std::string OpenTable::toString() const {
     return s;
 }
 
-int OpenTable::getId() const { return tableId; }
+int OpenTable::gettableId() const { return tableId; }
+
+std::vector<Customer*> OpenTable::getCustomers() const {return customers; }
 
 OpenTable::~OpenTable() {
-   for (int i = 0; i < customers.size(); ++i) {
+/*   for (int i = 0; i < customers.size(); ++i) {
         delete customers[i];
-    }
+    }*/
 }
 
 //Order
@@ -85,6 +87,8 @@ std::string Order::toString() const {
 }
 
 Order::~Order() {}
+
+int Order::getTableId() const {return tableId; }
 
 //Move
 
@@ -126,6 +130,12 @@ std::string MoveCustomer::toString() const {
     return s;
 }
 
+int MoveCustomer::getId() const {return id;}
+
+int MoveCustomer::getdstTable() const {return dstTable; }
+
+int MoveCustomer::getsrcTable() const { return srcTable; }
+
 //Print Table Status
 
 PrintTableStatus::PrintTableStatus(int id) :tableId(id){}
@@ -158,6 +168,7 @@ void PrintTableStatus::act(Restaurant &restaurant) {
 
 std::string PrintTableStatus::toString() const { return "status " + std::to_string(tableId+1) +" "+ convertStatus(getStatus());}
 
+int PrintTableStatus::gettableId() const { return tableId;}
 //Close table
 
 Close::Close(int id) : tableId(id) {}
@@ -176,6 +187,8 @@ void Close::act(Restaurant &restaurant) {
     complete();
 }
 
+int Close::gettableId() const {return tableId;}
+
 //Close All
 
 CloseAll::CloseAll() {}
@@ -187,6 +200,8 @@ void CloseAll::act(Restaurant &restaurant) {
         }
     }
     complete();
+/*    delete backup;
+    backup = nullptr;*/
 }
 
 std::string CloseAll::toString() const { return ""; }
@@ -219,7 +234,7 @@ BackupRestaurant::BackupRestaurant() {}
 std::string BackupRestaurant::toString() const { return "backup " + convertStatus(getStatus());}
 
 void BackupRestaurant::act(Restaurant &restaurant) {
-    backup = new Restaurant(restaurant);
+    backup = &restaurant;
     complete();
 }
 
@@ -230,8 +245,6 @@ RestoreResturant::RestoreResturant() {}
 std::string RestoreResturant::toString() const { return "restore " + convertStatus(getStatus());}
 
 void RestoreResturant::act(Restaurant &restaurant) {
-    delete &restaurant;
-    restaurant = *new Restaurant();
     restaurant = *backup;
 }
 

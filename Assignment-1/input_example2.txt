@@ -7,6 +7,7 @@ move 2 1 3
 order 1
 status 2
 status 1
+backup
 log
 open 3 Albus,alc Severus,chp Minerva,veg
 order 3

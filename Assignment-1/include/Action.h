@@ -40,9 +40,9 @@ public:
     OpenTable(int id, std::vector<Customer *> &customersList);
     void act(Restaurant &restaurant);
     std::string toString() const;
-    int getId() const;
-    std::vector<Customer*> getCustomers() const;
     ~OpenTable();
+    int gettableId() const ;
+    std::vector<Customer*> getCustomers() const;
 
 
 private:
@@ -57,6 +57,7 @@ public:
     void act(Restaurant &restaurant);
     std::string toString() const;
     ~Order();
+    int getTableId() const;
 
 private:
     const int tableId;
@@ -68,6 +69,9 @@ public:
     MoveCustomer(int src, int dst, int customerId);
     void act(Restaurant &restaurant);
     std::string toString() const;
+    int getsrcTable() const;
+    int getdstTable() const;
+    int getId() const;
 
 
 private:
@@ -82,6 +86,7 @@ public:
     Close(int id);
     void act(Restaurant &restaurant);
     std::string toString() const;
+    int gettableId() const;
 
 private:
     const int tableId;
@@ -112,6 +117,7 @@ public:
     PrintTableStatus(int id);
     void act(Restaurant &restaurant);
     std::string toString() const;
+    int gettableId() const;
 
 private:
     const int tableId;

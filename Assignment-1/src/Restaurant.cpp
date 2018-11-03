@@ -203,12 +203,46 @@ void Restaurant::copy(Restaurant &other) {
         tables.push_back(new Table(*other.tables[i]));
     }
     open = other.open;
-    for (int i = 0; i < other.getActionsLog().size(); i++) {
-        //TODO fix copy C'tor actionlog copy
-        //actionsLog.push_back();
- /*       if (typeid(*other.getActionsLog()[i]) == typeid(OpenTable)){
-            actionsLog.push_back(new OpenTable())
-        }*/
+    for (int i = 0; i < other.actionsLog.size(); i++) {
+        if (typeid(*other.actionsLog[i]) == typeid(OpenTable)){
+            OpenTable *tmp = dynamic_cast<OpenTable*>(other.actionsLog[i]);
+            int tableId = tmp->gettableId();
+            std::vector<Customer*> customers = dynamic_cast<OpenTable*>(other.actionsLog[i])->getCustomers();
+            actionsLog.push_back(new OpenTable(tableId, customers));
+        }else if(typeid(*other.actionsLog[i]) == typeid(Order)){
+            int tableId = dynamic_cast<Order*>(other.actionsLog[i])->getTableId();
+            actionsLog.push_back(new Order(tableId));
+
+        }else if(typeid(*other.actionsLog[i]) == typeid(MoveCustomer)){
+            int id = dynamic_cast<MoveCustomer*>(other.actionsLog[i])->getId();
+            int srcTable = dynamic_cast<MoveCustomer*>(other.actionsLog[i])->getsrcTable();
+            int dstTable = dynamic_cast<MoveCustomer*>(other.actionsLog[i])->getdstTable();
+            actionsLog.push_back(new MoveCustomer(srcTable,dstTable,id));
+
+        }else if(typeid(*other.actionsLog[i]) == typeid(PrintTableStatus)){
+            int tableId = dynamic_cast<PrintTableStatus*>(other.actionsLog[i])->gettableId();
+            actionsLog.push_back(new PrintTableStatus(tableId));
+
+        }else if(typeid(*other.actionsLog[i]) == typeid(PrintMenu)){
+            actionsLog.push_back(new PrintMenu());
+
+        }else if(typeid(*other.actionsLog[i]) == typeid(Close)){
+            int tableId = dynamic_cast<Close*>(other.actionsLog[i])->gettableId();
+            actionsLog.push_back(new Close(tableId));
+
+        }else if(typeid(*other.actionsLog[i]) == typeid(PrintActionsLog)){
+            actionsLog.push_back(new PrintActionsLog());
+
+        }else if(typeid(*other.actionsLog[i]) == typeid(BackupRestaurant)){
+            actionsLog.push_back(new BackupRestaurant());
+
+        }else if(typeid(*other.actionsLog[i]) == typeid(RestoreResturant)){
+            actionsLog.push_back(new RestoreResturant());
+
+        }else if(typeid(*other.getActionsLog()[i]) == typeid(CloseAll)){
+            actionsLog.push_back(new CloseAll());
+
+        }
     }
 }
 
