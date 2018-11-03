@@ -22,3 +22,7 @@ void Restaurant::start() {
 
     }
 }
+
+Table *Restaurant::getTable(int ind) {
+    return nullptr;
+}

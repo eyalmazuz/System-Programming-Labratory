@@ -13,4 +13,4 @@ add_executable(Assignment_1 src/Main.cpp
         src/Dish.cpp
         src/Table.cpp
         src/Restaurant.cpp
-        src/Action.cpp)
+        src/Action.cpp include/Logger.h src/Logger.cpp)

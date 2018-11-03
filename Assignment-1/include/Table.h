@@ -12,6 +12,7 @@ public:
     Table(int t_capacity);
     int getCapacity() const;
     void addCustomer(Customer* customer);
+    void addCustomers(const std::vector<Customer *> &vector);
     void removeCustomer(int id);
     Customer* getCustomer(int id);
     std::vector<Customer*>& getCustomers();
@@ -19,8 +20,12 @@ public:
     void order(const std::vector<Dish> &menu);
     void openTable();
     void closeTable();
+    void calculateBill();
     int getBill();
     bool isOpen();
+    int getCustomersNum() const;
+    int getId() const;
+    bool isFull();
 
     //rule of 5
     virtual ~Table();
@@ -29,7 +34,10 @@ public:
     Table & operator=(Table &&other);
     Table (Table &&other);
 
+
 private:
+    int bill;
+    int id;
     int capacity;
     bool open;
     std::vector<Customer*> customersList;

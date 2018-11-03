@@ -3,7 +3,9 @@
 
 #include <string>
 #include <iostream>
+#include <sstream>
 #include "Customer.h"
+#include "Logger.h"
 
 enum ActionStatus{
     PENDING, COMPLETED, ERROR
@@ -18,10 +20,14 @@ public:
     ActionStatus getStatus() const;
     virtual void act(Restaurant& restaurant)=0;
     virtual std::string toString() const=0;
+    const Logger &getLogger() const;
 protected:
     void complete();
+    void complete(std::string out);
     void error(std::string errorMsg);
     std::string getErrorMsg() const;
+    Logger logger;
+
 private:
     std::string errorMsg;
     ActionStatus status;
@@ -33,6 +39,7 @@ public:
     OpenTable(int id, std::vector<Customer *> &customersList);
     void act(Restaurant &restaurant);
     std::string toString() const;
+    //virtual ~OpenTable();
 private:
     const int tableId;
     const std::vector<Customer *> customers;
