@@ -57,7 +57,6 @@ public:
     void act(Restaurant &restaurant);
     std::string toString() const;
     ~Order();
-    int getTableID();
 
 private:
     const int tableId;
@@ -69,9 +68,7 @@ public:
     MoveCustomer(int src, int dst, int customerId);
     void act(Restaurant &restaurant);
     std::string toString() const;
-    int getSrc();
-    int getDst();
-    int getID();
+
 
 private:
     const int srcTable;
@@ -85,7 +82,6 @@ public:
     Close(int id);
     void act(Restaurant &restaurant);
     std::string toString() const;
-    int getId();
 
 private:
     const int tableId;
@@ -107,6 +103,7 @@ public:
     void act(Restaurant &restaurant);
     std::string toString() const;
 private:
+    std::string reverseConvert(DishType type);
 };
 
 
@@ -115,7 +112,6 @@ public:
     PrintTableStatus(int id);
     void act(Restaurant &restaurant);
     std::string toString() const;
-    int getId();
 
 private:
     const int tableId;

@@ -80,12 +80,6 @@ std::vector<int> SpicyCustomer::order(const std::vector<Dish> &menu) {
         firstorder = false;
     }
     else{
-/*        for (int i = 0; i < menu.size(); ++i) {
-            if (menu[i].getPrice() > price && menu[i].getType() == SPC) {
-                index = i;
-            }
-        }
-        orders.push_back(index);*/
         int index = 0;
         for (int i = 1; i < menu.size(); ++i) {
             if (menu[i].getPrice() < menu[index].getPrice()  && menu[i].getType() == BVG) {

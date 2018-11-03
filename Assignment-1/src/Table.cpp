@@ -34,13 +34,11 @@ Table& Table::operator=(Table &&other) {
 
 //destructor
 
-
 Table::~Table() {
-    for (int i = 0; i < customersList.size(); ++i) {
-        delete customersList[i];
-    }
+    clean();
 
 }
+
 
 int Table::getCapacity() const { return capacity; }
 
@@ -52,8 +50,6 @@ void Table::openTable() { open = true; }
 
 void Table::closeTable() {
     open = false;
-    customersList.clear();
-    orderList.clear();
 }
 
 void Table::addCustomer(Customer *customer) { customersList.push_back(customer); }

@@ -26,33 +26,46 @@ public:
     Restaurant &operator=(Restaurant &&other);
 
     //helper methods
-	void execute(OpenTable &action);
-	void execute(Order &action);
-	void execute(MoveCustomer &action);
-	void execute(PrintTableStatus &action);
-	void execute(Close &action);
-	void execute(CloseAll &action);
-	void execute(PrintMenu &action);
-	void execute(BackupRestaurant &action);
-	void execute(RestoreResturant &action);
-	void execute(PrintActionsLog &action);
-    void clean();
     std::vector<Table*> getTables() const;
 
+    void openCommand(std::vector<std::string> tokens, BaseAction *Action);
+    void orderCommand(std::vector<std::string> tokens, BaseAction *Action);
+    void moveCommand(std::vector<std::string> tokens, BaseAction *Action);
+    void closeCommand(std::vector<std::string> tokens, BaseAction *Action);
+    void printTableStatusCommand(std::vector<std::string> tokens, BaseAction *Action);
+    void printLogCommand(std::vector<std::string> tokens, BaseAction *Action);
+    void closeallCommand(std::vector<std::string> tokens, BaseAction *Action);
+    void printMenuCommand(std::vector<std::string> tokens, BaseAction *Action);
+    void backupCommand(std::vector<std::string> tokens, BaseAction *Action);
+    void restoreCommand(std::vector<std::string> tokens, BaseAction *Action);
 
 private:
-    bool open;
-    std::vector<Table*> tables;
-    std::vector<Dish> menu;
-    std::vector<BaseAction*> actionsLog;
 
-    void readFile(const std::string &configFilePath);
-    DishType convert(std::string type);
-    std::string reverseCOnvert(DishType type);
-    void copy(Restaurant &other);
-    void steal(Restaurant &other);
-    bool checkOpenValid(std::vector<std::string> tokens, Table &table);
-    bool checkTable(int src, int dst);
+
+	bool open;
+	std::vector<Table*> tables;
+	std::vector<Dish> menu;
+	std::vector<BaseAction*> actionsLog;
+	int custIndex;
+
+	void readFile(const std::string &configFilePath);
+    void readNumOfTables(std::ifstream &myReadFile);
+	void readTables(std::ifstream &myReadFile);
+	void readMenu(std::ifstream &myReadFile);
+
+
+	DishType convert(std::string type);
+
+	void copy(Restaurant &other);
+	void steal(Restaurant &other);
+	void clean();
+
+	bool checkOpenValid(std::vector<std::string> tokens, Table &table);
+	bool checkMoveValid(std::vector<std::string> tokens);
+	bool checkValidInput(std::string input);
+	bool checkValidCommand(std::vector<std::string> tokens);
+	bool checkOrderValid(std::string index);
+	bool checkCloseValid(std::string id);
 };
 
 #endif
