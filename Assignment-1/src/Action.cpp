@@ -12,7 +12,7 @@ std::string BaseAction::getErrorMsg() const { return errorMsg; }
 void BaseAction::complete() { status = COMPLETED; }
 
 void BaseAction::error(std::string errorMsg) { std::cout << "Error:" << errorMsg << std::endl; }
-void BaseAction::setError() {}
+void BaseAction::setError() { status = ERROR; }
 
 OpenTable::OpenTable(int id, std::vector<Customer *> &customersList) : tableId(id), customers(customersList) {}
 
