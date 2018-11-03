@@ -36,6 +36,9 @@ Table& Table::operator=(Table &&other) {
 
 
 Table::~Table() {
+    for (int i = 0; i < customersList.size(); ++i) {
+        delete customersList[i];
+    }
 
 }
 
@@ -47,7 +50,8 @@ bool Table::isOpen() { return open; }
 
 void Table::openTable() { open = true; }
 
-void Table::closeTable() { open = false;
+void Table::closeTable() {
+    open = false;
     customersList.clear();
     orderList.clear();
 }

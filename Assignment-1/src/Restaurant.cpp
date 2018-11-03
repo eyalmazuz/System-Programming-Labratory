@@ -10,9 +10,9 @@
 extern Restaurant* backup;
 //constructors
 
-Restaurant::Restaurant() { }
+Restaurant::Restaurant(): open(true){ }
 
-Restaurant::Restaurant(const std::string &configFilePath){
+Restaurant::Restaurant(const std::string &configFilePath): open(true){
     std::ifstream myReadFile;
     std::string line;
     int numberOfTables;
@@ -101,19 +101,18 @@ void Restaurant::start() {
     int custIndex = 0;
     std::string closeAll = "closeall";
     BaseAction *Action;
-    std::cout << "Restaurant is now open!" <<std::endl;
+    std::cout << "Restaurant is now open! " <<std::endl;
     std::string input = "";
     while(input!= closeAll){
         input = "";
         std::getline(std::cin, input);
-        std::cout<< input << std::endl;
         std::istringstream iss(input);
         std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
                                         std::istream_iterator<std::string>{}};
         if(tokens[0] == "open"){
+            int tableId = std::stoi(tokens[1]);
+            std::vector<Customer *> Customers;
             if(checkOpenValid(tokens, *tables[std::stoi(tokens[1])-1])){
-                int tableId = std::stoi(tokens[1]);
-                std::vector<Customer *> Customers;
                 std::smatch match;
                 std::regex re ("(?!.*[0-9])\\S.*");
                 std::regex_search(input, match, re);
@@ -147,6 +146,11 @@ void Restaurant::start() {
                 Action = new OpenTable(tableId, Customers);
                 actionsLog.push_back(Action);
                 Action->act(*this);
+            }
+            else{
+                Action = new OpenTable(tableId, Customers);
+                Action->setError();
+                actionsLog.push_back(Action);
 
             }
         }else if(tokens[0] == "order"){
@@ -168,7 +172,6 @@ void Restaurant::start() {
             Action = new CloseAll();
             Action->act(*this);
             delete Action;
-            clean();
 
         }else if(tokens[0] == "menu"){
             Action = new PrintMenu();
@@ -180,6 +183,9 @@ void Restaurant::start() {
             actionsLog.push_back(Action);
 
         }else if(tokens[0] == "log"){
+            Action = new PrintActionsLog();
+            Action->act(*this);
+            delete Action;
 
         }else if(tokens[0] == "backup"){
             Action = new BackupRestaurant();
@@ -213,14 +219,15 @@ DishType Restaurant::convert(std::string type) {
 }
 
 void Restaurant::clean() {
-/*    std::vector<Table*>::iterator tablesIterator;
+    std::vector<Table*>::iterator tablesIterator;
     for(tablesIterator = tables.begin(); tablesIterator != tables.end(); ++tablesIterator) {
         delete (*tablesIterator);
     }
     std::vector<BaseAction*>::iterator actionIterator;
     for(actionIterator = actionsLog.begin(); actionIterator !=actionsLog.end(); ++actionIterator){
         delete(*actionIterator);
-    }*/
+    }
+    menu.clear();
 }
 
 void Restaurant::copy(Restaurant &other){
@@ -255,8 +262,12 @@ bool Restaurant::checkOpenValid(std::vector<std::string> tokens, Table &table) {
         return false;
     }
 
-    if(std::stoi(tokens[1]) > tables.size() || table.isOpen()){
+    if(std::stoi(tokens[1]) > tables.size()){
         std::cout << "Table does not exist or already Open"<< std::endl;
+        return false;
+    }
+    if(table.isOpen()){
+        std::cout << "Error: Table is already open"<< std::endl;
         return false;
     }
     return true;
@@ -310,11 +321,11 @@ void Restaurant::execute(MoveCustomer &action) {
                 newOrderList.push_back(*it);
             }
         }
+        src.removeCustomer(id);
+        src.changeOrderList(newOrderList);
         if (src.getCustomers().size() == 0) {
             src.closeTable();
         }
-        src.removeCustomer(id);
-        src.changeOrderList(newOrderList);
     }
 }
 
@@ -325,12 +336,12 @@ void Restaurant::execute(PrintTableStatus &action) {
     if(tables[tableId]->isOpen()) {
         status = "open";
         std::cout << "Table " + std::to_string(tableId + 1) + " status: " + status << std::endl;
-        std::cout << "Customers: " << std::endl;
+        std::cout << "Customers:" << std::endl;
         for (int i = 0; i < tables[tableId]->getCustomers().size(); i++) {
             std::cout << std::to_string(tables[tableId]->getCustomers()[i]->getId()) + " " +
                          tables[tableId]->getCustomers()[i]->getName() << std::endl;
         }
-        std::cout << "Orders: " << std::endl;
+        std::cout << "Orders:" << std::endl;
         for (int j = 0; j < tables[tableId]->getOrders().size(); ++j) {
             std::cout << tables[tableId]->getOrders()[j].second.getName() + " " +
                          std::to_string(tables[tableId]->getOrders()[j].second.getPrice()) + "NIS " +
@@ -380,16 +391,13 @@ void Restaurant::execute(PrintMenu &action) {
 }
 
 void Restaurant::execute(BackupRestaurant &action) {
+
     backup = new Restaurant(*this);
 }
 
 void Restaurant::execute(RestoreResturant &action) {
 
-    for (int i = 0; i < tables.size(); ++i) {
-        delete tables[i];
-    }
-    tables.clear();
-    menu.clear();
+    clean();
     for (int i = 0; i < backup->tables.size(); ++i) {
         tables.push_back(new Table(*backup->tables[i]));
     }
@@ -401,3 +409,10 @@ void Restaurant::execute(RestoreResturant &action) {
     }
 
 }
+
+void Restaurant::execute(PrintActionsLog &action) {
+    for (int i = 0; i < actionsLog.size(); i++){
+            std::cout << actionsLog[i]->toString() << std::endl;
+    }
+}
+

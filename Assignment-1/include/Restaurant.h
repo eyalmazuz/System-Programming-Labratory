@@ -35,6 +35,10 @@ public:
 	void execute(PrintMenu &action);
 	void execute(BackupRestaurant &action);
 	void execute(RestoreResturant &action);
+	void execute(PrintActionsLog &action);
+    void clean();
+    std::vector<Table*> getTables() const;
+
 
 private:
     bool open;
@@ -45,7 +49,6 @@ private:
     void readFile(const std::string &configFilePath);
     DishType convert(std::string type);
     std::string reverseCOnvert(DishType type);
-    void clean();
     void copy(Restaurant &other);
     void steal(Restaurant &other);
     bool checkOpenValid(std::vector<std::string> tokens, Table &table);

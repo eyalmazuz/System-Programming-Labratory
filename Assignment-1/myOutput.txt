@@ -1,0 +1,151 @@
+Restaurant is now open!
+open 1 Harry,spc Ron,chp Hermionie,veg
+open 2 Sirius,alc Remus,veg
+order 1
+Harry ordered Spicy meat
+Ron ordered Water
+Hermionie ordered Pumpkin Juice
+Hermionie ordered Pumpkin Cake
+order 2
+Sirius ordered Butterbeer
+Remus ordered Pumpkin Juice
+Remus ordered Pumpkin Cake
+status 1
+Table 1 status: open
+Customers: 
+0 Harry
+1 Ron
+2 Hermionie
+Orders: 
+Spicy meat 300NIS 0
+Water 20NIS 1
+Pumpkin Juice 40NIS 2
+Pumpkin Cake 50NIS 2
+Current Bill: 410NIS
+move 2 1 3
+order 1
+Harry ordered Water
+Hermionie ordered Pumpkin Juice
+Hermionie ordered Pumpkin Cake
+Sirius ordered Fire Whisky
+status 2
+Table 2 status: open
+Customers: 
+4 Remus
+Orders: 
+Pumpkin Juice 40NIS 4
+Pumpkin Cake 50NIS 4
+Current Bill: 90NIS
+status 1
+Table 1 status: open
+Customers: 
+0 Harry
+1 Ron
+2 Hermionie
+3 Sirius
+Orders: 
+Spicy meat 300NIS 0
+Water 20NIS 1
+Pumpkin Juice 40NIS 2
+Pumpkin Cake 50NIS 2
+Butterbeer 50NIS 3
+Water 20NIS 0
+Pumpkin Juice 40NIS 2
+Pumpkin Cake 50NIS 2
+Fire Whisky 60NIS 3
+Current Bill: 630NIS
+backup
+log
+open 1 Harry,spc Ron,chp Hermionie,veg Completed
+open 2 Sirius,alc Remus,veg Completed
+order 1 Completed
+order 2 Completed
+Status 1 Completed
+Move 2 1 3 Completed
+order 1 Completed
+Status 2 Completed
+Status 1 Completed
+open 3 Albus,alc Severus,chp Minerva,veg
+order 3
+Albus ordered Butterbeer
+Severus ordered Water
+Minerva ordered Pumpkin Juice
+Minerva ordered Pumpkin Cake
+order 3
+Albus ordered Fire Whisky
+Minerva ordered Pumpkin Juice
+Minerva ordered Pumpkin Cake
+order 2
+Remus ordered Pumpkin Juice
+Remus ordered Pumpkin Cake
+status 1
+Table 1 status: open
+Customers: 
+0 Harry
+1 Ron
+2 Hermionie
+3 Sirius
+Orders: 
+Spicy meat 300NIS 0
+Water 20NIS 1
+Pumpkin Juice 40NIS 2
+Pumpkin Cake 50NIS 2
+Butterbeer 50NIS 3
+Water 20NIS 0
+Pumpkin Juice 40NIS 2
+Pumpkin Cake 50NIS 2
+Fire Whisky 60NIS 3
+Current Bill: 630NIS
+status 2
+Table 2 status: open
+Customers: 
+4 Remus
+Orders: 
+Pumpkin Juice 40NIS 4
+Pumpkin Cake 50NIS 4
+Pumpkin Juice 40NIS 4
+Pumpkin Cake 50NIS 4
+Current Bill: 180NIS
+status 3
+Table 3 status: open
+Customers: 
+5 Albus
+6 Severus
+7 Minerva
+Orders: 
+Butterbeer 50NIS 5
+Water 20NIS 6
+Pumpkin Juice 40NIS 7
+Pumpkin Cake 50NIS 7
+Fire Whisky 60NIS 5
+Pumpkin Juice 40NIS 7
+Pumpkin Cake 50NIS 7
+Current Bill: 310NIS
+restore
+status 3
+Table 3 status: closed
+open 1 Luna,veg Ginny,spc
+Table does not exist or already Open
+log
+open 1 Harry,spc Ron,chp Hermionie,veg Completed
+open 2 Sirius,alc Remus,veg Completed
+order 1 Completed
+order 2 Completed
+Status 1 Completed
+Move 2 1 3 Completed
+order 1 Completed
+Status 2 Completed
+Status 1 Completed
+open 3 Albus,alc Severus,chp Minerva,veg Completed
+order 3 Completed
+order 3 Completed
+order 2 Completed
+Status 1 Completed
+Status 2 Completed
+Status 3 Completed
+Status 3 Completed
+open 3 Error: Table does not exist or already Open
+closeall
+Table 1 was closed. Bill 630NIS
+Table 2 was closed. Bill 90NIS
+

@@ -18,10 +18,14 @@ public:
     ActionStatus getStatus() const;
     virtual void act(Restaurant& restaurant)=0;
     virtual std::string toString() const=0;
+    void setError();
+
     virtual ~BaseAction();
+
 
 protected:
     void complete();
+    std::string convertStatus(ActionStatus actionStatus) const;
     void error(std::string errorMsg);
     std::string getErrorMsg() const;
 
@@ -39,6 +43,7 @@ public:
     int getId() const;
     std::vector<Customer*> getCustomers() const;
     ~OpenTable();
+
 
 private:
     const int tableId;
