@@ -18,7 +18,7 @@ public:
     ActionStatus getStatus() const;
     virtual void act(Restaurant& restaurant)=0;
     virtual std::string toString() const=0;
-    virtual ~BaseAction();
+    void setError();
 
 protected:
     void complete();
@@ -36,9 +36,6 @@ public:
     OpenTable(int id, std::vector<Customer *> &customersList);
     void act(Restaurant &restaurant);
     std::string toString() const;
-    int getId() const;
-    std::vector<Customer*> getCustomers() const;
-    ~OpenTable();
 
 private:
     const int tableId;
@@ -51,8 +48,6 @@ public:
     Order(int id);
     void act(Restaurant &restaurant);
     std::string toString() const;
-    ~Order();
-    int getTableID();
 
 private:
     const int tableId;
@@ -64,9 +59,6 @@ public:
     MoveCustomer(int src, int dst, int customerId);
     void act(Restaurant &restaurant);
     std::string toString() const;
-    int getSrc();
-    int getDst();
-    int getID();
 
 private:
     const int srcTable;
@@ -80,7 +72,6 @@ public:
     Close(int id);
     void act(Restaurant &restaurant);
     std::string toString() const;
-    int getId();
 
 private:
     const int tableId;
@@ -110,7 +101,6 @@ public:
     PrintTableStatus(int id);
     void act(Restaurant &restaurant);
     std::string toString() const;
-    int getId();
 
 private:
     const int tableId;
