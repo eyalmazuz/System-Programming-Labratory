@@ -66,17 +66,7 @@ Order::Order(int id) : tableId(id) {}
 
 void Order::act(Restaurant &restaurant) {
     Table &t = *restaurant.getTables()[tableId];
-    std::vector<Customer *>::iterator it;
-    for (it = t.getCustomers().begin(); it != t.getCustomers().end(); ++it) {
-        std::vector<int> orders = (*it)->order(restaurant.getMenu());
-        for (int i = 0; i < orders.size(); ++i) {
-            OrderPair::first_type f = (*it)->getId();
-            OrderPair::second_type s = restaurant.getMenu()[orders[i]];
-            OrderPair order = std::make_pair(f, s);
-            t.getOrders().push_back(order);
-            std::cout << (*it)->getName() + " ordered " + restaurant.getMenu()[orders[i]].getName() << std::endl;
-        }
-    }
+    t.order(restaurant.getMenu());
     complete();
 }
 
@@ -141,7 +131,6 @@ int MoveCustomer::getsrcTable() const { return srcTable; }
 PrintTableStatus::PrintTableStatus(int id) :tableId(id){}
 
 void PrintTableStatus::act(Restaurant &restaurant) {
-    int sum = 0;
     int id = tableId;
     std::string status = "closed";
     if (restaurant.getTables()[tableId]->isOpen()) {
@@ -157,9 +146,8 @@ void PrintTableStatus::act(Restaurant &restaurant) {
             std::cout << restaurant.getTables()[tableId]->getOrders()[j].second.getName() + " " +
                          std::to_string(restaurant.getTables()[tableId]->getOrders()[j].second.getPrice()) + "NIS " +
                          std::to_string(restaurant.getTables()[tableId]->getOrders()[j].first) << std::endl;
-            sum += restaurant.getTables()[tableId]->getOrders()[j].second.getPrice();
         }
-        std::cout << "Current Bill: " + std::to_string(sum) + "NIS" << std::endl;
+        std::cout << "Current Bill: " + std::to_string(restaurant.getTable(tableId)->getBill()) + "NIS" << std::endl;
     } else {
         std::cout << "Table " + std::to_string(tableId + 1) + " status: " + status << std::endl;
     }
@@ -196,7 +184,8 @@ CloseAll::CloseAll() {}
 void CloseAll::act(Restaurant &restaurant) {
     for (int i = 0; i < restaurant.getTables().size(); ++i) {
         if (restaurant.getTables()[i]->isOpen()) {
-            restaurant.getTables()[i]->closeTable();
+            Close c(i);
+            c.act(restaurant);
         }
     }
     complete();

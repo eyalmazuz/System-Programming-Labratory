@@ -2,6 +2,7 @@
 // Created by eyal on 10/31/18.
 //
 
+#include <iostream>
 #include "../include/Table.h"
 
 //constructor
@@ -50,6 +51,29 @@ void Table::openTable() { open = true; }
 
 void Table::closeTable() {
     open = false;
+}
+
+void Table::order(const std::vector<Dish> &menu){
+    std::vector<Customer *>::iterator it;
+    for(it = customersList.begin(); it != customersList.end(); ++it) {
+        std::vector<int> orders = (*it)->order(menu);
+        for (int i = 0; i < orders.size(); ++i) {
+            OrderPair::first_type f = (*it)->getId();
+            OrderPair::second_type s = menu[orders[i]];
+            OrderPair order = std::make_pair(f, s);
+            orderList.push_back(order);
+            std::cout << (*it)->getName() + " ordered " + menu[orders[i]].getName() << std::endl;
+        }
+    }
+}
+
+int Table::getBill() {
+    int sum = 0;
+    std::vector<OrderPair>::iterator it;
+    for (it = orderList.begin(); it != orderList.end(); ++it) {
+        sum += (*it).second.getPrice();
+    }
+    return sum;
 }
 
 void Table::addCustomer(Customer *customer) { customersList.push_back(customer); }
