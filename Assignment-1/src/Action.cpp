@@ -9,7 +9,7 @@ extern Restaurant* backup;
 
 //Base Action
 
-BaseAction::BaseAction() :status(PENDING) { }
+BaseAction::BaseAction() :status(COMPLETED) { }
 ActionStatus BaseAction::getStatus() const { return status; }
 std::string BaseAction::getErrorMsg() const { return errorMsg; }
 BaseAction::~BaseAction() {}
@@ -38,16 +38,16 @@ void OpenTable::act(Restaurant &restaurant) {
 }
 
 std::string OpenTable::toString() const {
-    std::string s ="open " +  std::to_string(tableId+1) + " ";
-    for (int i = 0; i < customers.size(); i++){
-        s += customers[i]->toString() + " ";
-    }
+    std::string  s = "open " +  std::to_string(tableId+1) + " ";
     if(getStatus() == COMPLETED){
-        s += convertStatus(getStatus());
+
+        /*    for (int i = 0; i < customers.size(); i++){
+        s += customers[i]->getName()+ " ";
+    }*/
+        return s += convertStatus(getStatus());
     }else if( getStatus() == ERROR){
-        s += convertStatus(getStatus()) + getErrorMsg();
+        return s += convertStatus(getStatus()) + getErrorMsg();
     }
-    return s;
 }
 
 int OpenTable::gettableId() const { return tableId; }
@@ -131,23 +131,25 @@ int MoveCustomer::getsrcTable() const { return srcTable; }
 PrintTableStatus::PrintTableStatus(int id) :tableId(id){}
 
 void PrintTableStatus::act(Restaurant &restaurant) {
-    int id = tableId;
     std::string status = "closed";
-    if (restaurant.getTables()[tableId]->isOpen()) {
+    Table *t = restaurant.getTable(tableId);
+    if (t->isOpen()) {
         status = "open";
         std::cout << "Table " + std::to_string(tableId + 1) + " status: " + status << std::endl;
         std::cout << "Customers:" << std::endl;
-        for (int i = 0; i < restaurant.getTables()[tableId]->getCustomers().size(); i++) {
-            std::cout << std::to_string(restaurant.getTables()[tableId]->getCustomers()[i]->getId()) + " " +
-                    restaurant.getTables()[tableId]->getCustomers()[i]->getName() << std::endl;
+        for (int i = 0; i < t->getCustomers().size(); ++i) {
+            std::cout << std::to_string((t->getCustomers()[i])->getId()) + " " +
+                         t->getCustomers()[i]->getName() << std::endl;
+
         }
         std::cout << "Orders:" << std::endl;
-        for (int j = 0; j < restaurant.getTables()[tableId]->getOrders().size(); ++j) {
-            std::cout << restaurant.getTables()[tableId]->getOrders()[j].second.getName() + " " +
-                         std::to_string(restaurant.getTables()[tableId]->getOrders()[j].second.getPrice()) + "NIS " +
-                         std::to_string(restaurant.getTables()[tableId]->getOrders()[j].first) << std::endl;
+        std::vector<OrderPair>::iterator itOrders;
+        for (itOrders = t->getOrders().begin(); itOrders !=t->getOrders().end(); ++itOrders) {
+            std::cout << (*itOrders).second.getName() + " " +
+                         std::to_string((*itOrders).second.getPrice()) + "NIS " +
+                         std::to_string((*itOrders).first) << std::endl;
         }
-        std::cout << "Current Bill: " + std::to_string(restaurant.getTable(tableId)->getBill()) + "NIS" << std::endl;
+        std::cout << "Current Bill: " + std::to_string(t->getBill()) + "NIS" << std::endl;
     } else {
         std::cout << "Table " + std::to_string(tableId + 1) + " status: " + status << std::endl;
     }
@@ -164,14 +166,10 @@ Close::Close(int id) : tableId(id) {}
 std::string Close::toString() const {return "";}
 
 void Close::act(Restaurant &restaurant) {
-    int sum = 0;
-    int id = tableId;
-    for (int j = 0; j < restaurant.getTables()[id]->getOrders().size(); ++j) {
-        sum += restaurant.getTables()[id]->getOrders()[j].second.getPrice();
-    }
-    std::cout << "Table " + std::to_string(tableId + 1) + " was closed. Bill " + std::to_string(sum) + "NIS"
+    Table *t = restaurant.getTable(tableId);
+    std::cout << "Table " + std::to_string(tableId + 1) + " was closed. Bill " + std::to_string(t->getBill()) + "NIS"
               << std::endl;
-    restaurant.getTables()[id]->closeTable();
+    t->closeTable();
     complete();
 }
 
@@ -209,9 +207,10 @@ std::string PrintMenu::reverseConvert(DishType type) {
 }
 
 void PrintMenu::act(Restaurant &restaurant) {
-    for (int i = 0; i < restaurant.getMenu().size(); i++) {
-        std::cout << restaurant.getMenu()[i].getName() + " " + reverseConvert(restaurant.getMenu()[i].getType()) + " " +
-                     std::to_string(restaurant.getMenu()[i].getPrice()) + "NIS" << std::endl;
+    std::vector<Dish>::iterator it;
+    for (it = restaurant.getMenu().begin(); it != restaurant.getMenu().end(); ++it) {
+        std::cout << (*it).getName() + " " + reverseConvert((*it).getType()) + " " +
+                     std::to_string((*it).getPrice()) + "NIS" << std::endl;
     }
     complete();
 }
@@ -223,7 +222,7 @@ BackupRestaurant::BackupRestaurant() {}
 std::string BackupRestaurant::toString() const { return "backup " + convertStatus(getStatus());}
 
 void BackupRestaurant::act(Restaurant &restaurant) {
-    backup = &restaurant;
+    backup = new Restaurant(restaurant);
     complete();
 }
 
@@ -245,7 +244,9 @@ PrintActionsLog::PrintActionsLog() {}
 std::string PrintActionsLog::toString() const { return "";}
 
 void PrintActionsLog::act(Restaurant &restaurant) {
-    for (int i = 0; i < restaurant.getActionsLog().size(); i++) {
+    std::vector<BaseAction*>::const_iterator it;
+    for (int i = 0; i < restaurant.getActionsLog().size(); ++i) {
+
         std::cout << restaurant.getActionsLog()[i]->toString() << std::endl;
     }
     complete();

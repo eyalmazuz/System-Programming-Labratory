@@ -7,7 +7,7 @@
 
 //constructor
 
-Table::Table(int t_capacity) : capacity(t_capacity), open(false){ }
+Table::Table(int t_capacity) : capacity(t_capacity), open(false), customersList{}{ }
 
 Table::Table(const Table &other) {
     copy(other);
@@ -57,12 +57,12 @@ void Table::order(const std::vector<Dish> &menu){
     std::vector<Customer *>::iterator it;
     for(it = customersList.begin(); it != customersList.end(); ++it) {
         std::vector<int> orders = (*it)->order(menu);
-        for (int i = 0; i < orders.size(); ++i) {
+        for (int i : orders) {
             OrderPair::first_type f = (*it)->getId();
-            OrderPair::second_type s = menu[orders[i]];
+            OrderPair::second_type s = menu[i];
             OrderPair order = std::make_pair(f, s);
             orderList.push_back(order);
-            std::cout << (*it)->getName() + " ordered " + menu[orders[i]].getName() << std::endl;
+            std::cout << (*it)->getName() + " ordered " + menu[i].getName() << std::endl;
         }
     }
 }
@@ -79,9 +79,11 @@ int Table::getBill() {
 void Table::addCustomer(Customer *customer) { customersList.push_back(customer); }
 
 void Table::removeCustomer(int id) {
-    for(int i = 0; i < customersList.size(); i++){
-        if(customersList[i]->getId() == id){
-            customersList.erase(customersList.begin()+i);
+    std::vector<Customer*>::iterator it;
+    for(it = customersList.begin(); it != customersList.end(); ++it){
+        if((*it)->getId() == id){
+            customersList.erase(it);
+            break;
         }
     }
 }
@@ -89,12 +91,12 @@ void Table::removeCustomer(int id) {
 std::vector<OrderPair>& Table::getOrders() { return orderList; }
 
 Customer* Table::getCustomer(int id) {
-    for(int i = 0; i < customersList.size(); i++){
-        if(customersList[i]->getId() == id){
-            return customersList[i];
+    std::vector<Customer*>::iterator it;
+    for(it = customersList.begin(); it != customersList.end(); ++it){
+        if((*it)->getId() == id){
+            return (*it);
         }
     }
-
 }
 
 //helper function
@@ -103,31 +105,45 @@ void Table::clean(){
     capacity = 0;
     open = false;
     std::vector<Customer*>::iterator it;
-    for(it = customersList.begin(); it != customersList.end(); ++it){
-        delete (*it);
+    for (int i = 0; i < customersList.size(); ++i) {
+        delete customersList[i];
     }
+    customersList.clear();
+    orderList.clear();
 }
 
 void Table::copy(const Table &other){
     capacity = other.capacity;
     open = other.open;
-    for(int i = 0; i <other.customersList.size(); i++){
-        if(typeid(other.customersList[i]) == typeid(VegetarianCustomer)) {
+    std::vector<Customer*>::const_iterator it;
+    for(it = other.customersList.begin(); it != other.customersList.end(); ++it){
+        if(typeid(*(*it)) == typeid(VegetarianCustomer)) {
+            int id = dynamic_cast<VegetarianCustomer*>((*it))->getId();
+            std::string name = dynamic_cast<VegetarianCustomer*>((*it))->getName();
             customersList.push_back(
-                    new VegetarianCustomer(other.customersList[i]->getName(), other.customersList[i]->getId()));
-        }else if(typeid(other.customersList[i]) == typeid(CheapCustomer)){
+                    new VegetarianCustomer(name, id));
+        }else if(typeid(*(*it)) == typeid(CheapCustomer)){
+            int id = dynamic_cast<CheapCustomer*>((*it))->getId();
+            std::string name = dynamic_cast<CheapCustomer*>((*it))->getName();
             customersList.push_back(
-                    new CheapCustomer(other.customersList[i]->getName(), other.customersList[i]->getId()));
-        }else if(typeid(other.customersList[i]) == typeid(AlchoholicCustomer)){
+                    new CheapCustomer(name, id));
+        }else if(typeid(*(*it)) == typeid(AlchoholicCustomer)){
+            int id = dynamic_cast<AlchoholicCustomer*>((*it))->getId();
+            std::string name = dynamic_cast<AlchoholicCustomer*>((*it))->getName();
             customersList.push_back(
-                    new AlchoholicCustomer(other.customersList[i]->getName(), other.customersList[i]->getId()));
-        }else if(typeid(other.customersList[i]) == typeid(SpicyCustomer)){
+                    new AlchoholicCustomer(name, id));
+        }else if(typeid(*(*it)) == typeid(SpicyCustomer)){
+            int id = dynamic_cast<SpicyCustomer*>((*it))->getId();
+            std::string name = dynamic_cast<SpicyCustomer*>((*it))->getName();
             customersList.push_back(
-                    new SpicyCustomer(other.customersList[i]->getName(), other.customersList[i]->getId()));
+                    new SpicyCustomer(name, id));
         }
     }
-    for(int i = 0; i <other.orderList.size(); i++){
-        orderList.push_back(other.orderList[i]);
+    for (const auto &i : other.orderList) {
+        OrderPair::first_type f = i.first;
+        OrderPair::second_type s = i.second;
+        OrderPair order = std::make_pair(f, s);
+        orderList.push_back(order);
     }
 
 }
@@ -136,14 +152,14 @@ void Table::steal(const Table &other) {
     capacity = other.capacity;
     open = other.open;
     customersList = other.customersList;
-    for(int i = 0; i < other.orderList.size(); i++){
-        orderList.push_back(other.orderList[i]);
+    for (const auto &i : other.orderList) {
+        orderList.push_back(i);
     }
 }
 
 void Table::changeOrderList(std::vector<OrderPair> newOrderList) {
     orderList.clear();
-    for (int i = 0; i < newOrderList.size(); ++i) {
-        orderList.push_back(newOrderList[i]);
+    for (const auto &i : newOrderList) {
+        orderList.push_back(i);
     }
 }

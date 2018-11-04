@@ -51,7 +51,7 @@ Table* Restaurant::getTable(int ind) { return tables[ind]; }
 
 std::vector<Table*> Restaurant::getTables() const {return tables;}
 
-int Restaurant::getNumOfTables() const { return tables.size(); }
+int Restaurant::getNumOfTables() const { return static_cast<int>(tables.size()); }
 
 std::vector<Dish>& Restaurant::getMenu() { return menu; }
 
@@ -59,10 +59,9 @@ const std::vector<BaseAction*>& Restaurant::getActionsLog() const { return actio
 
 void Restaurant::start() {
     std::string closeAll = "closeall";
-        std::cout << "Restaurant is now open! " << std::endl;
-    std::string input = "";
+    std::cout << "Restaurant is now open! " << std::endl;
+    std::string input;
     while (input != closeAll) {
-        input = "";
         std::getline(std::cin, input);
         if (checkValidInput(input)) {
             std::istringstream iss(input);
@@ -127,6 +126,8 @@ void Restaurant::readFile(const std::string &configFilePath) {
 
             } else if (line.find("#Menu") == 0) {
                 readMenu(myReadFile);
+            }else{
+
             }
         }
     }
@@ -134,14 +135,14 @@ void Restaurant::readFile(const std::string &configFilePath) {
 }
 
 void Restaurant::readNumOfTables(std::ifstream &myReadFile) {
-    std::string line = "";
+    std::string line;
     getline(myReadFile, line);
     int numOfTables = std::stoi(line);
 
 }
 
 void Restaurant::readTables(std::ifstream &myReadFile) {
-    std::string line = "";
+    std::string line;
     getline(myReadFile, line);
     std::vector<int> vect;
     std::stringstream ss(line);
@@ -154,9 +155,9 @@ void Restaurant::readTables(std::ifstream &myReadFile) {
 void Restaurant::readMenu(std::ifstream &myReadFile) {
     int index = 0;
     while (!myReadFile.eof()) {
-        std::string line = "";
+        std::string line;
         getline(myReadFile, line);
-        if (line != "") {
+        if (!line.empty()) {
             std::stringstream ss(line);
             std::vector<std::string> vect;
             while (std::getline(ss, line, ',')) {
@@ -189,53 +190,59 @@ void Restaurant::clean() {
     for (actionIterator = actionsLog.begin(); actionIterator != actionsLog.end(); ++actionIterator) {
         delete (*actionIterator);
     }
+    menu.clear();
+    actionsLog.clear();
+    tables.clear();
 }
 
 void Restaurant::copy(Restaurant &other) {
-    for (int i = 0; i < other.getMenu().size(); i++) {
-        menu.push_back(other.getMenu()[i]);
+    std::vector<Dish>::iterator itMenu;
+    for (itMenu = other.menu.begin(); itMenu != other.menu.end(); ++itMenu) {
+        menu.push_back(*itMenu);
     }
-    for (int i = 0; i < other.getNumOfTables(); i++) {
-        tables.push_back(new Table(*other.tables[i]));
+    std::vector<Table*>::iterator itTable;
+    for (itTable = other.tables.begin(); itTable != other.tables.end(); ++itTable) {
+        tables.push_back(new Table(*(*itTable)));
     }
     open = other.open;
-    for (int i = 0; i < other.actionsLog.size(); i++) {
-        if (typeid(*other.actionsLog[i]) == typeid(OpenTable)){
-            OpenTable *tmp = dynamic_cast<OpenTable*>(other.actionsLog[i]);
+    std::vector<BaseAction*>::const_iterator it;
+    for (it = other.actionsLog.begin(); it != other.actionsLog.end(); ++it) {
+        if (typeid(*(*it)) == typeid(OpenTable)){
+            auto *tmp = dynamic_cast<OpenTable*>((*it));
             int tableId = tmp->gettableId();
-            std::vector<Customer*> customers = dynamic_cast<OpenTable*>(other.actionsLog[i])->getCustomers();
+            std::vector<Customer*> customers = dynamic_cast<OpenTable*>((*it))->getCustomers();
             actionsLog.push_back(new OpenTable(tableId, customers));
-        }else if(typeid(*other.actionsLog[i]) == typeid(Order)){
-            int tableId = dynamic_cast<Order*>(other.actionsLog[i])->getTableId();
+        }else if(typeid(*(*it)) == typeid(Order)){
+            int tableId = dynamic_cast<Order*>((*it))->getTableId();
             actionsLog.push_back(new Order(tableId));
 
-        }else if(typeid(*other.actionsLog[i]) == typeid(MoveCustomer)){
-            int id = dynamic_cast<MoveCustomer*>(other.actionsLog[i])->getId();
-            int srcTable = dynamic_cast<MoveCustomer*>(other.actionsLog[i])->getsrcTable();
-            int dstTable = dynamic_cast<MoveCustomer*>(other.actionsLog[i])->getdstTable();
+        }else if(typeid(*(*it)) == typeid(MoveCustomer)){
+            int id = dynamic_cast<MoveCustomer*>((*it))->getId();
+            int srcTable = dynamic_cast<MoveCustomer*>((*it))->getsrcTable();
+            int dstTable = dynamic_cast<MoveCustomer*>((*it))->getdstTable();
             actionsLog.push_back(new MoveCustomer(srcTable,dstTable,id));
 
-        }else if(typeid(*other.actionsLog[i]) == typeid(PrintTableStatus)){
-            int tableId = dynamic_cast<PrintTableStatus*>(other.actionsLog[i])->gettableId();
+        }else if(typeid(*(*it)) == typeid(PrintTableStatus)){
+            int tableId = dynamic_cast<PrintTableStatus*>((*it))->gettableId();
             actionsLog.push_back(new PrintTableStatus(tableId));
 
-        }else if(typeid(*other.actionsLog[i]) == typeid(PrintMenu)){
+        }else if(typeid(*(*it)) == typeid(PrintMenu)){
             actionsLog.push_back(new PrintMenu());
 
-        }else if(typeid(*other.actionsLog[i]) == typeid(Close)){
-            int tableId = dynamic_cast<Close*>(other.actionsLog[i])->gettableId();
+        }else if(typeid(*(*it)) == typeid(Close)){
+            int tableId = dynamic_cast<Close*>((*it))->gettableId();
             actionsLog.push_back(new Close(tableId));
 
-        }else if(typeid(*other.actionsLog[i]) == typeid(PrintActionsLog)){
+        }else if(typeid(*(*it)) == typeid(PrintActionsLog)){
             actionsLog.push_back(new PrintActionsLog());
 
-        }else if(typeid(*other.actionsLog[i]) == typeid(BackupRestaurant)){
+        }else if(typeid(*(*it)) == typeid(BackupRestaurant)){
             actionsLog.push_back(new BackupRestaurant());
 
-        }else if(typeid(*other.actionsLog[i]) == typeid(RestoreResturant)){
+        }else if(typeid(*(*it)) == typeid(RestoreResturant)){
             actionsLog.push_back(new RestoreResturant());
 
-        }else if(typeid(*other.getActionsLog()[i]) == typeid(CloseAll)){
+        }else if(typeid(*(*it)) == typeid(CloseAll)){
             actionsLog.push_back(new CloseAll());
 
         }
@@ -244,8 +251,9 @@ void Restaurant::copy(Restaurant &other) {
 
 void Restaurant::steal(Restaurant &other) {
     tables = other.tables;
-    for (int i = 0; i < other.menu.size(); i++) {
-        menu.push_back(other.menu[i]);
+    std::vector<Dish>::iterator itMenu;
+    for (itMenu = other.menu.begin(); itMenu != other.menu.end(); ++itMenu) {
+        menu.push_back(*itMenu);
     }
     actionsLog = other.actionsLog;
     open = other.open;
@@ -258,20 +266,14 @@ void Restaurant::steal(Restaurant &other) {
 //commands methods
 
 bool Restaurant::checkValidInput(std::string input) {
-    if (input == "" || input == " ") {
-        return false;
-    }
-    return true;
+    return !(input.empty() || input == " ");
 }
 
 bool Restaurant::checkValidCommand(std::vector<std::string> tokens) {
     std::string command = tokens[0];
-    if (command != "open" && command != "order" && command != "move" && command != "close" && command != "log" &&
-        command != "status" && command != "closeall" && command != "menu" && command != "backup" &&
-        command != "restore") {
-        return false;
-    }
-    return true;
+    return !(command != "open" && command != "order" && command != "move" && command != "close" && command != "log" &&
+    command != "status" && command != "closeall" && command != "menu" && command != "backup" &&
+    command != "restore");
 }
 
 void Restaurant::openCommand(std::vector<std::string> tokens) {
@@ -302,12 +304,13 @@ void Restaurant::openCommand(std::vector<std::string> tokens) {
             }
         }
 
-        OpenTable *Action = new OpenTable(tableId, Customers);
+        auto *Action = new OpenTable(tableId, Customers);
         actionsLog.push_back(Action);
         Action->act(*this);
     } else {
-        OpenTable *Action = new OpenTable(tableId, Customers);
+        auto * Action = new OpenTable(tableId, Customers);
         Action->setError();
+        std::cout<<"Error: Table is already open"<< std::endl;
         actionsLog.push_back(Action);
     }
 }
@@ -325,11 +328,11 @@ bool Restaurant::checkOpenValid(std::vector<std::string> tokens, Table &table) {
 void Restaurant::orderCommand(std::vector<std::string> tokens) {
     if(checkOrderValid(tokens[1])) {
         int tableId = std::stoi(tokens[1]) - 1;
-        Order *Action = new Order(tableId);
+        auto *Action = new Order(tableId);
         Action->act(*this);
         actionsLog.push_back(Action);
     }else{
-        Order *Action = new Order(std::stoi(tokens[1])-1);
+        auto *Action = new Order(std::stoi(tokens[1])-1);
         Action->setError();
         actionsLog.push_back(Action);
     }
@@ -339,20 +342,17 @@ bool Restaurant::checkOrderValid(std::string index) {
     if(!std::stoi(index)){
         return false;
     }
-    if(std::stoi(index)> tables.size()){
-        return false;
-    }
-    return true;
+    return std::stoi(index) <= tables.size();
 }
 
 void Restaurant::moveCommand(std::vector<std::string> tokens) {
     if(checkMoveValid(tokens)) {
-        MoveCustomer *Action = new MoveCustomer(std::stoi(tokens[1]) - 1, std::stoi(tokens[2]) - 1,
+        auto *Action = new MoveCustomer(std::stoi(tokens[1]) - 1, std::stoi(tokens[2]) - 1,
                                   std::stoi(tokens[3]));
         Action->act(*this);
         actionsLog.push_back(Action);
     }else{
-        MoveCustomer *Action = new MoveCustomer(std::stoi(tokens[1]) - 1, std::stoi(tokens[2]) - 1,
+        auto *Action = new MoveCustomer(std::stoi(tokens[1]) - 1, std::stoi(tokens[2]) - 1,
                                   std::stoi(tokens[3]));
         Action->setError();
         actionsLog.push_back(Action);
@@ -365,15 +365,12 @@ bool Restaurant::checkMoveValid(std::vector<std::string> tokens) {
             !(std::stoi(tokens[3]))){
         return false;
     }*/
-    if(std::stoi(tokens[1])-1 > tables.size() || std::stoi(tokens[2])-1 > tables.size()){
-        return false;
-    }
-    return true;
+    return !(std::stoi(tokens[1]) - 1 > tables.size() || std::stoi(tokens[2]) - 1 > tables.size());
 }
 
 void Restaurant::closeCommand(std::vector<std::string> tokens) {
     if(checkCloseValid(tokens[1])){
-        Close *Action = new Close(std::stoi(tokens[1]) - 1);
+        auto *Action = new Close(std::stoi(tokens[1]) - 1);
         Action->act(*this);
         actionsLog.push_back(Action);
     }
@@ -383,48 +380,44 @@ bool Restaurant::checkCloseValid(std::string id) {
     if(!std::stoi(id)){
         return false;
     }
-    // || !tables[std::stoi(id)-1]->isOpen()
-    if(std::stoi(id)> tables.size()){
-        return false;
-    }
-    return true;
+    return !(std::stoi(id) > tables.size());
 }
 
 void Restaurant::printTableStatusCommand(std::vector<std::string> tokens){
     if(checkCloseValid(tokens[1])){
-        PrintTableStatus *Action = new PrintTableStatus(std::stoi(tokens[1]) - 1);
+        auto *Action = new PrintTableStatus(std::stoi(tokens[1]) - 1);
         Action->act(*this);
         actionsLog.push_back(Action);
     }
 }
 
 void Restaurant::printLogCommand(std::vector<std::string> tokens) {
-    PrintActionsLog *Action = new PrintActionsLog();
+    auto *Action = new PrintActionsLog();
     Action->act(*this);
     actionsLog.push_back(Action);
 }
 
 void Restaurant::closeallCommand(std::vector<std::string> tokens) {
-    CloseAll *Action = new CloseAll();
+    auto *Action = new CloseAll();
     Action->act(*this);
     actionsLog.push_back(Action);
 }
 
 void Restaurant::printMenuCommand(std::vector<std::string> tokens) {
-    PrintMenu *Action = new PrintMenu();
+    auto *Action = new PrintMenu();
     Action->act(*this);
     actionsLog.push_back(Action);
+
 }
 
 void Restaurant::backupCommand(std::vector<std::string> tokens) {
-    BackupRestaurant *Action = new BackupRestaurant();
+    auto *Action = new BackupRestaurant();
     Action->act(*this);
     actionsLog.push_back(Action);
-
 }
 
 void Restaurant::restoreCommand(std::vector<std::string> tokens) {
-    RestoreResturant *Action = new RestoreResturant();
+    auto *Action = new RestoreResturant();
     Action->act(*this);
     actionsLog.push_back(Action);
 }

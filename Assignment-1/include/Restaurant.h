@@ -39,6 +39,8 @@ public:
     void backupCommand(std::vector<std::string> tokens);
     void restoreCommand(std::vector<std::string> tokens);
 
+    void clean();
+
 private:
 
 
@@ -58,9 +60,8 @@ private:
 
 	void copy(Restaurant &other);
 	void steal(Restaurant &other);
-	void clean();
 
-	bool checkOpenValid(std::vector<std::string> tokens, Table &table);
+    bool checkOpenValid(std::vector<std::string> tokens, Table &table);
 	bool checkMoveValid(std::vector<std::string> tokens);
 	bool checkValidInput(std::string input);
 	bool checkValidCommand(std::vector<std::string> tokens);
