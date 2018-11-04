@@ -59,10 +59,10 @@ const std::vector<BaseAction*>& Restaurant::getActionsLog() const { return actio
 
 void Restaurant::start() {
     std::string closeAll = "closeall";
-    BaseAction *Action;
-    std::cout << "Restaurant is now open! " << std::endl;
+        std::cout << "Restaurant is now open! " << std::endl;
     std::string input = "";
     while (input != closeAll) {
+        input = "";
         std::getline(std::cin, input);
         if (checkValidInput(input)) {
             std::istringstream iss(input);
@@ -70,34 +70,34 @@ void Restaurant::start() {
                                             std::istream_iterator<std::string>{}};
             if (checkValidCommand(tokens)) {
                 if (tokens[0] == "open") {
-                    openCommand(tokens, Action);
+                    openCommand(tokens);
                 }
                 else if (tokens[0] == "order") {
-                    orderCommand(tokens, Action);
+                    orderCommand(tokens);
 
                 } else if (tokens[0] == "move") {
-                   moveCommand(tokens, Action);
+                   moveCommand(tokens);
 
                 } else if (tokens[0] == "close") {
-                    closeCommand(tokens, Action);
+                    closeCommand(tokens);
 
                 } else if (tokens[0] == "closeall") {
-                    closeallCommand(tokens, Action);
+                    closeallCommand(tokens);
 
                 } else if (tokens[0] == "menu") {
-                    printMenuCommand(tokens, Action);
+                    printMenuCommand(tokens);
 
                 } else if (tokens[0] == "status") {
-                    printTableStatusCommand(tokens, Action);
+                    printTableStatusCommand(tokens);
 
                 } else if (tokens[0] == "log") {
-                    printLogCommand(tokens, Action);
+                    printLogCommand(tokens);
 
                 } else if (tokens[0] == "backup") {
-                    backupCommand(tokens, Action);
+                    backupCommand(tokens);
 
                 } else if (tokens[0] == "restore") {
-                    restoreCommand(tokens, Action);
+                    restoreCommand(tokens);
 
                 }
             } else {
@@ -189,10 +189,6 @@ void Restaurant::clean() {
     for (actionIterator = actionsLog.begin(); actionIterator != actionsLog.end(); ++actionIterator) {
         delete (*actionIterator);
     }
-    menu.clear();
-    tables.shrink_to_fit();
-    actionsLog.shrink_to_fit();
-    menu.shrink_to_fit();
 }
 
 void Restaurant::copy(Restaurant &other) {
@@ -278,7 +274,7 @@ bool Restaurant::checkValidCommand(std::vector<std::string> tokens) {
     return true;
 }
 
-void Restaurant::openCommand(std::vector<std::string> tokens, BaseAction *Action) {
+void Restaurant::openCommand(std::vector<std::string> tokens) {
     int tableId = std::stoi(tokens[1]) - 1;
     std::vector<Customer *> Customers;
     if (checkOpenValid(tokens, *tables[tableId])) {
@@ -306,11 +302,11 @@ void Restaurant::openCommand(std::vector<std::string> tokens, BaseAction *Action
             }
         }
 
-        Action = new OpenTable(tableId, Customers);
+        OpenTable *Action = new OpenTable(tableId, Customers);
         actionsLog.push_back(Action);
         Action->act(*this);
     } else {
-        Action = new OpenTable(tableId, Customers);
+        OpenTable *Action = new OpenTable(tableId, Customers);
         Action->setError();
         actionsLog.push_back(Action);
     }
@@ -326,14 +322,14 @@ bool Restaurant::checkOpenValid(std::vector<std::string> tokens, Table &table) {
     return true;
 }
 
-void Restaurant::orderCommand(std::vector<std::string> tokens, BaseAction *Action) {
+void Restaurant::orderCommand(std::vector<std::string> tokens) {
     if(checkOrderValid(tokens[1])) {
         int tableId = std::stoi(tokens[1]) - 1;
-        Action = new Order(tableId);
+        Order *Action = new Order(tableId);
         Action->act(*this);
         actionsLog.push_back(Action);
     }else{
-        Action = new Order(std::stoi(tokens[1])-1);
+        Order *Action = new Order(std::stoi(tokens[1])-1);
         Action->setError();
         actionsLog.push_back(Action);
     }
@@ -349,14 +345,14 @@ bool Restaurant::checkOrderValid(std::string index) {
     return true;
 }
 
-void Restaurant::moveCommand(std::vector<std::string> tokens, BaseAction *Action) {
+void Restaurant::moveCommand(std::vector<std::string> tokens) {
     if(checkMoveValid(tokens)) {
-        Action = new MoveCustomer(std::stoi(tokens[1]) - 1, std::stoi(tokens[2]) - 1,
+        MoveCustomer *Action = new MoveCustomer(std::stoi(tokens[1]) - 1, std::stoi(tokens[2]) - 1,
                                   std::stoi(tokens[3]));
         Action->act(*this);
         actionsLog.push_back(Action);
     }else{
-        Action = new MoveCustomer(std::stoi(tokens[1]) - 1, std::stoi(tokens[2]) - 1,
+        MoveCustomer *Action = new MoveCustomer(std::stoi(tokens[1]) - 1, std::stoi(tokens[2]) - 1,
                                   std::stoi(tokens[3]));
         Action->setError();
         actionsLog.push_back(Action);
@@ -375,9 +371,9 @@ bool Restaurant::checkMoveValid(std::vector<std::string> tokens) {
     return true;
 }
 
-void Restaurant::closeCommand(std::vector<std::string> tokens, BaseAction *Action) {
+void Restaurant::closeCommand(std::vector<std::string> tokens) {
     if(checkCloseValid(tokens[1])){
-        Action = new Close(std::stoi(tokens[1]) - 1);
+        Close *Action = new Close(std::stoi(tokens[1]) - 1);
         Action->act(*this);
         actionsLog.push_back(Action);
     }
@@ -387,45 +383,48 @@ bool Restaurant::checkCloseValid(std::string id) {
     if(!std::stoi(id)){
         return false;
     }
-    if(std::stoi(id)> tables.size() || !tables[std::stoi(id)-1]->isOpen()){
+    // || !tables[std::stoi(id)-1]->isOpen()
+    if(std::stoi(id)> tables.size()){
         return false;
     }
     return true;
 }
 
-void Restaurant::printTableStatusCommand(std::vector<std::string> tokens, BaseAction *Action){
+void Restaurant::printTableStatusCommand(std::vector<std::string> tokens){
     if(checkCloseValid(tokens[1])){
-        Action = new PrintTableStatus(std::stoi(tokens[1]) - 1);
+        PrintTableStatus *Action = new PrintTableStatus(std::stoi(tokens[1]) - 1);
         Action->act(*this);
         actionsLog.push_back(Action);
     }
 }
 
-void Restaurant::printLogCommand(std::vector<std::string> tokens, BaseAction *Action) {
-    Action = new PrintActionsLog();
-    Action->act(*this);
-    delete Action;
-}
-
-void Restaurant::closeallCommand(std::vector<std::string> tokens, BaseAction *Action) {
-    Action = new CloseAll();
-    Action->act(*this);
-    delete Action;
-}
-
-void Restaurant::printMenuCommand(std::vector<std::string> tokens, BaseAction *Action) {
-    Action = new PrintMenu();
-    Action->act(*this);
-}
-
-void Restaurant::backupCommand(std::vector<std::string> tokens, BaseAction *Action) {
-    Action = new BackupRestaurant();
+void Restaurant::printLogCommand(std::vector<std::string> tokens) {
+    PrintActionsLog *Action = new PrintActionsLog();
     Action->act(*this);
     actionsLog.push_back(Action);
 }
 
-void Restaurant::restoreCommand(std::vector<std::string> tokens, BaseAction *Action) {
-    Action = new RestoreResturant();
+void Restaurant::closeallCommand(std::vector<std::string> tokens) {
+    CloseAll *Action = new CloseAll();
+    Action->act(*this);
+    actionsLog.push_back(Action);
+}
+
+void Restaurant::printMenuCommand(std::vector<std::string> tokens) {
+    PrintMenu *Action = new PrintMenu();
+    Action->act(*this);
+    actionsLog.push_back(Action);
+}
+
+void Restaurant::backupCommand(std::vector<std::string> tokens) {
+    BackupRestaurant *Action = new BackupRestaurant();
+    Action->act(*this);
+    actionsLog.push_back(Action);
+
+}
+
+void Restaurant::restoreCommand(std::vector<std::string> tokens) {
+    RestoreResturant *Action = new RestoreResturant();
     Action->act(*this);
     actionsLog.push_back(Action);
 }

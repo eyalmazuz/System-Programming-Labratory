@@ -88,7 +88,19 @@ void Table::copy(const Table &other){
     capacity = other.capacity;
     open = other.open;
     for(int i = 0; i <other.customersList.size(); i++){
-       customersList.push_back(other.customersList[i]);
+        if(typeid(other.customersList[i]) == typeid(VegetarianCustomer)) {
+            customersList.push_back(
+                    new VegetarianCustomer(other.customersList[i]->getName(), other.customersList[i]->getId()));
+        }else if(typeid(other.customersList[i]) == typeid(CheapCustomer)){
+            customersList.push_back(
+                    new CheapCustomer(other.customersList[i]->getName(), other.customersList[i]->getId()));
+        }else if(typeid(other.customersList[i]) == typeid(AlchoholicCustomer)){
+            customersList.push_back(
+                    new AlchoholicCustomer(other.customersList[i]->getName(), other.customersList[i]->getId()));
+        }else if(typeid(other.customersList[i]) == typeid(SpicyCustomer)){
+            customersList.push_back(
+                    new SpicyCustomer(other.customersList[i]->getName(), other.customersList[i]->getId()));
+        }
     }
     for(int i = 0; i <other.orderList.size(); i++){
         orderList.push_back(other.orderList[i]);

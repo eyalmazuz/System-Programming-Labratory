@@ -246,6 +246,7 @@ std::string RestoreResturant::toString() const { return "restore " + convertStat
 
 void RestoreResturant::act(Restaurant &restaurant) {
     restaurant = *backup;
+    complete();
 }
 
 //Print Action Log
