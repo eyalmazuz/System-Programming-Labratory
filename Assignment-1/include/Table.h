@@ -17,6 +17,8 @@ public:
     Customer* getCustomer(int id);
     std::vector<Customer*>& getCustomers();
     std::vector<OrderPair>& getOrders();
+    //std::vector<OrderPair>& getOrders(int id);
+    void updateOrder(const std::vector<OrderPair> &otherOrderList);
     void order(const std::vector<Dish> &menu);
     void openTable();
     void closeTable();
@@ -26,6 +28,7 @@ public:
     int getCustomersNum() const;
     int getId() const;
     bool isFull();
+    void setId(int id);
 
     //rule of 5
     virtual ~Table();
@@ -42,6 +45,10 @@ private:
     bool open;
     std::vector<Customer*> customersList;
     std::vector<OrderPair> orderList; //A list of pairs for each order in a table - (customer_id, Dish)
+
+    void clean() const;
+    void copy(const Table &other);
+    void steal(Table &other);
 };
 
 
