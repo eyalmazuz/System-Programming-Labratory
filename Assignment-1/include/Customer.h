@@ -60,8 +60,7 @@ public:
     std::string toString() const;
     ~AlchoholicCustomer() = default;
 private:
-    Dish ordered;
-    void sort(std::vector<Dish> &alcMenu);
+    int index;
 };
 
 

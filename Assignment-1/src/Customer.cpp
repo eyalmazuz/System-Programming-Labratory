@@ -95,36 +95,27 @@ std::vector<int> SpicyCustomer::order(const std::vector<Dish> &menu) {
 std::string SpicyCustomer::toString() const {return getName()+",spc";}
 
 //Alcoholic Customer
-AlchoholicCustomer::AlchoholicCustomer(std::string name, int id) :Customer(name, id),ordered(0, "none", 0, ALC){}
+AlchoholicCustomer::AlchoholicCustomer(std::string name, int id) :Customer(name, id), index(0){}
 
 std::vector<int> AlchoholicCustomer::order(const std::vector<Dish> &menu) {
     std::vector<int> orders;
     std::vector<Dish> alcMenu;
     for (auto d: menu) {
-        if (d.getType() == ALC)
+        if (d.getType() == ALC) {
             alcMenu.push_back(d);
-    }
-    sort(alcMenu);
-    std::vector<Dish, std::allocator<Dish>>::const_iterator it;
-/*    for (it = alcMenu.begin(); it != alcMenu.end(); ++it) {
-        if ((*it).getPrice() >= ordered.getPrice() && (*it).getName() != ordered.getName()) {
-//            ordered((*it).getId(), (*it).getName(), (*it).getPrice(), (*it).getType());
-            orders.push_back((*it).getId());
-            break;
         }
-    }*/
-
-    return orders;
+    }
+    for ( int i = 1 ; i<=alcMenu.size() ; i++) {
+        for(int j = 1; j <= (alcMenu.size()-i+1); j++){
+            if(alcMenu[i].getPrice()> alcMenu[j].getPrice()){
+                std::swap(alcMenu[i], alcMenu[j]);
+            }
+        }
+        orders.push_back(alcMenu[index].getId());
+        index++;
+        return orders;
+    }
 }
-
 
 std::string AlchoholicCustomer::toString() const {return getName()+",alc";}
 
-void AlchoholicCustomer::sort(std::vector<Dish> &alcMenu) {
-/*
-    std::sort( alcMenu.begin( ), alcMenu.end( ), [ ]( const Dish& lhs, const Dish& rhs ) -> bool
-    {
-        return lhs.getPrice() < rhs.getPrice();
-    });
-*/
-}
