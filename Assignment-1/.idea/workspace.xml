@@ -12,12 +12,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="de404cc4-8be9-47bb-8950-d95f08dc6b0b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/include/Action.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Action.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/include/Customer.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Customer.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/Dish.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Dish.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/include/Restaurant.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Restaurant.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/Table.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/Table.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/makefile" beforeDir="false" afterPath="$PROJECT_DIR$/makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Action.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Action.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Customer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Customer.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dish.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dish.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Restaurant.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Restaurant.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Table.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Table.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -85,11 +91,12 @@
           <entry key="Makefile" value="1" />
           <entry key="Makefile2" value="1" />
           <entry key="algorithm" value="1" />
-          <entry key="cpp" value="13" />
-          <entry key="h" value="46" />
+          <entry key="cpp" value="19" />
+          <entry key="h" value="52" />
           <entry key="makefile" value="1" />
           <entry key="tcc" value="2" />
           <entry key="txt" value="4" />
+          <entry key="vector" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -97,21 +104,21 @@
           <entry key="CMakeCache.txt" value="1" />
           <entry key="CMakeLists.txt" value="1" />
           <entry key="Disassembly" value="19" />
-          <entry key="ObjectiveC" value="62" />
+          <entry key="ObjectiveC" value="75" />
           <entry key="PLAIN_TEXT" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="12898" />
-          <entry key="h" value="1428" />
+          <entry key="cpp" value="12955" />
+          <entry key="h" value="1434" />
           <entry key="mm" value="157" />
           <entry key="txt" value="99" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="ObjectiveC" value="14483" />
+          <entry key="ObjectiveC" value="14546" />
           <entry key="PLAIN_TEXT" value="99" />
         </counts>
       </usages-collector>
@@ -129,23 +136,22 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Restaurant.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2523">
-                  <caret line="326" column="19" selection-start-line="326" selection-start-column="19" selection-end-line="326" selection-end-column="19" />
+                <state relative-caret-position="1404">
+                  <caret line="207" selection-start-line="207" selection-end-line="207" />
+                  <folding>
+                    <element signature="e#0#2#0" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Table.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="720">
-                  <caret line="48" selection-start-line="48" selection-end-line="48" />
+                <state relative-caret-position="373">
+                  <caret line="215" column="6" selection-start-line="215" selection-start-column="6" selection-end-line="215" selection-end-column="6" />
                   <folding>
-                    <element signature="e#0#2#0" />
-                    <element signature="e#154#207#0" />
-                    <element signature="e#209#342#0" />
-                    <element signature="e#344#393#0" />
-                    <element signature="e#395#524#0" />
+                    <element signature="e#39#68#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -154,19 +160,10 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Action.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="165">
-                  <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
+                <state relative-caret-position="-841">
+                  <caret line="248" selection-start-line="248" selection-end-line="270" />
                   <folding>
                     <element signature="e#0#2#0" />
-                    <element signature="e#555#602#0" />
-                    <element signature="e#970#1044#0" />
-                    <element signature="e#1411#1492#0" />
-                    <element signature="e#1660#1745#0" />
-                    <element signature="e#1934#2008#0" />
-                    <element signature="e#2035#2112#0" />
-                    <element signature="e#2251#2329#0" />
-                    <element signature="e#2432#2517#0" />
-                    <element signature="e#2620#2705#0" />
                   </folding>
                 </state>
               </provider>
@@ -175,29 +172,19 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Dish.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="240">
-                  <caret line="16" selection-start-line="16" selection-end-line="16" />
+                <state relative-caret-position="204">
+                  <caret line="17" selection-start-line="16" selection-end-line="25" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/Main.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="195">
-                  <caret line="13" selection-start-line="13" selection-end-line="13" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Customer.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="270">
-                  <caret line="18" selection-start-line="18" selection-end-line="18" />
+                <state relative-caret-position="419">
+                  <caret line="124" selection-start-line="123" selection-end-line="129" />
                   <folding>
                     <element signature="e#38#58#0" expanded="true" />
-                    <element signature="e#2792#3425#0" />
                   </folding>
                 </state>
               </provider>
@@ -207,23 +194,20 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/include/Dish.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="225">
-                  <caret line="15" column="25" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
+                <state relative-caret-position="135">
+                  <caret line="9" selection-start-line="9" selection-end-line="9" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/include/Customer.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="945">
-                  <caret line="63" column="6" selection-start-line="63" selection-start-column="6" selection-end-line="63" selection-end-column="6" />
-                  <folding>
-                    <element signature="e#41#58#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="45">
+                  <caret line="5" selection-start-line="5" selection-end-line="5" />
                 </state>
               </provider>
             </entry>
@@ -231,8 +215,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/include/Action.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="270">
-                  <caret line="20" column="20" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
+                <state relative-caret-position="843">
+                  <caret line="160" column="6" selection-start-line="160" selection-start-column="6" selection-end-line="160" selection-end-column="6" />
                 </state>
               </provider>
             </entry>
@@ -240,7 +224,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/include/Restaurant.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="514">
+                <state relative-caret-position="843">
                   <caret line="70" column="6" selection-start-line="70" selection-start-column="6" selection-end-line="70" selection-end-column="6" />
                 </state>
               </provider>
@@ -249,8 +233,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/include/Table.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="345">
-                  <caret line="23" column="57" selection-start-line="23" selection-start-column="57" selection-end-line="23" selection-end-column="57" />
+                <state relative-caret-position="-270">
+                  <caret line="3" selection-start-line="3" selection-end-line="3" />
                   <folding>
                     <element signature="e#35#52#0" expanded="true" />
                   </folding>
@@ -261,6 +245,11 @@
         </leaf>
       </split-second>
     </splitter>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>removecustomer</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -273,19 +262,19 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/include/Dish.h" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" />
-        <option value="$PROJECT_DIR$/src/Main.cpp" />
-        <option value="$PROJECT_DIR$/src/Dish.cpp" />
-        <option value="$PROJECT_DIR$/include/Table.h" />
-        <option value="$PROJECT_DIR$/src/Table.cpp" />
         <option value="$PROJECT_DIR$/src/Restaurant.cpp" />
+        <option value="$PROJECT_DIR$/src/Main.cpp" />
         <option value="$PROJECT_DIR$/include/Restaurant.h" />
-        <option value="$PROJECT_DIR$/src/Customer.cpp" />
+        <option value="$PROJECT_DIR$/include/Table.h" />
         <option value="$PROJECT_DIR$/include/Customer.h" />
         <option value="$PROJECT_DIR$/include/Action.h" />
+        <option value="$PROJECT_DIR$/src/Dish.cpp" />
+        <option value="$PROJECT_DIR$/include/Dish.h" />
         <option value="$PROJECT_DIR$/src/Action.cpp" />
+        <option value="$PROJECT_DIR$/src/Customer.cpp" />
+        <option value="$PROJECT_DIR$/src/Table.cpp" />
       </list>
     </option>
   </component>
@@ -308,7 +297,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -335,6 +323,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -362,7 +351,7 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.Assignment_1">
-    <configuration name="Assignment_1" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="../config2.txt" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Assignment_1" TARGET_NAME="Assignment_1" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Assignment_1" RUN_TARGET_NAME="Assignment_1">
+    <configuration name="Assignment_1" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="../config3.txt" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Assignment_1" TARGET_NAME="Assignment_1" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Assignment_1" RUN_TARGET_NAME="Assignment_1">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -427,27 +416,37 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58639000" />
+    <option name="totallyTimeSpent" value="60016000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="1" sideWeight="0.5010707" side_tool="true" weight="0.19210246" />
-      <window_info active="true" content_ui="combo" id="Project" order="2" sideWeight="0.49892932" visible="true" weight="0.1925844" />
+      <window_info content_ui="combo" id="Project" order="2" sideWeight="0.49892932" visible="true" weight="0.20143884" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32901832" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32972974" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4997233" weight="0.39891893" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32972974" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Messages" order="8" weight="0.32972974" />
+      <window_info active="true" anchor="bottom" id="Messages" order="8" visible="true" weight="0.32972974" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32972974" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5002767" side_tool="true" weight="0.39891893" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="CMake" order="12" weight="0.3083512" />
+      <window_info anchor="bottom" id="CMake" order="12" weight="0.30810812" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -488,15 +487,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Added more general purpose methods" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/Restaurant.cpp</url>
-          <line>44</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="CMakeRunConfiguration">
         <watch expression="backup" language="ObjectiveC" />
@@ -638,108 +628,111 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Table.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="48" selection-start-line="48" selection-end-line="48" />
-          <folding>
-            <element signature="e#0#2#0" />
-            <element signature="e#154#207#0" />
-            <element signature="e#209#342#0" />
-            <element signature="e#344#393#0" />
-            <element signature="e#395#524#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Dish.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/Dish.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="25" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/Table.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="57" selection-start-line="23" selection-start-column="57" selection-end-line="23" selection-end-column="57" />
-          <folding>
-            <element signature="e#35#52#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="285">
+          <caret line="20" column="1" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/Restaurant.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="514">
+        <state relative-caret-position="843">
           <caret line="70" column="6" selection-start-line="70" selection-start-column="6" selection-end-line="70" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/Action.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="20" column="20" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
+        <state relative-caret-position="843">
+          <caret line="160" column="6" selection-start-line="160" selection-start-column="6" selection-end-line="160" selection-end-column="6" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Restaurant.cpp">
+    <entry file="file://$PROJECT_DIR$/src/Dish.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2523">
-          <caret line="326" column="19" selection-start-line="326" selection-start-column="19" selection-end-line="326" selection-end-column="19" />
+        <state relative-caret-position="204">
+          <caret line="17" selection-start-line="16" selection-end-line="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Action.cpp">
+    <entry file="file:///usr/include/c++/7/vector">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
+        <state relative-caret-position="263">
+          <caret line="59" selection-start-line="59" selection-end-line="59" />
           <folding>
-            <element signature="e#0#2#0" />
-            <element signature="e#555#602#0" />
-            <element signature="e#970#1044#0" />
-            <element signature="e#1411#1492#0" />
-            <element signature="e#1660#1745#0" />
-            <element signature="e#1934#2008#0" />
-            <element signature="e#2035#2112#0" />
-            <element signature="e#2251#2329#0" />
-            <element signature="e#2432#2517#0" />
-            <element signature="e#2620#2705#0" />
+            <element signature="e#2316#2346#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/Table.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-270">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+          <folding>
+            <element signature="e#35#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/7/bits/stl_pair.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="377" column="6" selection-start-line="377" selection-start-column="6" selection-end-line="377" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/Customer.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="945">
-          <caret line="63" column="6" selection-start-line="63" selection-start-column="6" selection-end-line="63" selection-end-column="6" />
+        <state relative-caret-position="45">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/Dish.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Restaurant.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1404">
+          <caret line="207" selection-start-line="207" selection-end-line="207" />
           <folding>
-            <element signature="e#41#58#0" expanded="true" />
+            <element signature="e#0#2#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Action.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-841">
+          <caret line="248" selection-start-line="248" selection-end-line="270" />
+          <folding>
+            <element signature="e#0#2#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Customer.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        <state relative-caret-position="419">
+          <caret line="124" selection-start-line="123" selection-end-line="129" />
           <folding>
             <element signature="e#38#58#0" expanded="true" />
-            <element signature="e#2792#3425#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Table.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="373">
+          <caret line="215" column="6" selection-start-line="215" selection-start-column="6" selection-end-line="215" selection-end-column="6" />
+          <folding>
+            <element signature="e#39#68#0" expanded="true" />
           </folding>
         </state>
       </provider>

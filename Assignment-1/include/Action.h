@@ -3,28 +3,38 @@
 
 #include <string>
 #include <iostream>
+#include <sstream>
 #include "Customer.h"
 
 enum ActionStatus{
     PENDING, COMPLETED, ERROR
 };
 
+
 //Forward declaration
 class Restaurant;
+
+extern Restaurant* backup;
+
 
 class BaseAction{
 public:
     BaseAction();
     ActionStatus getStatus() const;
+    std::string getStrStatus() const;
     virtual void act(Restaurant& restaurant)=0;
     virtual std::string toString() const=0;
     void setError();
+    void setErrorMsg(const std::string &errorMsg);
+    const std::string &getLogger() const;
+    virtual ~BaseAction();
 
 protected:
     void complete();
+    //void complete(std::string out);
     void error(std::string errorMsg);
     std::string getErrorMsg() const;
-
+    std::string logger;
 private:
     std::string errorMsg;
     ActionStatus status;
@@ -36,6 +46,10 @@ public:
     OpenTable(int id, std::vector<Customer *> &customersList);
     void act(Restaurant &restaurant);
     std::string toString() const;
+
+    const int getTableId() const;
+
+    const std::vector<Customer *> &getCustomers() const;
 
 private:
     const int tableId;
@@ -49,6 +63,8 @@ public:
     void act(Restaurant &restaurant);
     std::string toString() const;
 
+    const int getTableId() const;
+
 private:
     const int tableId;
 };
@@ -59,6 +75,10 @@ public:
     MoveCustomer(int src, int dst, int customerId);
     void act(Restaurant &restaurant);
     std::string toString() const;
+
+    const int getSrcTable() const;
+    const int getDstTable() const;
+    const int getId() const;
 
 private:
     const int srcTable;
@@ -72,6 +92,8 @@ public:
     Close(int id);
     void act(Restaurant &restaurant);
     std::string toString() const;
+
+    const int getTableId() const;
 
 private:
     const int tableId;
@@ -101,6 +123,8 @@ public:
     PrintTableStatus(int id);
     void act(Restaurant &restaurant);
     std::string toString() const;
+
+    const int getTableId() const;
 
 private:
     const int tableId;
