@@ -28,19 +28,20 @@ public:
     //helper methods
     std::vector<Table*> getTables() const;
 
-    void openCommand(std::vector<std::string> tokens, BaseAction *Action);
-    void orderCommand(std::vector<std::string> tokens, BaseAction *Action);
-    void moveCommand(std::vector<std::string> tokens, BaseAction *Action);
-    void closeCommand(std::vector<std::string> tokens, BaseAction *Action);
-    void printTableStatusCommand(std::vector<std::string> tokens, BaseAction *Action);
-    void printLogCommand(std::vector<std::string> tokens, BaseAction *Action);
-    void closeallCommand(std::vector<std::string> tokens, BaseAction *Action);
-    void printMenuCommand(std::vector<std::string> tokens, BaseAction *Action);
-    void backupCommand(std::vector<std::string> tokens, BaseAction *Action);
-    void restoreCommand(std::vector<std::string> tokens, BaseAction *Action);
+    void openCommand(std::vector<std::string> tokens);
+    void orderCommand(std::vector<std::string> tokens);
+    void moveCommand(std::vector<std::string> tokens);
+    void closeCommand(std::vector<std::string> tokens);
+    void printTableStatusCommand(std::vector<std::string> tokens);
+    void printLogCommand(std::vector<std::string> tokens);
+    void closeallCommand(std::vector<std::string> tokens);
+    void printMenuCommand(std::vector<std::string> tokens);
+    void backupCommand(std::vector<std::string> tokens);
+    void restoreCommand(std::vector<std::string> tokens);
+
+    void clean();
 
 private:
-
 
     bool open;
     std::vector<Table*> tables;
@@ -58,7 +59,6 @@ private:
 
     void copy(Restaurant &other);
     void steal(Restaurant &other);
-    void clean();
 
     bool checkOpenValid(std::vector<std::string> tokens, Table &table);
     bool checkMoveValid(std::vector<std::string> tokens);
@@ -68,4 +68,4 @@ private:
     bool checkCloseValid(std::string id);
 };
 
-#endif
+#endif  

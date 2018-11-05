@@ -10,8 +10,7 @@
 
 using namespace std;
 
-Table::Table(int t_capacity) : capacity(t_capacity), bill(0), id(-1), open(false){}
-
+Table::Table(int t_capacity) : capacity(t_capacity), open(false), customersList{}, orderList{}, bill(0), id(0){ }
 int Table::getCapacity() const { return capacity; }
 
 std::vector<Customer*>& Table::getCustomers() { return customersList; }
@@ -32,7 +31,7 @@ void Table::addCustomer(Customer *customer) {
 }
 
 Table::~Table() {
-    std::cout<< "clean Table "  << to_string(id) << endl;
+    //std::cout<< "clean Table "  << to_string(id) << endl;
     clean();
 }
 
@@ -69,7 +68,7 @@ std::vector<OrderPair> &Table::getOrders() {
 }
 
 bool Table::isFull() {
-    return customersList.size() < capacity;
+    return (int)customersList.size() < capacity;
 }
 
 void Table::removeCustomer(int id) {
@@ -82,11 +81,18 @@ void Table::removeCustomer(int id) {
     }
 
     //remove the customer from the orderList
-    auto it = orderList.erase(remove_if(orderList.begin(),orderList.end(),
-                             [id](const OrderPair &o) -> bool { return o.first == id; }));
-    orderList.erase(it,orderList.end());
+    /*auto it = orderList.erase(remove_if(orderList.begin(),orderList.end(),
+                             [id](const OrderPair &o) -> bool { return o.first == id; }));*//*
+    std::vector<OrderPair>::iterator it;
+    for (unsigned int i = 0; i < orderList.size(); i++){
+        if(orderList[i].first == id){
+            orderList.erase(orderList.begin() + i);
+            break;
+        }
+    }
 
-    calculateBill();
+    //orderList.erase(it,orderList.end());*/
+
 
 }
 
@@ -106,7 +112,7 @@ void Table::order(const std::vector<Dish> &menu) {
                 OrderPair o(customer->getId(), d);
                 orderList.push_back(o);
                 bill += d.getPrice();
-                std::cout<< customer->getName() + " Ordered " +d.getName() << endl;
+                std::cout<< customer->getName() + " ordered " +d.getName() << endl;
             }
         }
     }
@@ -137,7 +143,8 @@ Table &Table::operator=(const Table &other) {
     return *this;
 }
 
-Table::Table(const Table &other) {
+Table::Table(const Table &other): capacity(other.capacity), open(other.open), customersList{}, orderList{}, bill(other.bill), id(other.id) {
+    copy(other);
 
 }
 
@@ -147,7 +154,7 @@ Table &Table::operator=(Table &&other) {
     return *this;
 }
 
-Table::Table(Table &&other) {
+Table::Table(Table &&other): capacity(other.capacity), open(other.open), customersList{}, orderList{}, bill(other.bill), id(other.id){
     steal(other);
 }
 
@@ -202,6 +209,13 @@ void Table::steal(Table &other) {
 
 void Table::setId(int id) {
     Table::id = id;
+}
+
+void Table::removeOrders(const std::vector<OrderPair> &otherOrderList) {
+    orderList.clear();
+    orderList = otherOrderList;
+    calculateBill();
+
 }
 
 //std::vector<OrderPair> &Table::getOrders(int id) {

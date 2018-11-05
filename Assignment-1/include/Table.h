@@ -38,13 +38,15 @@ public:
     Table (Table &&other);
 
 
+    void removeOrders(const std::vector<OrderPair> &otherOrderList);
+
 private:
-    int bill;
-    int id;
     int capacity;
     bool open;
     std::vector<Customer*> customersList;
     std::vector<OrderPair> orderList; //A list of pairs for each order in a table - (customer_id, Dish)
+    int bill;
+    int id;
 
     void clean() const;
     void copy(const Table &other);

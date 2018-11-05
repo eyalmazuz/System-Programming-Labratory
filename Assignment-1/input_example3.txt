@@ -1,0 +1,23 @@
+open 1 Harry,spc Ron,chp Hermionie,veg
+open 2 Sirius,alc Remus,veg
+order 1
+order 2
+status 1
+move 2 1 3
+order 1
+status 2
+status 1
+backup
+log
+open 3 Albus,alc Severus,chp Minerva,veg
+order 3
+order 3
+order 2
+status 1
+status 2
+status 3
+restore
+status 3
+open 1 Luna,veg Ginny,spc
+log
+closeall
