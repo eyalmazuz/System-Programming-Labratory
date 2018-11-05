@@ -10,7 +10,7 @@
 
 using namespace std;
 
-Table::Table(int t_capacity) : capacity(t_capacity){}
+Table::Table(int t_capacity) : capacity(t_capacity), bill(0), id(-1), open(false){}
 
 int Table::getCapacity() const { return capacity; }
 
@@ -31,7 +31,10 @@ void Table::addCustomer(Customer *customer) {
     }
 }
 
-Table::~Table() { }
+Table::~Table() {
+    std::cout<< "clean Table "  << to_string(id) << endl;
+    clean();
+}
 
 void Table::addCustomers(const std::vector<Customer *> &vec) {
     for(auto customer : vec)
@@ -151,8 +154,11 @@ Table::Table(Table &&other) {
 //ToDo: verify that orderList element is stored on heap
 void Table::clean() const {
     for (auto c :customersList) {
-        if (c!= nullptr) delete c;
+        if (c!= nullptr)
+            delete c;
     }
+
+    //customersList.clear());
 //    for (auto o :orderList) {
 //        delete o;
 //    }

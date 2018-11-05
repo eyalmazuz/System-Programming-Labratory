@@ -8,7 +8,6 @@
 #include <typeinfo>
 #include <algorithm>
 
-
 using namespace std;
 
 //ToDo: check if neccesarry to put pending as default value
@@ -37,11 +36,6 @@ void BaseAction::error(std::string errorMsg) {
     std::cout << "Error:" << errorMsg << std::endl;
 }
 
-//void BaseAction::complete(std::string out) {
-//    logger.append(out + "Completed");
-//    complete();
-//}
-
 
 void BaseAction::setError() {
     error(errorMsg);
@@ -54,8 +48,6 @@ const string &BaseAction::getLogger() const {
 void BaseAction::setErrorMsg(const string &errorMsg) {
     BaseAction::errorMsg = errorMsg;
 }
-
-
 
 void OpenTable::act(Restaurant &restaurant) {
     Table *t = restaurant.getTable(tableId);
@@ -80,7 +72,8 @@ std::string OpenTable::toString() const {
 }
 
 OpenTable::OpenTable(int id, std::vector<Customer *> &customersList) :
-    tableId(id), customers(customersList) {
+    tableId(id) ,
+    customers(customersList) {
     logger.append("open " + to_string(tableId + 1) +" ");
     setErrorMsg("Table is already open");
 }

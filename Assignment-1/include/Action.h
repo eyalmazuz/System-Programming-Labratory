@@ -5,7 +5,6 @@
 #include <iostream>
 #include <sstream>
 #include "Customer.h"
-#include "Logger.h"
 
 enum ActionStatus{
     PENDING, COMPLETED, ERROR
