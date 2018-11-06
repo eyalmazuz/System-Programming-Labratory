@@ -59,6 +59,10 @@ void BaseAction::setLogger(const string &logger) {
     BaseAction::logger = logger;
 }
 
+void BaseAction::appendLogger(const std::string &data) {
+    logger.append(data);
+}
+
 void OpenTable::act(Restaurant &restaurant) {
     Table *t = restaurant.getTable(tableId);
     if (t == nullptr || t->isOpen()){
@@ -68,8 +72,8 @@ void OpenTable::act(Restaurant &restaurant) {
         t->setId(tableId);
         t->addCustomers(customers);
         for(auto c : customers)
-            logger.append(c->toString() + " ");
-        logger.append("Completed");
+            appendLogger(c->toString() + " ");
+        appendLogger("Completed");
         complete();
     }
 }
@@ -77,14 +81,14 @@ void OpenTable::act(Restaurant &restaurant) {
 
 
 std::string OpenTable::toString() const {
-    return getStatus() == COMPLETED ? logger + getStrStatus()
-                                    : logger + getStrStatus() + getErrorMsg();
+    return getStatus() == COMPLETED ? getLogger() + getStrStatus()
+                                    : getLogger() + getStrStatus() + getErrorMsg();
 }
 
 OpenTable::OpenTable(int id, std::vector<Customer *> &customersList) :
         tableId(id) ,
         customers(customersList) {
-    logger.append("open " + to_string(tableId + 1) +" ");
+    appendLogger("open " + to_string(tableId + 1) +" ");
     setErrorMsg("Table is already open");
 }
 
@@ -98,7 +102,7 @@ const vector<Customer *> &OpenTable::getCustomers() const {
 
 Order::Order(int id) :
         tableId(id) {
-    logger = "order " + to_string(tableId + 1)  + " ";
+    appendLogger("order " + to_string(tableId + 1)  + " ");
 }
 
 void Order::act(Restaurant &restaurant) {
@@ -107,14 +111,14 @@ void Order::act(Restaurant &restaurant) {
         error(getErrorMsg());
     }else{
         t->order(restaurant.getMenu());
-        logger.append("Completed");
+        appendLogger("Completed");
         complete();
     }
 }
 
 std::string Order::toString() const {
-    return getStatus() == COMPLETED ? logger + getStrStatus()
-                                    : logger + getStrStatus() + getErrorMsg();
+    return getStatus() == COMPLETED ? getLogger() + getStrStatus()
+                                    : getLogger() + getStrStatus() + getErrorMsg();
 
 }
 
@@ -158,7 +162,7 @@ void MoveCustomer::act(Restaurant &restaurant) {
                 //close the table if necessary
                 if (t_src->getCustomers().size() == 0)
                     t_src->closeTable();
-                logger.append("move " + to_string(srcTable+1) + " " + to_string(dstTable+1) + " " + to_string(id) + " Completed");
+                appendLogger("move " + to_string(srcTable+1) + " " + to_string(dstTable+1) + " " + to_string(id) + " Completed");
                 complete();
             }
         }
@@ -166,8 +170,8 @@ void MoveCustomer::act(Restaurant &restaurant) {
 }
 
 std::string MoveCustomer::toString() const {
-    return getStatus() == COMPLETED ? logger + getStrStatus()
-                                    : logger + getStrStatus() + getErrorMsg();
+    return getStatus() == COMPLETED ? getLogger() + getStrStatus()
+                                    : getLogger() + getStrStatus() + getErrorMsg();
 }
 
 const int MoveCustomer::getSrcTable() const {
@@ -193,8 +197,8 @@ void Close::act(Restaurant &restaurant) {
     }else{
         int bill = t->getBill();
         t->closeTable();
-        logger.append("Table " + to_string(tableId)  + " was closed. Bill " + to_string(bill));
-        logger.append("Completed");
+        appendLogger("Table " + to_string(tableId)  + " was closed. Bill " + to_string(bill));
+        appendLogger("Completed");
         complete();
     }
 
@@ -203,7 +207,7 @@ void Close::act(Restaurant &restaurant) {
 }
 
 std::string Close::toString() const {
-    return logger;
+    return getLogger();
 }
 
 const int Close::getTableId() const {
@@ -273,14 +277,14 @@ void PrintTableStatus::act(Restaurant &restaurant) {
 
     }
     complete();
-    logger.append("status " + std::to_string(tableId + 1) + " " + getStrStatus());
+    appendLogger("status " + std::to_string(tableId + 1) + " " + getStrStatus());
 
 
 }
 
 std::string PrintTableStatus::toString() const {
-    return getStatus() == COMPLETED ? logger + getStrStatus()
-                                    : logger + getStrStatus() + getErrorMsg();
+    return getStatus() == COMPLETED ? getLogger() + getStrStatus()
+                                    : getLogger() + getStrStatus() + getErrorMsg();
 }
 
 const int PrintTableStatus::getTableId() const {
@@ -301,26 +305,26 @@ void PrintActionsLog::act(Restaurant &restaurant) {
 }
 
 std::string PrintActionsLog::toString() const {
-    return logger;
+    return getLogger();
 }
 
 BackupRestaurant::BackupRestaurant() {
-    logger.append("backup ");
+    appendLogger("backup ");
 }
 
 void BackupRestaurant::act(Restaurant &restaurant) {
     backup = new Restaurant(restaurant);
     complete();
-    logger.append(getStrStatus());
+    appendLogger(getStrStatus());
 }
 
 std::string BackupRestaurant::toString() const {
-    return logger;
+    return getLogger();
 }
 
 RestoreResturant::RestoreResturant() {
     setErrorMsg("No backup available");
-    logger.append("restore ");
+    appendLogger("restore ");
 }
 
 
@@ -329,12 +333,12 @@ void RestoreResturant::act(Restaurant &restaurant) {
     else {
         restaurant = *backup;
         complete();
-        logger.append(getStrStatus());
+        appendLogger(getStrStatus());
 
     }
 }
 
 std::string RestoreResturant::toString() const {
-    return  getStatus() == COMPLETED ? logger + getStrStatus()
-                                     : logger + getStrStatus() + getErrorMsg();
+    return  getStatus() == COMPLETED ? getLogger() + getStrStatus()
+                                     : getLogger() + getStrStatus() + getErrorMsg();
 }

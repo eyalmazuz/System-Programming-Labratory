@@ -69,13 +69,13 @@ void Restaurant::start() {
             std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
                                             std::istream_iterator<std::string>{}};
             if (checkValidCommand(tokens)) {
-                if (tokens[0] == "open") {
+                if (tokens[0] == "open" && tokens.size() >= 2) {
                     openCommand(tokens);
                 }
-                else if (tokens[0] == "order") {
+                else if (tokens[0] == "order" && tokens.size() == 2) {
                     orderCommand(tokens);
 
-                } else if (tokens[0] == "move") {
+                } else if (tokens[0] == "move" && tokens.size() == 4) {
                     moveCommand(tokens);
 
                 } else if (tokens[0] == "close") {
@@ -87,7 +87,7 @@ void Restaurant::start() {
                 } else if (tokens[0] == "menu") {
                     printMenuCommand(tokens);
 
-                } else if (tokens[0] == "status") {
+                } else if (tokens[0] == "status" && tokens.size() == 2) {
                     printTableStatusCommand(tokens);
 
                 } else if (tokens[0] == "log") {

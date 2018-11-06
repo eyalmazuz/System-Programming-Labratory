@@ -29,14 +29,15 @@ public:
     const std::string &getLogger() const;
     virtual ~BaseAction();
     void setLogger(const std::string &logger);
+    void appendLogger(const std::string &data);
 
 protected:
     void complete();
     //void complete(std::string out);
     void error(std::string errorMsg);
     std::string getErrorMsg() const;
-    std::string logger;
 private:
+    std::string logger;
     std::string errorMsg;
     ActionStatus status;
 };
