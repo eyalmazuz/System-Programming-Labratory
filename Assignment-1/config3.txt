@@ -6,5 +6,6 @@
 Wine,ALC,60
 Salad,VEG,40
 Water,BVG,10
+Takila,ALC,50
 Beer,ALC,50
 Chili Con Carne,SPC,200

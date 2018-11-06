@@ -110,10 +110,12 @@ std::vector<int> AlchoholicCustomer::order(const std::vector<Dish> &menu) {
     for (unsigned int i = 0; i < menu.size(); ++i) {
         if(price == menu[i].getPrice() && menu[i].getType() == ALC && dishId != menu[i].getId()){
             dishId = menu[i].getId();
+            index++;
+            orders.push_back(dishId);
+            break;
         }
     }
-    index++;
-    orders.push_back(dishId);
+
     return orders;
 }
 

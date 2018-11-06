@@ -67,44 +67,36 @@ void Restaurant::start() {
             std::istringstream iss(input);
             std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
                                             std::istream_iterator<std::string>{}};
-            if (checkValidCommand(tokens)) {
-                if (tokens[0] == "open") {
-                    openCommand(tokens);
-                }
-                else if (tokens[0] == "order") {
-                    orderCommand(tokens);
+            if (tokens[0] == "open") {
+                openCommand(tokens);
+            } else if (tokens[0] == "order") {
+                orderCommand(tokens);
 
-                } else if (tokens[0] == "move") {
-                    moveCommand(tokens);
+            } else if (tokens[0] == "move") {
+                moveCommand(tokens);
 
-                } else if (tokens[0] == "close") {
-                    closeCommand(tokens);
+            } else if (tokens[0] == "close") {
+                closeCommand(tokens);
 
-                } else if (tokens[0] == "closeall") {
-                    closeallCommand(tokens);
+            } else if (tokens[0] == "closeall") {
+                closeallCommand(tokens);
 
-                } else if (tokens[0] == "menu") {
-                    printMenuCommand(tokens);
+            } else if (tokens[0] == "menu") {
+                printMenuCommand(tokens);
 
-                } else if (tokens[0] == "status") {
-                    printTableStatusCommand(tokens);
+            } else if (tokens[0] == "status") {
+                printTableStatusCommand(tokens);
 
-                } else if (tokens[0] == "log") {
-                    printLogCommand(tokens);
+            } else if (tokens[0] == "log") {
+                printLogCommand(tokens);
 
-                } else if (tokens[0] == "backup") {
-                    backupCommand(tokens);
+            } else if (tokens[0] == "backup") {
+                backupCommand(tokens);
 
-                } else if (tokens[0] == "restore") {
-                    restoreCommand(tokens);
+            } else if (tokens[0] == "restore") {
+                restoreCommand(tokens);
 
-                }
-            } else {
-                std::cout << "Invalid Command" << std::endl;
             }
-
-        } else {
-            std::cout << "Invalid Command" << std::endl;
         }
     }
 
