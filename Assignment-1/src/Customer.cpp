@@ -95,27 +95,27 @@ std::vector<int> SpicyCustomer::order(const std::vector<Dish> &menu) {
 std::string SpicyCustomer::toString() const {return getName()+",spc";}
 
 //Alcoholic Customer
-AlchoholicCustomer::AlchoholicCustomer(std::string name, int id) :Customer(name, id), index(0){}
+AlchoholicCustomer::AlchoholicCustomer(std::string name, int id) :Customer(name, id), index(0), dishId(-1){}
 
 std::vector<int> AlchoholicCustomer::order(const std::vector<Dish> &menu) {
     std::vector<int> orders;
-    std::vector<Dish> alcMenu;
+    std::vector<int> alcMenu;
     for (auto d: menu) {
         if (d.getType() == ALC) {
-            alcMenu.push_back(d);
+            alcMenu.push_back(d.getPrice());
         }
     }
-    for ( int i = 1 ; i<=alcMenu.size() ; i++) {
-        for(int j = 1; j <= (alcMenu.size()-i+1); j++){
-            if(alcMenu[i].getPrice()> alcMenu[j].getPrice()){
-                std::swap(alcMenu[i], alcMenu[j]);
-            }
+    std::sort(alcMenu.begin(), alcMenu.end());
+    int price = alcMenu[index];
+    for (unsigned int i = 0; i < menu.size(); ++i) {
+        if(price == menu[i].getPrice() && menu[i].getType() == ALC && dishId != menu[i].getId()){
+            dishId = menu[i].getId();
         }
-        orders.push_back(alcMenu[index].getId());
-        index++;
-        return orders;
     }
+    index++;
+    orders.push_back(dishId);
+    return orders;
 }
 
-std::string AlchoholicCustomer::toString() const {return getName()+",alc";}
 
+std::string AlchoholicCustomer::toString() const {return getName()+",alc";}

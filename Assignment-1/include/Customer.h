@@ -61,6 +61,7 @@ public:
     ~AlchoholicCustomer() = default;
 private:
     int index;
+    int dishId;
 };
 
 

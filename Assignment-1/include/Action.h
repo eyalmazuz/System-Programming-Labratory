@@ -28,6 +28,7 @@ public:
     void setErrorMsg(const std::string &errorMsg);
     const std::string &getLogger() const;
     virtual ~BaseAction();
+    void setLogger(const std::string &logger);
 
 protected:
     void complete();

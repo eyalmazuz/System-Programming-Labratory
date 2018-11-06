@@ -55,6 +55,10 @@ void BaseAction::setErrorMsg(const string &errorMsg) {
     BaseAction::errorMsg = errorMsg;
 }
 
+void BaseAction::setLogger(const string &logger) {
+    BaseAction::logger = logger;
+}
+
 void OpenTable::act(Restaurant &restaurant) {
     Table *t = restaurant.getTable(tableId);
     if (t == nullptr || t->isOpen()){

@@ -246,6 +246,7 @@ void Restaurant::copy(Restaurant &other) {
             actionsLog.push_back(new CloseAll());
 
         }
+        actionsLog.back()->setLogger((*it)->getLogger());
     }
 }
 
