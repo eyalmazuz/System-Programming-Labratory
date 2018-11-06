@@ -26,12 +26,10 @@ void Table::addCustomer(Customer *customer) {
     Customer *c = getCustomer(customer->getId());
     if (c == nullptr) {
         customersList.push_back(customer);
-        //delete c;
     }
 }
 
 Table::~Table() {
-    //std::cout<< "clean Table "  << to_string(id) << endl;
     clean();
 }
 
@@ -79,19 +77,6 @@ void Table::removeCustomer(int id) {
         //delete customersList.at(static_cast<unsigned long>(distance(customersList.begin(), iterator)));
         customersList.erase(iterator);
     }
-
-    //remove the customer from the orderList
-    /*auto it = orderList.erase(remove_if(orderList.begin(),orderList.end(),
-                             [id](const OrderPair &o) -> bool { return o.first == id; }));*//*
-    std::vector<OrderPair>::iterator it;
-    for (unsigned int i = 0; i < orderList.size(); i++){
-        if(orderList[i].first == id){
-            orderList.erase(orderList.begin() + i);
-            break;
-        }
-    }
-
-    //orderList.erase(it,orderList.end());*/
 
 
 }
@@ -195,10 +180,15 @@ void Table::steal(Table &other) {
     this->capacity = other.capacity;
     this->open = other.open;
     this->customersList = other.customersList;
-    this->orderList = other.orderList;
-
+    //this->orderList = other.orderList;
+    for (const auto &i : other.orderList) {
+        OrderPair::first_type f = i.first;
+        OrderPair::second_type s = i.second;
+        OrderPair order = std::make_pair(f, s);
+        orderList.push_back(order);
+    }
     other.customersList.erase(other.customersList.begin(), other.customersList.end());
-    other.orderList.erase(other.orderList.begin(), other.orderList.end());
+    //other.orderList.erase(other.orderList.begin(), other.orderList.end());
 }
 
 void Table::setId(int id) {
@@ -207,18 +197,15 @@ void Table::setId(int id) {
 
 void Table::removeOrders(const std::vector<OrderPair> &otherOrderList) {
     orderList.clear();
-    orderList = otherOrderList;
+    for (const auto &i : otherOrderList) {
+        OrderPair::first_type f = i.first;
+        OrderPair::second_type s = i.second;
+        OrderPair order = std::make_pair(f, s);
+        orderList.push_back(order);
+    }
     calculateBill();
 
 }
 
-//std::vector<OrderPair> &Table::getOrders(int id) {
-//    std::vector<OrderPair> list;
-//    for (auto o : orderList)
-//        if (o.first == id)
-//            list.push_back(o);
-//
-//    return list;
-//}
 
 

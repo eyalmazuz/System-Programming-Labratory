@@ -16,14 +16,14 @@ public:
     DishType getType() const;
 
     //rule of 5
-    virtual ~Dish();
-    Dish & operator=(const Dish &other);
+    //virtual ~Dish();
+    //Dish & operator=(const Dish &other);
     //Dish (const Dish &other);
     //Dish & operator=(Dish &&other);
     //Dish (Dish &&other);
 
 private:
-	const int id;
+    const int id;
     const std::string name;
     const int price;
     const DishType type;

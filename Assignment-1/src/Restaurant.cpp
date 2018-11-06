@@ -39,6 +39,7 @@ Restaurant& Restaurant::operator=(Restaurant &other) {
     return *this;
 }
 
+
 //destructor
 
 Restaurant::~Restaurant() {
