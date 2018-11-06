@@ -19,7 +19,7 @@ bool Table::isOpen() { return open; }
 
 void Table::openTable() { open = true; }
 
-void Table::closeTable() { open = false; }
+void Table::closeTable() { open = false; clean(); orderList.clear(); bill = 0;}
 
 void Table::addCustomer(Customer *customer) {
     //check if customer is exist
@@ -118,7 +118,7 @@ void Table::order(const std::vector<Dish> &menu) {
     }
 }
 
-void Table::updateOrder(const std::vector<OrderPair> &otherOrderList) {
+void Table::replaceOrder(const std::vector<OrderPair> &otherOrderList) {
     for (auto o : otherOrderList){
         orderList.push_back(o);
         bill += o.second.getPrice();
@@ -164,12 +164,6 @@ void Table::clean() const {
         if (c!= nullptr)
             delete c;
     }
-
-    //customersList.clear());
-//    for (auto o :orderList) {
-//        delete o;
-//    }
-
 }
 
 void Table::copy(const Table &other) {

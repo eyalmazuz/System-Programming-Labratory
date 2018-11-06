@@ -8,6 +8,6 @@ Butterbeer,ALC,50
 Fire Whisky,ALC,60
 Honey Wine,ALC,80
 Water,BVG,20
-Pumpkin Juice,BVG,40
-Pumpkin Cake,VEG,50
+Pumpkin juice,BVG,40
+Pumpkin cake,VEG,50
 Spicy meat,SPC,300

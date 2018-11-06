@@ -154,7 +154,10 @@ void MoveCustomer::act(Restaurant &restaurant) {
                 t_src->removeCustomer(id);
                 t_src->removeOrders(srcOrder);
                 t_dst->addCustomer(c);
-                t_dst->updateOrder(order);
+                t_dst->replaceOrder(order);
+                //close the table if necessary
+                if (t_src->getCustomers().size() == 0)
+                    t_src->closeTable();
                 logger.append("move " + to_string(srcTable+1) + " " + to_string(dstTable+1) + " " + to_string(id) + " Completed");
                 complete();
             }
@@ -290,11 +293,6 @@ PrintActionsLog::PrintActionsLog() {
 
 void PrintActionsLog::act(Restaurant &restaurant) {
     string out="";
-//    for (auto it = restaurant.getActionsLog().rbegin(); it != restaurant.getActionsLog().rend(); ++it){
-//        if ((*it)->getLogger().size() != 0)
-//            out+=(*it)->getLogger()  + "\n";
-//    }
-
     for(auto actionLog : restaurant.getActionsLog()){
         if (actionLog->getLogger().size() != 0)
             out+=actionLog->getLogger()  + "\n";

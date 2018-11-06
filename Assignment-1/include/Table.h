@@ -18,7 +18,7 @@ public:
     std::vector<Customer*>& getCustomers();
     std::vector<OrderPair>& getOrders();
     //std::vector<OrderPair>& getOrders(int id);
-    void updateOrder(const std::vector<OrderPair> &otherOrderList);
+    void replaceOrder(const std::vector<OrderPair> &otherOrderList);
     void order(const std::vector<Dish> &menu);
     void openTable();
     void closeTable();
