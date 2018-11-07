@@ -8,116 +8,119 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug"/>
+				<Option working_dir="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug"/>
+				<Option working_dir="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug"/>
+				<Option working_dir="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Assignment_1">
-				<Option output="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Assignment_1" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug"/>
+				<Option output="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Assignment_1" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/usr/include/c++/7"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
-					<Add directory="/usr/include/c++/7/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
 					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
 					<Add directory="/usr/include/x86_64-linux-gnu"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 Assignment_1"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 Assignment_1"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Assignment_1/fast">
-				<Option output="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Assignment_1" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug"/>
+				<Option output="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Assignment_1" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/usr/include/c++/7"/>
-					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
-					<Add directory="/usr/include/c++/7/backward"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
 					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
 					<Add directory="/usr/include/x86_64-linux-gnu"/>
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 Assignment_1/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 Assignment_1/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/include/Action.h">
+		<Unit filename="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/include/Action.h">
 			<Option target="Assignment_1"/>
 		</Unit>
-		<Unit filename="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/include/Customer.h">
+		<Unit filename="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/include/Customer.h">
 			<Option target="Assignment_1"/>
 		</Unit>
-		<Unit filename="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/include/Dish.h">
+		<Unit filename="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/include/Dish.h">
 			<Option target="Assignment_1"/>
 		</Unit>
-		<Unit filename="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/include/Restaurant.h">
+		<Unit filename="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/include/Restaurant.h">
 			<Option target="Assignment_1"/>
 		</Unit>
-		<Unit filename="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/include/Table.h">
+		<Unit filename="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/include/Table.h">
 			<Option target="Assignment_1"/>
 		</Unit>
-		<Unit filename="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/src/Action.cpp">
+		<Unit filename="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/src/Action.cpp">
 			<Option target="Assignment_1"/>
 		</Unit>
-		<Unit filename="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/src/Customer.cpp">
+		<Unit filename="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/src/Customer.cpp">
 			<Option target="Assignment_1"/>
 		</Unit>
-		<Unit filename="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/src/Dish.cpp">
+		<Unit filename="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/src/Dish.cpp">
 			<Option target="Assignment_1"/>
 		</Unit>
-		<Unit filename="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/src/Main.cpp">
+		<Unit filename="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/src/Main.cpp">
 			<Option target="Assignment_1"/>
 		</Unit>
-		<Unit filename="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/src/Restaurant.cpp">
+		<Unit filename="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/src/Restaurant.cpp">
 			<Option target="Assignment_1"/>
 		</Unit>
-		<Unit filename="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/src/Table.cpp">
+		<Unit filename="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/src/Table.cpp">
 			<Option target="Assignment_1"/>
 		</Unit>
-		<Unit filename="/home/eyal/Desktop/System-Programming-Labratory/Assignment-1/CMakeLists.txt">
+		<Unit filename="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/src/Tester.cpp">
+			<Option target="Assignment_1"/>
+		</Unit>
+		<Unit filename="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

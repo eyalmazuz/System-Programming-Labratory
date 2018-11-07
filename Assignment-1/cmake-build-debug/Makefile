@@ -48,10 +48,10 @@ RM = /snap/clion/44/bin/cmake/linux/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/eyal/Desktop/System-Programming-Labratory/Assignment-1
+CMAKE_SOURCE_DIR = /home/itay/CLionProjects/System-Programming-Labratory/Assignment-1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug
+CMAKE_BINARY_DIR = /home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/CMakeFiles /home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/CMakeFiles /home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eyal/Desktop/System-Programming-Labratory/Assignment-1/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -285,6 +285,33 @@ src/Table.cpp.s:
 	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Table.cpp.s
 .PHONY : src/Table.cpp.s
 
+src/Tester.o: src/Tester.cpp.o
+
+.PHONY : src/Tester.o
+
+# target to build an object file
+src/Tester.cpp.o:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Tester.cpp.o
+.PHONY : src/Tester.cpp.o
+
+src/Tester.i: src/Tester.cpp.i
+
+.PHONY : src/Tester.i
+
+# target to preprocess a source file
+src/Tester.cpp.i:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Tester.cpp.i
+.PHONY : src/Tester.cpp.i
+
+src/Tester.s: src/Tester.cpp.s
+
+.PHONY : src/Tester.s
+
+# target to generate assembly for a file
+src/Tester.cpp.s:
+	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Tester.cpp.s
+.PHONY : src/Tester.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -312,6 +339,9 @@ help:
 	@echo "... src/Table.o"
 	@echo "... src/Table.i"
 	@echo "... src/Table.s"
+	@echo "... src/Tester.o"
+	@echo "... src/Tester.i"
+	@echo "... src/Tester.s"
 .PHONY : help
 
 
