@@ -13,3 +13,7 @@ std::string Dish::getName() const { return name; }
 int Dish::getPrice() const {return price; }
 
 DishType Dish::getType() const {return type; }
+
+Dish &Dish::operator=(const Dish &other)  {
+    return *this;
+}

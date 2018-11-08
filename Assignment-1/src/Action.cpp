@@ -86,7 +86,7 @@ OpenTable::OpenTable(int id, std::vector<Customer *> &customersList) :
         tableId(id) ,
         customers(customersList) {
     logger.append("open " + to_string(tableId + 1) +" ");
-    setErrorMsg("Error: Table is already open");
+    setErrorMsg(" Table is already open");
 }
 
 const int OpenTable::getTableId() const {

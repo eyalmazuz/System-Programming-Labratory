@@ -1,4 +1,4 @@
-open 1 Alice,chp Bob,alc
+open 1 Alice,spc Bob,alc
 order 1
 order 1
 open 2 Idan,veg Elad,alc
