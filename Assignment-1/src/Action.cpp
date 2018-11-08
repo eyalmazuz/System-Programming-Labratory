@@ -220,11 +220,14 @@ CloseAll::CloseAll() {
 
 
 void CloseAll::act(Restaurant &restaurant) {
+    string out;
     for(auto t :restaurant.getTables()){
         if (t->isOpen()){
-            cout << "Table " << to_string(t->getId() + 1)  << " was closed. Bill " << to_string(t->getBill())+"NIS" << endl;
+            //cout << "Table " << to_string(t->getId() + 1)  << " was closed. Bill " << to_string(t->getBill())+"NIS" << endl;
+            out+= "Table " + to_string(t->getId() + 1)  + " was closed. Bill " + to_string(t->getBill())+"NIS\n";
         }
     }
+    cout << out;
     complete();
 }
 

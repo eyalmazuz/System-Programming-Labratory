@@ -68,29 +68,34 @@ SpicyCustomer::SpicyCustomer(std::string name, int id) :Customer(name, id), firs
 
 std::vector<int> SpicyCustomer::order(const std::vector<Dish> &menu) {
     std::vector<int> orders;
-    int price = 0;
-    int index = -1;
+    //int price = 0;
+    //int index = -1;
+    int index=0;
+    bool found=false;
     if(firstorder){
-        std::vector<Dish, std::allocator<Dish>>::const_iterator it;
-        for (it = menu.begin(); it != menu.end(); ++it) {
-            if ((*it).getPrice() > price && (*it).getType() == SPC) {
-                index = (*it).getId();
+        for(auto d : menu){
+            if (d.getPrice() > menu[index].getPrice() && d.getType() == SPC) {
+                found = true;
+                index = d.getId();
             }
         }
-        if(index != -1)
+
+        if(found)
             orders.push_back(index);
+
         firstorder = false;
     }
     else{
-        int index = -1;
-        std::vector<Dish, std::allocator<Dish>>::const_iterator it;
-        for (it = menu.begin(); it != menu.end(); ++it) {
-            if ((*it).getPrice() < menu[index].getPrice()  && (*it).getType() == BVG) {
-                index = (*it).getId();
+        for(auto d : menu){
+            if (d.getPrice() < menu[index].getPrice() && d.getType() == BVG) {
+                found = true;
+                index = d.getId();
             }
         }
-        if(index != -1)
+
+        if(found)
             orders.push_back(index);
+
     }
     return orders;
 }

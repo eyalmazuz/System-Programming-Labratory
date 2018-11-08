@@ -38,7 +38,7 @@ public:
     ~CheapCustomer() = default;
 private:
     bool ordered;
-    void sortByPrice(std::vector<Dish> &menu);
+    //void sortByPrice(std::vector<Dish> &menu);
 };
 
 
