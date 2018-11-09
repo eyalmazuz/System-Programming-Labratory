@@ -1,0 +1,14 @@
+#number of tables
+8
+#tables description
+6,4,2,10,8,5,4,6
+#Menu
+Ghost Pepper,SPC,40
+Wine,ALC,60
+Salad,VEG,40
+Plants,VEG,30
+Water,BVG,10
+Cola,BVG,5
+Beer,ALC,50
+Chili Con Carne,SPC,200
+Vodka,ALC,70

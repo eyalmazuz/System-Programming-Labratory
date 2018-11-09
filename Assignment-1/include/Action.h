@@ -47,7 +47,6 @@ public:
     OpenTable(int id, std::vector<Customer *> &customersList);
     void act(Restaurant &restaurant);
     std::string toString() const;
-
     const int getTableId() const;
 
     const std::vector<Customer *> &getCustomers() const;

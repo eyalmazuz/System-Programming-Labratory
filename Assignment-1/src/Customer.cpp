@@ -82,14 +82,14 @@ std::vector<int> SpicyCustomer::order(const std::vector<Dish> &menu) {
         firstorder = false;
     }
     else{
-        int index = -1;
-        std::vector<Dish, std::allocator<Dish>>::const_iterator it;
-        for (it = menu.begin(); it != menu.end(); ++it) {
-            if ((*it).getPrice() < menu[index].getPrice()  && (*it).getType() == BVG) {
-                index = (*it).getId();
+        int index = 0;
+        for (unsigned int i =0; i < menu.size(); i++) {
+            if (menu[i].getPrice() < menu[index].getPrice()  && menu[i].getType() == BVG) {
+                index = menu[i].getId();
+                break;
             }
         }
-        if(index != -1)
+        if(index != 0)
             orders.push_back(index);
     }
     return orders;

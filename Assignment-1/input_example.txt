@@ -1,0 +1,27 @@
+open 1 Alice,chp Bob,alc Eyal,spc Itay,alc
+order 1
+order 1
+order 1
+open 2 Idan,veg Elad,alc
+order 2
+order 2
+move 1 2 3
+status 1
+status 2
+backup
+open 2 Jon,spc Sam,spc
+move 2 1 4
+move 2 1 5
+status 2
+restore
+order 1
+move 2 1 5
+order 1
+open 3 foo,chp goo,veg, koo,alc
+order 3
+close 3
+restore
+status 3
+status 2
+log
+closeall

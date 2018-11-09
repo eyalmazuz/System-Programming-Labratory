@@ -280,7 +280,7 @@ bool Restaurant::checkValidCommand(std::vector<std::string> tokens) {
 void Restaurant::openCommand(std::vector<std::string> tokens) {
     int tableId = std::stoi(tokens[1]) - 1;
     std::vector<Customer *> Customers;
-    if (checkOpenValid(tokens, *tables[tableId])) {
+    if (checkOpenValid(tokens, *tables[tableId]) && int(tokens.size())-2 < tables[tableId]->getCapacity()) {
         int tableSize = tables[tableId]->getCapacity();
         delete tables[tableId];
         tables[tableId] = new Table(tableSize);
@@ -311,6 +311,7 @@ void Restaurant::openCommand(std::vector<std::string> tokens) {
     } else {
         auto * Action = new OpenTable(tableId, Customers);
         Action->setError();
+        Action->setErrorMsg(" Table is already open");
         actionsLog.push_back(Action);
     }
 }

@@ -75,8 +75,6 @@ void OpenTable::act(Restaurant &restaurant) {
     }
 }
 
-
-
 std::string OpenTable::toString() const {
     return getStatus() == COMPLETED ? logger + getStrStatus()
                                     : logger + getStrStatus() + getErrorMsg();
