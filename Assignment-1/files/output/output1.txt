@@ -1,0 +1,45 @@
+Restaurant is now open!
+John ordered Carolina Reaper
+Paul ordered Beer
+Ringo ordered Carolina Reaper
+George ordered Salad
+George ordered Water
+John2 ordered Carolina Reaper
+Paul2 ordered Beer
+Ringo2 ordered Carolina Reaper
+George2 ordered Salad
+George2 ordered Water
+Tyomkin ordered Carolina Reaper
+Smith ordered Beer
+Adler ordered Carolina Reaper
+Dennis ordered Salad
+Dennis ordered Water
+Tyomkin2 ordered Carolina Reaper
+Smith2 ordered Beer
+Adler2 ordered Carolina Reaper
+Dennis2 ordered Salad
+Dennis2 ordered Water
+Paul ordered Vodka
+Ringo ordered Water
+George ordered Salad
+George ordered Water
+Paul2 ordered Vodka
+Ringo2 ordered Water
+George2 ordered Salad
+George2 ordered Water
+Smith ordered Vodka
+Adler ordered Water
+Dennis ordered Salad
+Dennis ordered Water
+Smith2 ordered Vodka
+Adler2 ordered Water
+Dennis2 ordered Salad
+Dennis2 ordered Water
+Ringo ordered Water
+George ordered Salad
+George ordered Water
+Ringo2 ordered Water
+George2 ordered Salad
+George2 ordered Water
+Table 1 was closed. Bill 960NIS
+Table 2 was closed. Bill 720NIS

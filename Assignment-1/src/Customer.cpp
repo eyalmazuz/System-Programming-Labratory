@@ -19,7 +19,6 @@ VegetarianCustomer::VegetarianCustomer(std::string name, int id) : Customer(name
 
 std::vector<int> VegetarianCustomer::order(const std::vector<Dish> &menu) {
     std::vector<int> orders;
-    int price = 0;
     int index = -1;
     std::vector<Dish, std::allocator<Dish>>::const_iterator it;
     for (it = menu.begin(); it != menu.end(); ++it) {
@@ -28,9 +27,11 @@ std::vector<int> VegetarianCustomer::order(const std::vector<Dish> &menu) {
             break;
         }
     }
+    int price = -1;
     for (unsigned int i = 0; i < menu.size(); i++) {
-        if (menu[i].getPrice() > price && menu[i].getType() == BVG) {
+        if (menu[i].getType() == BVG && (price == -1 || menu[i].getPrice() > price)) {
             index = i;
+            price = menu[i].getPrice();
         }
     }
     if(index != -1)
@@ -70,13 +71,15 @@ std::vector<int> SpicyCustomer::order(const std::vector<Dish> &menu) {
     std::vector<int> orders;
     //int price = 0;
     //int index = -1;
-    int index=0;
+    int index=0,price=-1;
     bool found=false;
+
     if(firstorder){
         for(auto d : menu){
-            if (d.getPrice() > menu[index].getPrice() && d.getType() == SPC) {
+            if (d.getType() == SPC && (price == -1 || d.getPrice() > price)) {
                 found = true;
                 index = d.getId();
+                price = d.getPrice();
             }
         }
 
@@ -87,9 +90,10 @@ std::vector<int> SpicyCustomer::order(const std::vector<Dish> &menu) {
     }
     else{
         for(auto d : menu){
-            if (d.getPrice() < menu[index].getPrice() && d.getType() == BVG) {
+            if (d.getType() == BVG && (price == -1 || d.getPrice() < price))  {
                 found = true;
                 index = d.getId();
+                price = d.getPrice();
             }
         }
 

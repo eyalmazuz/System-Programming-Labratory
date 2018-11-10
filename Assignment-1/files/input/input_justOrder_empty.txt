@@ -1,0 +1,7 @@
+open 1 John,chp Paul,alc Ringo,spc George,veg John2,chp Paul2,alc Ringo2,spc George2,veg
+open 2 Tyomkin,chp Smith,alc Adler,spc Dennis,veg Tyomkin2,chp Smith2,alc Adler2,spc Dennis2,veg
+order 1
+order 2
+order 1
+order 2
+closeall

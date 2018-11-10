@@ -70,7 +70,6 @@ Customers:
 1 Ron
 2 Hermionie
 3 Sirius
-3 Sirius
 Orders:
 Spicy meat 300NIS 0
 Water 20NIS 1

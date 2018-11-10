@@ -1,0 +1,31 @@
+Restaurant is now open!
+John ordered Carolina Reaper
+Paul ordered Beer
+Ringo ordered Carolina Reaper
+George ordered Salad
+George ordered Water
+Error: Cannot move customer
+Paul ordered Beer
+Table 2 was closed. Bill 55NIS
+Table 1 was closed. Bill 160NIS
+Table 1 status: closed
+Table 2 status: open
+Customers:
+5 John
+6 Ringo
+2 Ringo
+Orders:
+Carolina Reaper 25NIS 2
+Current Bill: 25NIS
+open 1 John,chp Paul,alc Ringo,spc George,veg Completed
+order 1 Completed
+move 1 2 1 Error: Cannot move customer
+open 2 Paul,alc Completed
+order 2 Completed
+close 2 Completed
+open 2 John,chp Ringo,spc Completed
+move 1 2 2 Completed
+close 1 Completed
+status 1 Completed
+status 2 Completed
+Table 2 was closed. Bill 25NIS

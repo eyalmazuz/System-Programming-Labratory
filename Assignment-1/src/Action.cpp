@@ -43,7 +43,9 @@ void BaseAction::error(std::string errorMsg) {
 }
 
 
-void BaseAction::setError() {
+void BaseAction::setError(const std::string &errorMessage) {
+    if (errorMessage != "")
+        setErrorMsg(errorMessage);
     error(errorMsg);
 }
 
@@ -65,7 +67,13 @@ void BaseAction::appendLogger(const std::string &data) {
 
 void OpenTable::act(Restaurant &restaurant) {
     Table *t = restaurant.getTable(tableId);
-    if (t == nullptr || t->isOpen()){
+    if (t == nullptr){
+        setErrorMsg("Table does not exist");
+        error(getErrorMsg());
+    }else if (t->isOpen()){
+        for(auto c : customers)
+            appendLogger(c->toString() + " ");
+        setErrorMsg("Table is already open");
         error(getErrorMsg());
     }else if ((int)customers.size() + t->getCustomersNum() <= t->getCapacity() ){
         t->openTable();
@@ -103,11 +111,16 @@ const vector<Customer *> &OpenTable::getCustomers() const {
 Order::Order(int id) :
         tableId(id) {
     appendLogger("order " + to_string(tableId + 1)  + " ");
+    setErrorMsg("Table is not open");
 }
 
 void Order::act(Restaurant &restaurant) {
     Table *t = restaurant.getTable(tableId);
-    if (t == nullptr || !t->isOpen()){
+    if (t == nullptr){
+        setErrorMsg("Table does not exist");
+        error(getErrorMsg());
+    }else if (!t->isOpen()) {
+        setErrorMsg("Table is not open");
         error(getErrorMsg());
     }else{
         t->order(restaurant.getMenu());
@@ -129,6 +142,7 @@ const int Order::getTableId() const {
 MoveCustomer::MoveCustomer(int src, int dst, int customerId) :
         srcTable(src), dstTable(dst), id(customerId) {
     //logger = "Table " + to_string(customerId) + ": ";
+    appendLogger("move " + to_string(srcTable+1) + " " + to_string(dstTable+1) + " " + to_string(id) +" ");
     setErrorMsg("Cannot move customer");
 }
 
@@ -136,7 +150,7 @@ void MoveCustomer::act(Restaurant &restaurant) {
     Table *t_src = restaurant.getTable(srcTable);
     Table *t_dst = restaurant.getTable(dstTable);
 
-    if (t_src == nullptr || !t_src->isOpen() || t_dst == nullptr || !t_src->isOpen() || !t_dst->isFull())
+    if (t_src == nullptr || !t_src->isOpen() || t_dst == nullptr || !t_dst->isOpen() || !t_dst->isFull())
         error(getErrorMsg());
     else{
         Customer *c = t_src->getCustomer(id);
@@ -152,19 +166,19 @@ void MoveCustomer::act(Restaurant &restaurant) {
                 else
                     srcOrder.push_back(o);
 
-            if (order.size() == 0)
-                error(getErrorMsg());
-            else {
+            //if (order.size() == 0)
+                //error(getErrorMsg());
+            //else {
                 t_src->removeCustomer(id);
-                t_src->removeOrders(srcOrder);
+                t_src->replaceOrders(srcOrder);
                 t_dst->addCustomer(c);
-                t_dst->replaceOrder(order);
+                t_dst->addOrder(order);
                 //close the table if necessary
                 if (t_src->getCustomers().size() == 0)
                     t_src->closeTable();
-                appendLogger("move " + to_string(srcTable+1) + " " + to_string(dstTable+1) + " " + to_string(id) + " Completed");
+                appendLogger("Completed");
                 complete();
-            }
+            //}
         }
     }
 }
@@ -188,22 +202,25 @@ const int MoveCustomer::getId() const {
 
 Close::Close(int id) : tableId(id) {
     setErrorMsg("Table does not exist or is not open");
+    appendLogger("close " + to_string(tableId+1) + " ");
 }
 
 void Close::act(Restaurant &restaurant) {
     Table *t = restaurant.getTable(tableId);
-    if (t == nullptr || !t->isOpen()) {
+    if (t == nullptr) {
+        setErrorMsg("Table does not exist");
+        error(getErrorMsg());
+    }else if (!t->isOpen()) {
+        setErrorMsg("Table is not open");
         error(getErrorMsg());
     }else{
         int bill = t->getBill();
         t->closeTable();
-        appendLogger("Table " + to_string(tableId)  + " was closed. Bill " + to_string(bill));
+        std::string s=("Table " + to_string(tableId+1)  + " was closed. Bill " + to_string(bill) +"NIS");
+        cout << s << endl;
         appendLogger("Completed");
         complete();
     }
-
-    //if (t != nullptr) delete(t);
-
 }
 
 std::string Close::toString() const {
@@ -316,6 +333,8 @@ BackupRestaurant::BackupRestaurant() {
 }
 
 void BackupRestaurant::act(Restaurant &restaurant) {
+    if (backup != nullptr)
+        delete(backup);
     backup = new Restaurant(restaurant);
     complete();
     appendLogger(getStrStatus());

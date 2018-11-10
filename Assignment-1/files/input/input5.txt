@@ -1,0 +1,19 @@
+open 1 John,chp Paul,alc Ringo,spc George,veg
+order 4
+open 4 satan,spc
+order 1
+open 2 Paul,alc
+order 2
+move 1 2 1
+close 1
+order 1
+open 1 John,chp Paul,alc Ringo,spc George,veg
+move 1 4 7
+status 1
+move 1 2 7
+open 3
+status 2
+status 3
+status 4
+log
+closeall

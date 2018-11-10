@@ -1,0 +1,104 @@
+Restaurant is now open!
+Error: Table is not open
+John ordered Carolina Reaper
+Paul ordered Beer
+Ringo ordered Carolina Reaper
+George ordered Salad
+George ordered Water
+Tyomkin ordered Carolina Reaper
+Smith ordered Beer
+Adler ordered Carolina Reaper
+Dennis ordered Salad
+Dennis ordered Water
+Error: No backup available
+Table 1 was closed. Bill 80NIS
+John ordered Carolina Reaper
+Paul ordered Beer
+Ringo ordered Carolina Reaper
+George ordered Salad
+George ordered Water
+Table 1 was closed. Bill 185NIS
+Error: Table is not open
+Error: Table is already open
+Table 1 status: open
+Customers:
+8 John
+9 Paul
+10 Ringo
+11 George
+Orders:
+Carolina Reaper 25NIS 8
+Beer 55NIS 9
+Carolina Reaper 25NIS 10
+Salad 40NIS 11
+Water 40NIS 11
+Current Bill: 185NIS
+Table 2 status: open
+Customers:
+4 Tyomkin
+5 Smith
+6 Adler
+7 Dennis
+2 Ringo
+3 George
+Orders:
+Carolina Reaper 25NIS 4
+Beer 55NIS 5
+Carolina Reaper 25NIS 6
+Salad 40NIS 7
+Water 40NIS 7
+Carolina Reaper 25NIS 2
+Salad 40NIS 3
+Water 40NIS 3
+Current Bill: 290NIS
+Table 1 status: open
+Customers:
+8 John
+10 Ringo
+11 George
+Orders:
+Carolina Reaper 25NIS 8
+Carolina Reaper 25NIS 10
+Salad 40NIS 11
+Water 40NIS 11
+Current Bill: 130NIS
+Table 2 status: open
+Customers:
+4 Tyomkin
+5 Smith
+6 Adler
+7 Dennis
+2 Ringo
+3 George
+9 Paul
+Orders:
+Carolina Reaper 25NIS 4
+Beer 55NIS 5
+Carolina Reaper 25NIS 6
+Salad 40NIS 7
+Water 40NIS 7
+Carolina Reaper 25NIS 2
+Salad 40NIS 3
+Water 40NIS 3
+Beer 55NIS 9
+Current Bill: 345NIS
+order 1 Error: Table is not open
+open 1 John,chp Paul,alc Ringo,spc George,veg Completed
+open 2 Tyomkin,chp Smith,alc Adler,spc Dennis,veg Completed
+order 1 Completed
+order 2 Completed
+restore Error: No backup available
+restore Completed
+move 1 2 2 Completed
+move 1 2 3 Completed
+close 1 Completed
+backup Completed
+backup Completed
+open 1 John,chp Paul,alc Ringo,spc George,veg Completed
+order 1 Completed
+restore Completed
+move 1 2 9 Completed
+status 1 Completed
+status 2 Completed
+Table 1 was closed. Bill 130NIS
+Table 2 was closed. Bill 345NIS

@@ -1,0 +1,58 @@
+Restaurant is now open!
+Error: Table is not open
+John ordered Carolina Reaper
+Paul ordered Beer
+Ringo ordered Carolina Reaper
+George ordered Salad
+George ordered Water
+Paul ordered Beer
+Table 1 was closed. Bill 130NIS
+Error: Table is not open
+Error: Cannot move customer
+Table 1 status: open
+Customers:
+6 John
+7 Paul
+8 Ringo
+9 George
+Orders:
+Current Bill: 0NIS
+Table 2 status: open
+Customers:
+5 Paul
+1 Paul
+7 Paul
+Orders:
+Beer 55NIS 5
+Beer 55NIS 1
+Current Bill: 110NIS
+Table 3 status: open
+Customers:
+Orders:
+Current Bill: 0NIS
+Table 4 status: open
+Customers:
+4 satan
+Orders:
+Current Bill: 0NIS
+open 1 John,chp Paul,alc Ringo,spc George,veg Completed
+order 4 Error: Table is not open
+open 4 satan,spc Completed
+order 1 Completed
+open 2 Paul,alc Completed
+order 2 Completed
+move 1 2 1 Completed
+close 1 Completed
+order 1 Error: Table is not open
+open 1 John,chp Paul,alc Ringo,spc George,veg Completed
+move 1 4 7 Error: Cannot move customer
+status 1 Completed
+move 1 2 7 Completed
+open 3 Completed
+status 2 Completed
+status 3 Completed
+status 4 Completed
+Table 1 was closed. Bill 0NIS
+Table 2 was closed. Bill 110NIS
+Table 3 was closed. Bill 0NIS
+Table 4 was closed. Bill 0NIS

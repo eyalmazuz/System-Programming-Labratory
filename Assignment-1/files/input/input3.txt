@@ -1,0 +1,12 @@
+open 1 John,chp Paul,alc Ringo,spc George,veg
+open 2 Tyomkin,chp Smith,alc Adler,spc Dennis,veg
+order 1
+order 2
+move 1 2 0
+move 1 2 1
+move 1 2 2
+move 1 2 3
+status 1
+status 2
+log
+closeall

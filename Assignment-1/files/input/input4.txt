@@ -1,0 +1,13 @@
+open 1 John,chp Paul,alc Ringo,spc George,veg
+order 1
+move 1 2 1
+open 2 Paul,alc
+order 2
+close 2
+open 2 John,chp Ringo,spc
+move 1 2 2
+close 1
+status 1
+status 2
+log
+closeall

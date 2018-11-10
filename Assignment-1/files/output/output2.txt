@@ -1,0 +1,31 @@
+Restaurant is now open!
+John ordered Soda
+Paul ordered Beer
+George ordered Water
+John2 ordered Soda
+Paul2 ordered Beer
+George2 ordered Water
+Tyomkin ordered Soda
+Smith ordered Beer
+Dennis ordered Water
+Tyomkin2 ordered Soda
+Smith2 ordered Beer
+Dennis2 ordered Water
+Paul ordered Vodka
+Ringo ordered Soda
+George ordered Water
+Paul2 ordered Vodka
+Ringo2 ordered Soda
+George2 ordered Water
+Smith ordered Vodka
+Adler ordered Soda
+Dennis ordered Water
+Smith2 ordered Vodka
+Adler2 ordered Soda
+Dennis2 ordered Water
+Ringo ordered Soda
+George ordered Water
+Ringo2 ordered Soda
+George2 ordered Water
+Table 1 was closed. Bill 800NIS
+Table 2 was closed. Bill 600NIS

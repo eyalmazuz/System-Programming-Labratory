@@ -1,0 +1,10 @@
+#number of tables
+4
+#tables description
+8,8,8,8
+#Menu
+Beer,ALC,50
+Water,BVG,55
+Soda,BVG,45
+Vodka,ALC,50
+Coca Cola,BVG,55

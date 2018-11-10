@@ -114,6 +114,11 @@ void Restaurant::start() {
 //helper functions
 
 void Restaurant::readFile(const std::string &configFilePath) {
+//    std::ifstream f(configFilePath);
+//    if (!f.good()){
+//        throw "file is not exist";
+//    }
+
     std::ifstream myReadFile;
     std::string line;
     myReadFile.open(configFilePath);
@@ -131,6 +136,8 @@ void Restaurant::readFile(const std::string &configFilePath) {
 
             }
         }
+    }else{
+        throw "cannot open file";
     }
     myReadFile.close();
 }
@@ -282,9 +289,11 @@ bool Restaurant::checkValidCommand(std::vector<std::string> tokens) {
 void Restaurant::openCommand(std::vector<std::string> tokens) {
     int tableId = std::stoi(tokens[1]) - 1;
     std::vector<Customer *> Customers;
-    if (checkOpenValid(tokens, *tables[tableId]) && (int)tokens.size()-2 < tables[tableId]->getCapacity()) {
+    if (tables.size() != 0 && checkOpenValid(tokens, *tables[tableId]) &&
+    (int)tokens.size()-2 <= tables[tableId]->getCapacity()) {
         int tableSize = tables[tableId]->getCapacity();
-        delete tables[tableId];
+        if (tables[tableId] != nullptr)
+            delete tables[tableId];
         tables[tableId] = new Table(tableSize);
         for (unsigned int i = 2; i < tokens.size(); ++i) {
             std::stringstream ss(tokens[i]);
@@ -312,8 +321,12 @@ void Restaurant::openCommand(std::vector<std::string> tokens) {
         Action->act(*this);
     } else {
         auto * Action = new OpenTable(tableId, Customers);
-        Action->setError();
+        if (tables[tableId] == nullptr)
+            Action->setError("Table does not exist");
+        else
+            Action->setError("");
         actionsLog.push_back(Action);
+        //Action->act(*this);
     }
 }
 
@@ -335,8 +348,13 @@ void Restaurant::orderCommand(std::vector<std::string> tokens) {
         actionsLog.push_back(Action);
     }else{
         auto *Action = new Order(std::stoi(tokens[1])-1);
-        Action->setError();
+        if (tables[std::stoi(tokens[1])-1] == nullptr)
+            Action->setError("Table does not exist");
+        else
+            Action->setError("");
+        Action->setError("");
         actionsLog.push_back(Action);
+        //Action->act(*this);
     }
 }
 
@@ -356,7 +374,7 @@ void Restaurant::moveCommand(std::vector<std::string> tokens) {
     }else{
         auto *Action = new MoveCustomer(std::stoi(tokens[1]) - 1, std::stoi(tokens[2]) - 1,
                                         std::stoi(tokens[3]));
-        Action->setError();
+        Action->setError("");
         actionsLog.push_back(Action);
     }
 

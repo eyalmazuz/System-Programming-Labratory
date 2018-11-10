@@ -24,7 +24,7 @@ public:
     std::string getStrStatus() const;
     virtual void act(Restaurant& restaurant)=0;
     virtual std::string toString() const=0;
-    void setError();
+    void setError(const std::string &errorMessage);
     void setErrorMsg(const std::string &errorMsg);
     const std::string &getLogger() const;
     virtual ~BaseAction();
