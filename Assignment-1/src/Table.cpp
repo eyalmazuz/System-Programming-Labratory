@@ -8,8 +8,6 @@
 #include <iostream>
 
 
-using namespace std;
-
 Table::Table(int t_capacity) : capacity(t_capacity), open(false), customersList{}, orderList{}, bill(0), id(0){ }
 int Table::getCapacity() const { return capacity; }
 
@@ -87,7 +85,7 @@ int Table::getBill() {
 
 void Table::order(const std::vector<Dish> &menu) {
     for(auto customer : getCustomers()){
-        vector<int>order(customer->order(menu));
+        std::vector<int>order(customer->order(menu));
         for(auto id : order){
             //adding the order of each customer to orderList vector
             auto iterator = find_if(menu.begin(), menu.end(),
@@ -97,7 +95,7 @@ void Table::order(const std::vector<Dish> &menu) {
                 OrderPair o(customer->getId(), d);
                 orderList.push_back(o);
                 bill += d.getPrice();
-                std::cout<< customer->getName() + " ordered " +d.getName() << endl;
+                std::cout<< customer->getName() + " ordered " +d.getName() << std::endl;
             }
         }
     }
