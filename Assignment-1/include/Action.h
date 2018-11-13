@@ -55,7 +55,7 @@ public:
 
 private:
     const int tableId;
-    const std::vector<Customer *> customers;
+    std::vector<Customer *> customers;
 };
 
 

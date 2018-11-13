@@ -132,7 +132,7 @@ void Restaurant::readFile(const std::string &configFilePath) {
 
             } else if (line.find("#Menu") == 0) {
                 readMenu(myReadFile);
-            }else{
+            }else if(line == ""){
 
             }
         }
@@ -150,10 +150,18 @@ void Restaurant::readNumOfTables(std::ifstream &myReadFile) {
 void Restaurant::readTables(std::ifstream &myReadFile) {
     std::string line;
     getline(myReadFile, line);
-    std::vector<int> vect;
-    std::stringstream ss(line);
-    while (std::getline(ss, line, ',')) {
-        tables.push_back(new Table(std::stoi(line)));
+    bool flag = false;
+    while(!flag) {
+        if (line != "" && line != "\r") {
+            std::vector<int> vect;
+            std::stringstream ss(line);
+            while (std::getline(ss, line, ',')) {
+                tables.push_back(new Table(std::stoi(line)));
+            }
+            flag = true;
+        } else {
+            getline(myReadFile, line);
+        }
     }
 
 }
@@ -163,7 +171,7 @@ void Restaurant::readMenu(std::ifstream &myReadFile) {
     while (!myReadFile.eof()) {
         std::string line;
         getline(myReadFile, line);
-        if (!line.empty()) {
+        if (!line.empty() && line != "\r") {
             std::stringstream ss(line);
             std::vector<std::string> vect;
             while (std::getline(ss, line, ',')) {
@@ -290,7 +298,7 @@ void Restaurant::openCommand(std::vector<std::string> tokens) {
     int tableId = std::stoi(tokens[1]) - 1;
     std::vector<Customer *> Customers;
     if (tables.size() != 0 && checkOpenValid(tokens, *tables[tableId]) &&
-    (int)tokens.size()-2 <= tables[tableId]->getCapacity()) {
+        (int)tokens.size()-2 <= tables[tableId]->getCapacity()) {
         int tableSize = tables[tableId]->getCapacity();
         if (tables[tableId] != nullptr)
             delete tables[tableId];

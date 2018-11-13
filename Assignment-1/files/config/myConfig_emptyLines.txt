@@ -1,0 +1,31 @@
+#number of tables
+
+
+4
+
+#tables description
+
+
+
+
+8,8,8,1
+
+
+#Menu
+
+Beer,ALC,55
+
+Salad,VEG,40
+
+
+Weed,VEG,30
+
+Water,BVG,40
+Soda,BVG,40
+Carolina Reaper,SPC,25
+
+Vodka,ALC,55
+
+ghost pepper,SPC,25
+
+
