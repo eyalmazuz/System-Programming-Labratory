@@ -105,7 +105,7 @@ Pumpkin cake 50NIS 7
 Pumpkin juice 40NIS 7
 Current Bill: 310NIS
 Table 3 status: closed
-Error: Table is already open
+Error: Table does not exist or is already open
 open 1 Harry,spc Ron,chp Hermionie,veg Completed
 open 2 Sirius,alc Remus,veg Completed
 order 1 Completed
@@ -117,6 +117,6 @@ status 2 Completed
 status 1 Completed
 restore Completed
 status 3 Completed
-open 1 Error: Table is already open
+open 1 Luna,veg Ginny,spc Error: Table does not exist or is already open
 Table 1 was closed. Bill 630NIS
 Table 2 was closed. Bill 90NIS

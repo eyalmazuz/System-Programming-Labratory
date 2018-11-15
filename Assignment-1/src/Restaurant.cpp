@@ -330,9 +330,23 @@ void Restaurant::openCommand(std::vector<std::string> tokens) {
     } else {
         auto * Action = new OpenTable(tableId, Customers);
         if (tables[tableId] == nullptr)
-            Action->setError("Table does not exist");
-        else
             Action->setError("");
+        else {
+            std::string s;
+            for (unsigned int i = 2; i < tokens.size(); ++i) {
+                std::stringstream ss(tokens[i]);
+                std::vector<std::string> data;
+                while (std::getline(ss, tokens[i], ',')) {
+                    data.push_back(tokens[i]);
+                }
+                s.append(data[0] + "," + data[1]);
+                if (i < tokens.size() - 1)
+                    s.append(" ");
+            }
+            Action->setLogger("open " + std::to_string(tableId +1) + " " +s+" ");
+            Action->setError("");
+            //Action->act(*this);
+        }
         actionsLog.push_back(Action);
         //Action->act(*this);
     }

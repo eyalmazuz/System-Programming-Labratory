@@ -67,12 +67,10 @@ void BaseAction::appendLogger(const std::string &data) {
 void OpenTable::act(Restaurant &restaurant) {
     Table *t = restaurant.getTable(tableId);
     if (t == nullptr){
-        setErrorMsg("Table does not exist");
         error(getErrorMsg());
     }else if (t->isOpen()){
         for(auto c : customers)
             appendLogger(c->toString() + " ");
-        setErrorMsg("Table is already open");
         error(getErrorMsg());
     }else if ((int)customers.size() + t->getCustomersNum() <= t->getCapacity() ){
         t->openTable();
@@ -96,7 +94,7 @@ OpenTable::OpenTable(int id, std::vector<Customer *> &customersList) :
         tableId(id) ,
         customers(customersList) {
     appendLogger("open " + std::to_string(tableId + 1) +" ");
-    setErrorMsg("Table is already open");
+    setErrorMsg("Table does not exist or is already open");
 }
 
 const int OpenTable::getTableId() const {
@@ -110,16 +108,16 @@ const std::vector<Customer *> &OpenTable::getCustomers() const {
 Order::Order(int id) :
         tableId(id) {
     appendLogger("order " + std::to_string(tableId + 1)  + " ");
-    setErrorMsg("Table is not open");
+    setErrorMsg("Table does not exist or is not open");
 }
 
 void Order::act(Restaurant &restaurant) {
     Table *t = restaurant.getTable(tableId);
     if (t == nullptr){
-        setErrorMsg("Table does not exist");
+        //setErrorMsg("Table does not exist");
         error(getErrorMsg());
     }else if (!t->isOpen()) {
-        setErrorMsg("Table is not open");
+        //setErrorMsg("Table is not open");
         error(getErrorMsg());
     }else{
         t->order(restaurant.getMenu());

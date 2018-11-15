@@ -1,5 +1,5 @@
 Restaurant is now open!
-Error: Table is not open
+Error: Table does not exist or is not open
 John ordered Carolina Reaper
 Paul ordered Beer
 Ringo ordered Carolina Reaper
@@ -19,7 +19,7 @@ George ordered Salad
 George ordered Water
 Table 1 was closed. Bill 185NIS
 Error: Table is not open
-Error: Table is already open
+Error: Table does not exist or is already open
 Table 1 status: open
 Customers:
 8 John
@@ -82,7 +82,7 @@ Salad 40NIS 3
 Water 40NIS 3
 Beer 55NIS 9
 Current Bill: 345NIS
-order 1 Error: Table is not open
+order 1 Error: Table does not exist or is not open
 open 1 John,chp Paul,alc Ringo,spc George,veg Completed
 open 2 Tyomkin,chp Smith,alc Adler,spc Dennis,veg Completed
 order 1 Completed

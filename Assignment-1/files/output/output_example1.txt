@@ -29,7 +29,7 @@ Wine 60NIS 3
 Beer 50NIS 1
 Wine 60NIS 1
 Current Bill: 320NIS
-Error: Table is already open
+Error: Table does not exist or is already open
 open 1 Alice,chp Bob,alc Completed
 order 1 Completed
 order 1 Completed
@@ -39,6 +39,6 @@ order 2 Completed
 move 1 2 1 Completed
 status 1 Completed
 status 2 Completed
-open 2 Error: Table is already open
+open 2 Jon,spc Sam,spc Error: Table does not exist or is already open
 Table 1 was closed. Bill 10NIS
 Table 2 was closed. Bill 320NIS
