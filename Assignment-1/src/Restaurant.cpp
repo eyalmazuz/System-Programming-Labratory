@@ -114,11 +114,6 @@ void Restaurant::start() {
 //helper functions
 
 void Restaurant::readFile(const std::string &configFilePath) {
-//    std::ifstream f(configFilePath);
-//    if (!f.good()){
-//        throw "file is not exist";
-//    }
-
     std::ifstream myReadFile;
     std::string line;
     myReadFile.open(configFilePath);
@@ -178,8 +173,10 @@ void Restaurant::readMenu(std::ifstream &myReadFile) {
                 vect.push_back(line);
             }
             int price = std::stoi(vect[2]);
-            menu.push_back(Dish(index, vect[0], price, convert(vect[1])));
-            index++;
+            if (vect[1] == "ALC" || vect[1] =="BVG" || vect[1] =="VEG" || vect[1] =="SPC") {
+                menu.push_back(Dish(index, vect[0], price, convert(vect[1])));
+                index++;
+            }
         }
     }
 }
@@ -295,7 +292,7 @@ bool Restaurant::checkValidCommand(std::vector<std::string> tokens) {
 }
 
 void Restaurant::openCommand(std::vector<std::string> tokens) {
-    int tableId = std::stoi(tokens[1]) - 1;
+    int tableId = std::stoi(tokens[1]);
     std::vector<Customer *> Customers;
     if (tables.size() != 0 && checkOpenValid(tokens, *tables[tableId]) &&
         (int)tokens.size()-2 <= tables[tableId]->getCapacity()) {
@@ -343,7 +340,7 @@ void Restaurant::openCommand(std::vector<std::string> tokens) {
                 if (i < tokens.size() - 1)
                     s.append(" ");
             }
-            Action->setLogger("open " + std::to_string(tableId +1) + " " +s+" ");
+            Action->setLogger("open " + std::to_string(tableId) + " " +s+" ");
             Action->setError("");
             //Action->act(*this);
         }
@@ -353,24 +350,22 @@ void Restaurant::openCommand(std::vector<std::string> tokens) {
 }
 
 bool Restaurant::checkOpenValid(std::vector<std::string> tokens, Table &table) {
-    if(!std::stoi(tokens[1])){
+    if(std::stoi(tokens[1]) < 0){
         return false;
     }
-    if(std::stoi(tokens[1])> getNumOfTables() || table.isOpen()){
-        return false;
-    }
-    return true;
+    return !(std::stoi(tokens[1]) >= getNumOfTables() || table.isOpen());
 }
 
 void Restaurant::orderCommand(std::vector<std::string> tokens) {
+    int tableId = std::stoi(tokens[1]);
     if(checkOrderValid(tokens[1])) {
-        int tableId = std::stoi(tokens[1]) - 1;
+        //int tableId = std::stoi(tokens[1]) - 1;
         auto *Action = new Order(tableId);
         Action->act(*this);
         actionsLog.push_back(Action);
     }else{
-        auto *Action = new Order(std::stoi(tokens[1])-1);
-        if (tables[std::stoi(tokens[1])-1] == nullptr)
+        auto *Action = new Order(tableId);
+        if (tableId >= (int)tables.size() || tables[std::stoi(tokens[1])-1] == nullptr)
             Action->setError("Table does not exist");
         else
             Action->setError("");
@@ -381,7 +376,7 @@ void Restaurant::orderCommand(std::vector<std::string> tokens) {
 }
 
 bool Restaurant::checkOrderValid(std::string index) {
-    if(!std::stoi(index)){
+    if(std::stoi(index) < 0){
         return false;
     }
     return std::stoi(index) <= getNumOfTables();
@@ -389,12 +384,12 @@ bool Restaurant::checkOrderValid(std::string index) {
 
 void Restaurant::moveCommand(std::vector<std::string> tokens) {
     if(checkMoveValid(tokens)) {
-        auto *Action = new MoveCustomer(std::stoi(tokens[1]) - 1, std::stoi(tokens[2]) - 1,
+        auto *Action = new MoveCustomer(std::stoi(tokens[1]), std::stoi(tokens[2]),
                                         std::stoi(tokens[3]));
         Action->act(*this);
         actionsLog.push_back(Action);
     }else{
-        auto *Action = new MoveCustomer(std::stoi(tokens[1]) - 1, std::stoi(tokens[2]) - 1,
+        auto *Action = new MoveCustomer(std::stoi(tokens[1]), std::stoi(tokens[2]),
                                         std::stoi(tokens[3]));
         Action->setError("");
         actionsLog.push_back(Action);
@@ -407,27 +402,27 @@ bool Restaurant::checkMoveValid(std::vector<std::string> tokens) {
             !(std::stoi(tokens[3]))){
         return false;
     }*/
-    return !(std::stoi(tokens[1]) - 1 > getNumOfTables() || std::stoi(tokens[2]) - 1 > getNumOfTables());
+    return !(std::stoi(tokens[1]) >= getNumOfTables() || std::stoi(tokens[2])  > getNumOfTables());
 }
 
 void Restaurant::closeCommand(std::vector<std::string> tokens) {
     if(checkCloseValid(tokens[1])){
-        auto *Action = new Close(std::stoi(tokens[1]) - 1);
+        auto *Action = new Close(std::stoi(tokens[1]));
         Action->act(*this);
         actionsLog.push_back(Action);
     }
 }
 
 bool Restaurant::checkCloseValid(std::string id) {
-    if(!std::stoi(id)){
+    if(std::stoi(id) < 0){
         return false;
     }
-    return !(std::stoi(id) > getNumOfTables());
+    return std::stoi(id) <= getNumOfTables();
 }
 
 void Restaurant::printTableStatusCommand(std::vector<std::string> tokens){
     if(checkCloseValid(tokens[1])){
-        auto *Action = new PrintTableStatus(std::stoi(tokens[1]) - 1);
+        auto *Action = new PrintTableStatus(std::stoi(tokens[1]));
         Action->act(*this);
         actionsLog.push_back(Action);
     }

@@ -22,11 +22,11 @@ p_input=./files/input/
 p_output=./files/output/
 #path
 valgrind_log="$p_files"log.txt
-config_list=("$p_config"config1.txt "$p_config"config2.txt "$p_config"myConfig_emptyLines.txt "$p_config"myConfig1.txt "$p_config"myConfig2.txt "$p_config"myConfig3.txt "$p_config"myConfig1.txt "$p_config"myConfig1.txt "$p_config"myConfig1.txt "$p_config"myConfig1.txt)
-input_list=("$p_input"input_example1.txt "$p_input"input_example2.txt "$p_input"input1_justOrder.txt "$p_input"input1_justOrder.txt "$p_input"input2_justOrder.txt "$p_input"input_justOrder_empty.txt "$p_input"input3.txt "$p_input"input4.txt "$p_input"input5.txt "$p_input"input6.txt)
-output_list=("$p_output"output_example1.txt "$p_output"output_example2.txt "$p_output"output1.txt "$p_output"output1.txt "$p_output"output2.txt "$p_output"output_empty.txt "$p_output"output3.txt "$p_output"output4.txt "$p_output"output5.txt "$p_output"output6.txt)
+config_list=("$p_config"config1.txt "$p_config"config2.txt "$p_config"myConfig_emptyLines.txt "$p_config"myConfig1.txt "$p_config"myConfig2.txt "$p_config"myConfig3.txt "$p_config"myConfig1.txt "$p_config"myConfig1.txt "$p_config"myConfig1.txt "$p_config"myConfig1.txt "$p_config"configSuper.txt)
+input_list=("$p_input"input_example1.txt "$p_input"input_example2.txt "$p_input"input1_justOrder.txt "$p_input"input1_justOrder.txt "$p_input"input2_justOrder.txt "$p_input"input_justOrder_empty.txt "$p_input"input3.txt "$p_input"input4.txt "$p_input"input5.txt "$p_input"input6.txt "$p_input"inputSuper.txt)
+output_list=("$p_output"output_example1.txt "$p_output"output_example2.txt "$p_output"output1.txt "$p_output"output1.txt "$p_output"output2.txt "$p_output"output_empty.txt "$p_output"output3.txt "$p_output"output4.txt "$p_output"output5.txt "$p_output"output6.txt "$p_output"outputSuper.txt)
 output="$p_output"output.txt
-length=9
+length=10
 
 #functions
 function checkResults(){

@@ -1,0 +1,20 @@
+#number of tables
+6
+#tables description
+6,3,1,14,10,10
+#Menu
+Tirosh,ALC,60
+Beer,ALC,50
+Wine,ALC,50
+Wisky,ALC,50
+Potato,VEG,40
+Tali,VEG,30
+Carrot,VEG,30
+Tomato,VEG,30
+Water,BVG,10
+Juice,BVG,10
+Orange,BVG,20
+Chili,SPC,200
+Pepper,SPC,200
+Curry,SPC,300
+zesty,SPC,300

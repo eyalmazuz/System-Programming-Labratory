@@ -1,4 +1,4 @@
-Restaurant is now open! 
+Restaurant is now open!
 Error: Table does not exist or is not open
 yuval ordered Potato
 yuval ordered Orange

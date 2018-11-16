@@ -18,7 +18,7 @@ Ringo ordered Carolina Reaper
 George ordered Salad
 George ordered Water
 Table 1 was closed. Bill 185NIS
-Error: Table is not open
+Error: Table does not exist or is not open
 Error: Table does not exist or is already open
 Table 1 status: open
 Customers:

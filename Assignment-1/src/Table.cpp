@@ -8,7 +8,7 @@
 #include <iostream>
 
 
-Table::Table(int t_capacity) : capacity(t_capacity), open(false), customersList{}, orderList{}, bill(0), id(0){ }
+Table::Table(int t_capacity) : capacity(t_capacity), open(false), customersList{}, orderList{}, bill(0), id(-1){ }
 int Table::getCapacity() const { return capacity; }
 
 std::vector<Customer*>& Table::getCustomers() { return customersList; }

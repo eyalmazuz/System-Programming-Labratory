@@ -93,7 +93,7 @@ std::string OpenTable::toString() const {
 OpenTable::OpenTable(int id, std::vector<Customer *> &customersList) :
         tableId(id) ,
         customers(customersList) {
-    appendLogger("open " + std::to_string(tableId + 1) +" ");
+    appendLogger("open " + std::to_string(tableId) +" ");
     setErrorMsg("Table does not exist or is already open");
 }
 
@@ -107,7 +107,7 @@ const std::vector<Customer *> &OpenTable::getCustomers() const {
 
 Order::Order(int id) :
         tableId(id) {
-    appendLogger("order " + std::to_string(tableId + 1)  + " ");
+    appendLogger("order " + std::to_string(tableId)  + " ");
     setErrorMsg("Table does not exist or is not open");
 }
 
@@ -139,11 +139,17 @@ const int Order::getTableId() const {
 MoveCustomer::MoveCustomer(int src, int dst, int customerId) :
         srcTable(src), dstTable(dst), id(customerId) {
     //logger = "Table " + to_string(customerId) + ": ";
-    appendLogger("move " + std::to_string(srcTable+1) + " " + std::to_string(dstTable+1) + " " + std::to_string(id) +" ");
+    appendLogger("move " + std::to_string(srcTable) + " " + std::to_string(dstTable) + " " + std::to_string(id) +" ");
     setErrorMsg("Cannot move customer");
 }
 
 void MoveCustomer::act(Restaurant &restaurant) {
+    int tableSize =restaurant.getTables().size();
+    if (srcTable >= tableSize ||  srcTable >= tableSize){
+        error(getErrorMsg());
+        return;
+    }
+
     Table *t_src = restaurant.getTable(srcTable);
     Table *t_dst = restaurant.getTable(dstTable);
 
@@ -199,21 +205,17 @@ const int MoveCustomer::getId() const {
 
 Close::Close(int id) : tableId(id) {
     setErrorMsg("Table does not exist or is not open");
-    appendLogger("close " + std::to_string(tableId+1) + " ");
+    appendLogger("close " + std::to_string(tableId) + " ");
 }
 
 void Close::act(Restaurant &restaurant) {
     Table *t = restaurant.getTable(tableId);
-    if (t == nullptr) {
-        setErrorMsg("Table does not exist");
-        error(getErrorMsg());
-    }else if (!t->isOpen()) {
-        setErrorMsg("Table is not open");
+    if (t == nullptr || !t->isOpen()) {
         error(getErrorMsg());
     }else{
         int bill = t->getBill();
         t->closeTable();
-        std::string s=("Table " + std::to_string(tableId+1)  + " was closed. Bill " + std::to_string(bill) +"NIS");
+        std::string s=("Table " + std::to_string(tableId)  + " was closed. Bill " + std::to_string(bill) +"NIS");
         std::cout << s << std::endl;
         appendLogger("Completed");
         complete();
@@ -221,7 +223,8 @@ void Close::act(Restaurant &restaurant) {
 }
 
 std::string Close::toString() const {
-    return getLogger();
+    return getStatus() == COMPLETED ? getLogger() + getStrStatus()
+                                    : getLogger() + getStrStatus() + getErrorMsg();
 }
 
 const int Close::getTableId() const {
@@ -238,7 +241,7 @@ void CloseAll::act(Restaurant &restaurant) {
     for(auto t :restaurant.getTables()){
         if (t->isOpen()){
             //cout << "Table " << to_string(t->getId() + 1)  << " was closed. Bill " << to_string(t->getBill())+"NIS" << endl;
-            out+= "Table " + std::to_string(t->getId() + 1)  + " was closed. Bill " + std::to_string(t->getBill())+"NIS\n";
+            out+= "Table " + std::to_string(t->getId())  + " was closed. Bill " + std::to_string(t->getBill())+"NIS\n";
         }
     }
     std::cout << out;
@@ -250,20 +253,23 @@ std::string CloseAll::toString() const {
 }
 
 PrintMenu::PrintMenu() {
-
+    appendLogger("menu ");
 }
 
 
 void PrintMenu::act(Restaurant &restaurant) {
     std::string out="";
     for(const Dish & d :restaurant.getMenu()){
-        out+= d.getName() + " " + std::to_string(d.getType()) + std::to_string (d.getPrice()) + "\n";
+        out+= d.getName() + " " + d.getStrType() +" " + std::to_string (d.getPrice()) +"NIS" + "\n";
     }
-    std::cout << out << std::endl;
+    appendLogger("Completed");
+    complete();
+    std::cout << out;
 }
 
 std::string PrintMenu::toString() const {
-    return "";
+    return getStatus() == COMPLETED ? getLogger() + getStrStatus()
+                                    : getLogger() + getStrStatus() + getErrorMsg();
 }
 
 PrintTableStatus::PrintTableStatus(int id) :
@@ -277,9 +283,9 @@ void PrintTableStatus::act(Restaurant &restaurant) {
     //for(auto t :restaurant.getTables()){
     Table *t = restaurant.getTable(tableId);
     if (t == nullptr)
-        error(getErrorMsg());
+        out += "Table " + std::to_string(tableId) + " status: closed\n"; //error(getErrorMsg());
     else {
-        out += "Table " + std::to_string(tableId + 1) + " status: ";
+        out += "Table " + std::to_string(tableId) + " status: ";
         out += t->isOpen() ? "open\n" : "closed\n";
         if (t->isOpen()) {
             out += "Customers:\n";
@@ -294,7 +300,7 @@ void PrintTableStatus::act(Restaurant &restaurant) {
 
     }
     complete();
-    appendLogger("status " + std::to_string(tableId + 1) + " " + getStrStatus());
+    appendLogger("status " + std::to_string(tableId) + " " + getStrStatus());
 
 
 }
@@ -309,7 +315,7 @@ const int PrintTableStatus::getTableId() const {
 }
 
 PrintActionsLog::PrintActionsLog() {
-
+    appendLogger("log ");
 }
 
 void PrintActionsLog::act(Restaurant &restaurant) {
@@ -319,10 +325,13 @@ void PrintActionsLog::act(Restaurant &restaurant) {
             out+=actionLog->getLogger()  + "\n";
     }
     std::cout << out;
+    appendLogger("Completed");
+    complete();
 }
 
 std::string PrintActionsLog::toString() const {
-    return getLogger();
+    return getStatus() == COMPLETED ? getLogger() + getStrStatus()
+                                    : getLogger() + getStrStatus() + getErrorMsg();
 }
 
 BackupRestaurant::BackupRestaurant() {
@@ -338,7 +347,8 @@ void BackupRestaurant::act(Restaurant &restaurant) {
 }
 
 std::string BackupRestaurant::toString() const {
-    return getLogger();
+    return getStatus() == COMPLETED ? getLogger() + getStrStatus()
+                                    : getLogger() + getStrStatus() + getErrorMsg();
 }
 
 RestoreResturant::RestoreResturant() {

@@ -1,0 +1,89 @@
+open 2 yuval,veg
+order 1
+order 2
+restore
+status 0
+status 1
+status 2
+menu
+log
+backup
+backup
+backup
+backup
+order 1
+order 2
+status 0
+status 1
+status 2
+restore
+restore
+restore
+restore
+status 0
+status 1
+status 2
+order 1
+order 2
+move 2 1 0
+status 0
+status 1
+status 2
+close 1
+status 1
+open 0 yuval,spc noam,alc assaf,veg itzik,chp
+status 0
+order 0
+status 0
+order 0
+status 0
+order 0
+status 0
+order 0
+status 0
+order 0
+status 0
+order 0
+status 0
+order 0
+status 0
+order 0
+status 0
+order 0
+log
+backup
+backup
+restore
+restore
+move 0 1 1
+status 0
+status 1
+move 0 4 1
+status 0
+status 4
+open 1 temp,veg
+move 1 4 5
+move 0 1 0
+status 0
+status 1
+move 0 1 1
+status 0
+status 1
+move 0 1 2
+status 0
+status 1
+move 0 1 3
+status 0
+status 1
+move 0 1 4
+status 0
+status 1
+move 0 2 4
+status 0
+status 1
+status 2
+backup
+backup
+restore
+restore
+closeall

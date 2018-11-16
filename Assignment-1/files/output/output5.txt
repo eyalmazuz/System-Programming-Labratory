@@ -28,16 +28,16 @@ Beer 55NIS 1
 Current Bill: 110NIS
 Table 3 status: open
 Customers:
-Orders:
-Current Bill: 0NIS
-Table 4 status: open
-Customers:
 4 satan
 Orders:
 Current Bill: 0NIS
+Table 0 status: open
+Customers:
+Orders:
+Current Bill: 0NIS
 open 1 John,chp Paul,alc Ringo,spc George,veg Completed
-order 4 Error: Table does not exist or is not open
-open 4 satan,spc Completed
+order 3 Error: Table does not exist or is not open
+open 3 satan,spc Completed
 order 1 Completed
 open 2 Paul,alc Completed
 order 2 Completed
@@ -45,14 +45,14 @@ move 1 2 1 Completed
 close 1 Completed
 order 1 Error: Table does not exist or is not open
 open 1 John,chp Paul,alc Ringo,spc George,veg Completed
-move 1 4 7 Error: Cannot move customer
+move 1 3 7 Error: Cannot move customer
 status 1 Completed
 move 1 2 7 Completed
-open 3 Completed
+open 0 Completed
 status 2 Completed
 status 3 Completed
-status 4 Completed
+status 0 Completed
+Table 0 was closed. Bill 0NIS
 Table 1 was closed. Bill 0NIS
 Table 2 was closed. Bill 110NIS
 Table 3 was closed. Bill 0NIS
-Table 4 was closed. Bill 0NIS
