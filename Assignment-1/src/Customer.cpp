@@ -20,13 +20,16 @@ VegetarianCustomer::VegetarianCustomer(std::string name, int id) : Customer(name
 std::vector<int> VegetarianCustomer::order(const std::vector<Dish> &menu) {
     std::vector<int> orders;
     int index = -1;
+    bool order = false;
     std::vector<Dish, std::allocator<Dish>>::const_iterator it;
     for (it = menu.begin(); it != menu.end(); ++it) {
         if ((*it).getType() == VEG) {
             orders.push_back((*it).getId());
+            order = true;
             break;
         }
     }
+    if (order) {
     int price = -1;
     for (unsigned int i = 0; i < menu.size(); i++) {
         if (menu[i].getType() == BVG && (price == -1 || menu[i].getPrice() > price)) {
@@ -34,8 +37,9 @@ std::vector<int> VegetarianCustomer::order(const std::vector<Dish> &menu) {
             price = menu[i].getPrice();
         }
     }
-    if(index != -1)
+    if (index != -1)
         orders.push_back(index);
+    }
     return orders;
 }
 
@@ -83,10 +87,10 @@ std::vector<int> SpicyCustomer::order(const std::vector<Dish> &menu) {
             }
         }
 
-        if(found)
+        if(found) {
             orders.push_back(index);
-
-        firstorder = false;
+            firstorder = false;
+        }
     }
     else{
         for(auto d : menu){

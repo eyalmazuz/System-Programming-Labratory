@@ -42,7 +42,11 @@ function checkResults(){
 	s2='indirectly lost: 0 bytes in 0 blocks'
 	s3='possibly lost: 0 bytes in 0 blocks'
 	s4='suppressed: 0 bytes in 0 blocks'
+	s5='All heap blocks were freed -- no leaks are possible'
+
 	if grep -Eq "$s1" $valgrind_log && grep -Eq "$s2" $valgrind_log && grep -Eq "$s3" $valgrind_log && grep -Eq "$s4" $valgrind_log; then
+		echo 'no leak has found'
+	elif grep -Eq "$s5" $valgrind_log; then
 		echo 'no leak has found'
 	else
 		echo 'failed: there is a leak in your code(you can see in log.txt): '
