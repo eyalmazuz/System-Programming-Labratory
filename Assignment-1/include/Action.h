@@ -30,6 +30,7 @@ public:
     virtual ~BaseAction();
     void setLogger(const std::string &logger);
     void appendLogger(const std::string &data);
+    void changeStatus(const ActionStatus &actionStatus);
 
 protected:
     void complete();

@@ -261,6 +261,7 @@ void Restaurant::copy(Restaurant &other) {
         }
 
         actionsLog.back()->setLogger((*it)->getLogger());
+        actionsLog.back()->changeStatus((*it)->getStatus());
     }
 }
 

@@ -39,10 +39,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /snap/clion/44/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /snap/clion/49/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /snap/clion/44/bin/cmake/linux/bin/cmake -E remove -f
+RM = /snap/clion/49/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/itay/CLionProjects/System-Programming-Labratory/Assignm
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/snap/clion/44/bin/cmake/linux/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/snap/clion/49/bin/cmake/linux/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -70,7 +70,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/snap/clion/44/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/snap/clion/49/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -285,33 +285,6 @@ src/Table.cpp.s:
 	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Table.cpp.s
 .PHONY : src/Table.cpp.s
 
-src/Tester.o: src/Tester.cpp.o
-
-.PHONY : src/Tester.o
-
-# target to build an object file
-src/Tester.cpp.o:
-	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Tester.cpp.o
-.PHONY : src/Tester.cpp.o
-
-src/Tester.i: src/Tester.cpp.i
-
-.PHONY : src/Tester.i
-
-# target to preprocess a source file
-src/Tester.cpp.i:
-	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Tester.cpp.i
-.PHONY : src/Tester.cpp.i
-
-src/Tester.s: src/Tester.cpp.s
-
-.PHONY : src/Tester.s
-
-# target to generate assembly for a file
-src/Tester.cpp.s:
-	$(MAKE) -f CMakeFiles/Assignment_1.dir/build.make CMakeFiles/Assignment_1.dir/src/Tester.cpp.s
-.PHONY : src/Tester.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -339,9 +312,6 @@ help:
 	@echo "... src/Table.o"
 	@echo "... src/Table.i"
 	@echo "... src/Table.s"
-	@echo "... src/Tester.o"
-	@echo "... src/Tester.i"
-	@echo "... src/Tester.s"
 .PHONY : help
 
 

@@ -117,9 +117,6 @@
 		<Unit filename="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/src/Table.cpp">
 			<Option target="Assignment_1"/>
 		</Unit>
-		<Unit filename="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/src/Tester.cpp">
-			<Option target="Assignment_1"/>
-		</Unit>
 		<Unit filename="/home/itay/CLionProjects/System-Programming-Labratory/Assignment-1/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
