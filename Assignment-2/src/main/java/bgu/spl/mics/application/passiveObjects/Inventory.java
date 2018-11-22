@@ -1,6 +1,7 @@
 package bgu.spl.mics.application.passiveObjects;
 
 
+import java.util.ArrayList;
 
 /**
  * Passive data-object representing the store inventory.
@@ -17,9 +18,20 @@ public class Inventory {
 	/**
      * Retrieves the single instance of this class.
      */
+
+	private ArrayList<BookInventoryInfo> books;
+
+	private static Inventory ourInstance = null;
+
+	private Inventory(){
+		books = new ArrayList<>();
+	}
+
 	public static Inventory getInstance() {
-		//TODO: Implement this
-		return null;
+		if(ourInstance == null){
+			ourInstance = new Inventory();
+		}
+		return ourInstance;
 	}
 	
 	/**
@@ -30,7 +42,9 @@ public class Inventory {
      * 						of the inventory.
      */
 	public void load (BookInventoryInfo[ ] inventory ) {
-		
+		for (BookInventoryInfo book: inventory) {
+			books.add(book);
+		}
 	}
 	
 	/**
@@ -42,8 +56,16 @@ public class Inventory {
      * 			second should reduce by one the number of books of the desired type.
      */
 	public OrderResult take (String book) {
-		
-		return null;
+
+		for (BookInventoryInfo item:
+			 books) {
+			if(item.getBookTitle().equals(book) && item.getAmountInInventory() > 0) {
+				checkAlltaken(item);
+				return OrderResult.SUCCESSFULLY_TAKEN;
+			}
+
+		}
+		return OrderResult.NOT_IN_STOCK;
 	}
 	
 	
@@ -70,4 +92,13 @@ public class Inventory {
 	public void printInventoryToFile(String filename){
 		//TODO: Implement this
 	}
+
+	private void checkAlltaken(BookInventoryInfo book){
+		if(book.getAmountInInventory() == 1 ){
+					books.remove(book);
+			}
+
+		book.decreaseAmount();
+	}
+
 }
