@@ -2,6 +2,8 @@ package bgu.spl.mics.application.passiveObjects;
 
 import bgu.spl.mics.Future;
 
+import java.util.ArrayList;
+
 /**
  * Passive object representing the resource manager.
  * You must not alter any of the given public methods of this class.
@@ -12,13 +14,23 @@ import bgu.spl.mics.Future;
  * You can add ONLY private methods and fields to this class.
  */
 public class ResourcesHolder {
-	
+
+	private static ResourcesHolder ourInstance = null;
+
+	private ArrayList<DeliveryVehicle> deliveryVehicles;
+
+
 	/**
-     * Retrieves the single instance of this class.
-     */
+	 * Retrieves the single instance of this class.
+	 */
+
+	private ResourcesHolder() { deliveryVehicles = new ArrayList<>(); }
+
 	public static ResourcesHolder getInstance() {
-		//TODO: Implement this
-		return null;
+		if(ourInstance == null){
+			ourInstance = new ResourcesHolder();
+		}
+		return ourInstance;
 	}
 	
 	/**
@@ -49,7 +61,9 @@ public class ResourcesHolder {
      * @param vehicles	Array of {@link DeliveryVehicle} instances to store.
      */
 	public void load(DeliveryVehicle[] vehicles) {
-		//TODO: Implement this
+		for (DeliveryVehicle vehicle : vehicles) {
+			deliveryVehicles.add(vehicle);
+		}
 	}
 
 }
