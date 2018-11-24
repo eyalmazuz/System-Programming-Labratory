@@ -10,36 +10,50 @@ import java.util.List;
  */
 public class Customer {
 
+	private String name;
+	private int id;
+	private String address;
+	private int distance;
+	private List<OrderReceipt> receipts;
+	private int creditAmount;
+	private int creditNumber;
+
+	public Customer(String name, int id, String address, int distance, List<OrderReceipt> receipts, int creditAmount, int creditNumber) {
+		this.name = name;
+		this.id = id;
+		this.address = address;
+		this.distance = distance;
+		this.receipts = receipts;
+		this.creditAmount = creditAmount;
+		this.creditNumber = creditNumber;
+	}
+
 	/**
      * Retrieves the name of the customer.
      */
 	public String getName() {
-		// TODO Implement this
-		return null;
+		return name;
 	}
 
 	/**
      * Retrieves the ID of the customer  . 
      */
 	public int getId() {
-		// TODO Implement this
-		return 0;
+		return id;
 	}
 	
 	/**
      * Retrieves the address of the customer.  
      */
 	public String getAddress() {
-		// TODO Implement this
-		return null;
+		return address;
 	}
 	
 	/**
      * Retrieves the distance of the customer from the store.  
      */
 	public int getDistance() {
-		// TODO Implement this
-		return 0;
+		return distance;
 	}
 
 	
@@ -49,8 +63,7 @@ public class Customer {
      * @return A list of receipts.
      */
 	public List<OrderReceipt> getCustomerReceiptList() {
-		// TODO Implement this
-		return null;
+		return receipts;
 	}
 	
 	/**
@@ -59,16 +72,14 @@ public class Customer {
      * @return Amount of money left.   
      */
 	public int getAvailableCreditAmount() {
-		// TODO Implement this
-		return 0;
+		return creditAmount;
 	}
 	
 	/**
      * Retrieves this customers credit card serial number.    
      */
 	public int getCreditNumber() {
-		// TODO Implement this
-		return 0;
+		return creditNumber;
 	}
 	
 }

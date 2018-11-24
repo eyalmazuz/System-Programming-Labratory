@@ -77,7 +77,10 @@ public class Inventory {
      * @return the price of the book if it is available, -1 otherwise.
      */
 	public int checkAvailabiltyAndGetPrice(String book) {
-		//TODO: Implement this
+		for(BookInventoryInfo item: books){
+			if(item.getBookTitle().equals(book))
+				return item.getAmountInInventory();
+		}
 		return -1;
 	}
 	

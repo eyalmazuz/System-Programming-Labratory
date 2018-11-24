@@ -1,6 +1,5 @@
 package bgu.spl.mics.application.passiveObjects;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,6 +69,20 @@ public class InventoryTest {
         assertEquals(OrderResult.SUCCESSFULLY_TAKEN, o1);
         OrderResult o2 = inv.take("milhama ve shalom");
         assertEquals(OrderResult.NOT_IN_STOCK, o2);
+    }
+
+    @Test
+    public void checkPriceOfLordOfTheRings(){
+        int price= 200;
+        int priceTest = inv.checkAvailabiltyAndGetPrice("sar hatabaot");
+        assertEquals(price, priceTest);
+    }
+
+    @Test
+    public void checkPriceOfNotAviableBook(){
+        int price = -1;
+        int priceTEST = inv.checkAvailabiltyAndGetPrice("milhana be shalom");
+        assertEquals(price, priceTEST);
     }
 
     @After
