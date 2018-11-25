@@ -79,7 +79,7 @@ public class Inventory {
 	public int checkAvailabiltyAndGetPrice(String book) {
 		for(BookInventoryInfo item: books){
 			if(item.getBookTitle().equals(book))
-				return item.getAmountInInventory();
+				return item.getPrice();
 		}
 		return -1;
 	}

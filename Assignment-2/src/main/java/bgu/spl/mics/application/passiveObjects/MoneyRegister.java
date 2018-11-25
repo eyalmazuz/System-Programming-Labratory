@@ -43,8 +43,7 @@ public class MoneyRegister {
      * Retrieves the current total earnings of the store.  
      */
 	public int getTotalEarnings() {
-		//TODO: Implement this
-		return 0;
+		return earnings;
 	}
 	
 	/**
@@ -53,7 +52,7 @@ public class MoneyRegister {
      * @param amount 	amount to charge
      */
 	public void chargeCreditCard(Customer c, int amount) {
-		// TODO Implement this
+		c.chargeCustomer(amount);
 	}
 	
 	/**

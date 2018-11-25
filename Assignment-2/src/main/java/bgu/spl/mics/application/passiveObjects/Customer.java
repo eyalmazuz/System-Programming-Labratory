@@ -81,5 +81,8 @@ public class Customer {
 	public int getCreditNumber() {
 		return creditNumber;
 	}
-	
+
+	public void chargeCustomer(int amount) {
+		creditAmount -= amount;
+	}
 }

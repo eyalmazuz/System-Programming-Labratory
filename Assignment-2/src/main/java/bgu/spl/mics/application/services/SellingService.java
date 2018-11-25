@@ -1,6 +1,10 @@
 package bgu.spl.mics.application.services;
 
 import bgu.spl.mics.MicroService;
+import bgu.spl.mics.application.BookOrderEvent;
+import bgu.spl.mics.application.passiveObjects.Inventory;
+import bgu.spl.mics.application.passiveObjects.MoneyRegister;
+import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
 
 /**
  * Selling service in charge of taking orders from customers.
@@ -14,14 +18,18 @@ import bgu.spl.mics.MicroService;
  */
 public class SellingService extends MicroService{
 
+	private MoneyRegister register;
+
 	public SellingService() {
-		super("Change_This_Name");
-		// TODO Implement this
+		super("Selling Service");
+		register = MoneyRegister.getInstance();
 	}
 
 	@Override
 	protected void initialize() {
-		// TODO Implement this
+		subscribeEvent(BookOrderEvent.class, ev->{
+
+		});
 		
 	}
 

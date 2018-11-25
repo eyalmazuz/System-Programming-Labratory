@@ -1,5 +1,7 @@
 package bgu.spl.mics.application.passiveObjects;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * Passive data-object representing a delivery vehicle of the store.
  * You must not alter any of the given public methods of this class.
@@ -12,6 +14,7 @@ public class DeliveryVehicle {
 	private int speed;
 	private int distance;
 	private String address;
+	private AtomicBoolean taken;
 
 	/**
      * Constructor.   
@@ -19,6 +22,7 @@ public class DeliveryVehicle {
 	 public DeliveryVehicle(int license, int speed) {
 		this.license = license;
 		this.speed = speed;
+		taken = new AtomicBoolean(false);
 	  }
 	/**
      * Retrieves the license of this delivery vehicle.   
@@ -49,5 +53,13 @@ public class DeliveryVehicle {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void setTaken(){
+		taken.compareAndSet(false, true);
+	}
+
+	public void release(){
+		taken.compareAndSet(true, false);
 	}
 }
