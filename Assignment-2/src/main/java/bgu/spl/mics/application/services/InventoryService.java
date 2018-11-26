@@ -18,7 +18,7 @@ import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
 
 public class InventoryService extends MicroService{
 
-	Inventory inv;
+	private Inventory inv;
 
 	public InventoryService() {
 		super("Inventory Service");

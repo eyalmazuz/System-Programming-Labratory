@@ -3,6 +3,9 @@ package bgu.spl.mics.application.passiveObjects;
 import bgu.spl.mics.Future;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Passive object representing the resource manager.
@@ -17,14 +20,13 @@ public class ResourcesHolder {
 
 	private static ResourcesHolder ourInstance = null;
 
-	private ArrayList<DeliveryVehicle> deliveryVehicles;
-
+	private ConcurrentLinkedQueue<DeliveryVehicle> deliveryVehicles;
 
 	/**
 	 * Retrieves the single instance of this class.
 	 */
 
-	private ResourcesHolder() { deliveryVehicles = new ArrayList<>(); }
+	private ResourcesHolder() { deliveryVehicles = new ConcurrentLinkedQueue<>(); }
 
 	public static ResourcesHolder getInstance() {
 		if(ourInstance == null){
@@ -41,8 +43,10 @@ public class ResourcesHolder {
 	 * 			{@link DeliveryVehicle} when completed.
 	 */
 	public Future<DeliveryVehicle> acquireVehicle() {
-		//TODO: Implement this
-		return null;
+        Future<DeliveryVehicle> vehicleFuture = new Future<DeliveryVehicle>();
+		if (!deliveryVehicles.isEmpty())
+			vehicleFuture.resolve(deliveryVehicles.poll());
+		return vehicleFuture;
 	}
 
 	/**
@@ -52,7 +56,7 @@ public class ResourcesHolder {
 	 * @param vehicle	{@link DeliveryVehicle} to be released.
 	 */
 	public void releaseVehicle(DeliveryVehicle vehicle) {
-		vehicle.release();
+        deliveryVehicles.add(vehicle);
 	}
 
 	/**
@@ -65,5 +69,4 @@ public class ResourcesHolder {
 			deliveryVehicles.add(vehicle);
 		}
 	}
-
 }

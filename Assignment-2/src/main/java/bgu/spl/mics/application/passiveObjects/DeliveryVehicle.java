@@ -14,7 +14,7 @@ public class DeliveryVehicle {
 	private int speed;
 	private int distance;
 	private String address;
-	private AtomicBoolean taken;
+	//private AtomicBoolean taken;
 
 	/**
 	 * Constructor.
@@ -22,7 +22,7 @@ public class DeliveryVehicle {
 	public DeliveryVehicle(int license, int speed) {
 		this.license = license;
 		this.speed = speed;
-		taken = new AtomicBoolean(false);
+		//taken = new AtomicBoolean(false);
 	}
 	/**
 	 * Retrieves the license of this delivery vehicle.
@@ -49,17 +49,17 @@ public class DeliveryVehicle {
 	 */
 	public void deliver(String address, int distance) {
 		try {
-			Thread.sleep(distance);
+			Thread.sleep(distance/getSpeed());
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void setTaken(){
-		taken.compareAndSet(false, true);
-	}
-
-	public void release(){
-		taken.compareAndSet(true, false);
-	}
+//	public void setTaken(){
+//		taken.compareAndSet(false, true);
+//	}
+//
+//	public void release(){
+//		taken.compareAndSet(true, false);
+//	}
 }

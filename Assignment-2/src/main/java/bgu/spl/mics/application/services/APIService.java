@@ -45,18 +45,18 @@ public class APIService extends MicroService{
 	protected void initialize() {
 		subscribeBroadcast(TickBroadcast.class, br -> {
 			if (index.get() >= list.size() && br.getCurrentTick() >  maxTick){
-				terminate();
+				//terminate();//ToDo: check in forum
 			}else if (br.getCurrentTick() == list.get(index.get()).getTick()) {
 				System.out.println(getName()+": receiving broadcast from " + br.getSenderName() + " in 'good' tick" + br.getCurrentTick());
 				String name = "BookOrderEvent_"+customer.getName()+"_"+list.get(index.get()).getTick();
 				System.out.println(getName()+": sending book order event ");
 				Future<OrderReceipt> futureObject = sendEvent(new BookOrderEvent(getName(),customer,list.get(index.get())));
 				if (futureObject != null) {
-					OrderReceipt result = futureObject.get(100, TimeUnit.MILLISECONDS);
+					OrderReceipt result = futureObject.get();//ToDo: check in forum
 					if (result != null)
 						customer.getCustomerReceiptList().add(result);
 				}
-				index.incrementAndGet();
+				index.set(br.getCurrentTick());
 			}
 		});
 		subscribeBroadcast(FiftyPercentDiscountBroadcast.class, br ->{

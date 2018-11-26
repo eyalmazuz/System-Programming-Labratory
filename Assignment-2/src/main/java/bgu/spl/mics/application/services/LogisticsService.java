@@ -1,7 +1,11 @@
 package bgu.spl.mics.application.services;
 
+import bgu.spl.mics.Future;
 import bgu.spl.mics.MicroService;
 import bgu.spl.mics.application.messages.DeliveryEvent;
+import bgu.spl.mics.application.messages.RequestVehicleEvent;
+import bgu.spl.mics.application.messages.ReturnVehicleEvent;
+import bgu.spl.mics.application.passiveObjects.DeliveryVehicle;
 import bgu.spl.mics.application.passiveObjects.Inventory;
 import bgu.spl.mics.application.passiveObjects.MoneyRegister;
 import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
@@ -18,14 +22,23 @@ import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
 public class LogisticsService extends MicroService {
 
 	public LogisticsService() {
-		super("Change_This_Name");
-		// TODO Implement this
+		super("LogisticsService");
 	}
 
 	@Override
 	protected void initialize() {
-		// TODO Implement this
-		
+		subscribeEvent(DeliveryEvent.class, ev ->{
+			System.out.println(getName()+": receiving Delivery event from" + ev.getSenderName());
+			Future<DeliveryVehicle> futureObject = sendEvent(new RequestVehicleEvent(getName()));
+			if (futureObject != null) {
+				DeliveryVehicle deliveryVehicle = futureObject.get();
+				if (deliveryVehicle != null) {
+					deliveryVehicle.deliver(ev.getCustomer().getAddress(),ev.getCustomer().getDistance());
+					complete(ev,deliveryVehicle);
+					sendEvent(new ReturnVehicleEvent(getName(),deliveryVehicle));
+				}
+			}
+		});
 	}
 
 }
