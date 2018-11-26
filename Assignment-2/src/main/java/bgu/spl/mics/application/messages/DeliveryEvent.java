@@ -16,7 +16,7 @@ public class DeliveryEvent extends BaseEvent<DeliveryVehicle> {
         return customer;
     }
 
-    public void processing(DeliveryVehicle deliveryVehicle){
-        deliveryVehicle.deliver(customer.getAddress(),customer.getDistance());
-    }
+//    public void processing(DeliveryVehicle deliveryVehicle){
+//        deliveryVehicle.deliver(customer.getAddress(),customer.getDistance());
+//    }
 }

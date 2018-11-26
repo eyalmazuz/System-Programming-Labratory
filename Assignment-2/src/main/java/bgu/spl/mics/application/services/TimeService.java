@@ -34,15 +34,23 @@ public class TimeService extends MicroService{
 		this.timer = new Timer();
 	}
 
+	long curr;
+
 	@Override
 	protected void initialize() {
+
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
 				tick++;
+				System.out.println("Tick " + tick +" took " + (System.currentTimeMillis()- curr));
+				curr = System.currentTimeMillis();
 				sendBroadcast(new TickBroadcast("TickBroadcast"+tick,tick));
+				if (tick > tickPeriod) timer.cancel();
 			}
-		},tick,tickPeriod*1000);
+		},0,speed);
+
+		curr = System.currentTimeMillis();
 	}
 
 }

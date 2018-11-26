@@ -1,10 +1,13 @@
 package bgu.spl.mics.application.services;
 
 import bgu.spl.mics.MicroService;
+import bgu.spl.mics.application.passiveObjects.Inventory;
+import bgu.spl.mics.application.passiveObjects.MoneyRegister;
+import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
 
 /**
  * ResourceService is in charge of the store resources - the delivery vehicles.
- * Holds a reference to the {@link ResourceHolder} singleton of the store.
+ * Holds a reference to the {@link ResourcesHolder} singleton of the store.
  * This class may not hold references for objects which it is not responsible for:
  * {@link MoneyRegister}, {@link Inventory}.
  * 

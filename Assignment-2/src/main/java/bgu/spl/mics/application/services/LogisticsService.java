@@ -1,6 +1,10 @@
 package bgu.spl.mics.application.services;
 
 import bgu.spl.mics.MicroService;
+import bgu.spl.mics.application.messages.DeliveryEvent;
+import bgu.spl.mics.application.passiveObjects.Inventory;
+import bgu.spl.mics.application.passiveObjects.MoneyRegister;
+import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
 
 /**
  * Logistic service in charge of delivering books that have been purchased to customers.
