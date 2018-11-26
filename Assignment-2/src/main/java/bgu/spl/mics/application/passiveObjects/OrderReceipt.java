@@ -33,16 +33,14 @@ public class OrderReceipt {
      * Retrieves the orderId of this receipt.
      */
 	public int getOrderId() {
-		// TODO Implement this
-		return 0;
+		return orderId;
 	}
 	
 	/**
      * Retrieves the name of the selling service which handled the order.
      */
 	public String getSeller() {
-		// TODO Implement this
-		return null;
+		return seller;
 	}
 	
 	/**
@@ -51,40 +49,35 @@ public class OrderReceipt {
      * @return the ID of the customer
      */
 	public int getCustomerId() {
-		// TODO Implement this
-		return 0;
+		return customerId;
 	}
 	
 	/**
      * Retrieves the name of the book which was bought.
      */
 	public String getBookTitle() {
-		// TODO Implement this
-		return null;
+		return bookTitle;
 	}
 	
 	/**
      * Retrieves the price the customer paid for the book.
      */
 	public int getPrice() {
-		// TODO Implement this
-		return 0;
+		return price;
 	}
 	
 	/**
      * Retrieves the tick in which this receipt was issued.
      */
 	public int getIssuedTick() {
-		// TODO Implement this
-		return 0;
+		return issuedTick;
 	}
 	
 	/**
      * Retrieves the tick in which the customer sent the purchase request.
      */
 	public int getOrderTick() {
-		// TODO Implement this
-		return 0;
+		return orderTick;
 	}
 	
 	/**
@@ -92,7 +85,6 @@ public class OrderReceipt {
      * processing the order.
      */
 	public int getProcessTick() {
-		// TODO Implement this
-		return 0;
+		return processTick;
 	}
 }

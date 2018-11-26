@@ -3,27 +3,21 @@ package bgu.spl.mics;
 import bgu.spl.mics.example.ServiceCreator;
 import bgu.spl.mics.example.messages.ExampleBroadcast;
 import bgu.spl.mics.example.messages.ExampleEvent;
-import bgu.spl.mics.example.services.ExampleBroadcastListenerService;
-import bgu.spl.mics.example.services.ExampleEventHandlerService;
-import bgu.spl.mics.example.services.ExampleMessageSenderService;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
-public class MessageBusTest {
+public class MessageBusImplTest {
 
     MessageBus mb;
     Map<String, ServiceCreator> serviceCreators = new HashMap<>();
     String currentThreadName;
-
 
     @Before
     public void setUp() throws Exception {
@@ -216,4 +210,8 @@ public class MessageBusTest {
             });
         }
     }
+
+
+
+
 }

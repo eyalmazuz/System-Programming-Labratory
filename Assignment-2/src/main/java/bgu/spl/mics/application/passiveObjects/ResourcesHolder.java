@@ -32,34 +32,34 @@ public class ResourcesHolder {
 		}
 		return ourInstance;
 	}
-	
+
 	/**
-     * Tries to acquire a vehicle and gives a future object which will
-     * resolve to a vehicle.
-     * <p>
-     * @return 	{@link Future<DeliveryVehicle>} object which will resolve to a 
-     * 			{@link DeliveryVehicle} when completed.   
-     */
+	 * Tries to acquire a vehicle and gives a future object which will
+	 * resolve to a vehicle.
+	 * <p>
+	 * @return 	{@link Future<DeliveryVehicle>} object which will resolve to a
+	 * 			{@link DeliveryVehicle} when completed.
+	 */
 	public Future<DeliveryVehicle> acquireVehicle() {
 		//TODO: Implement this
 		return null;
 	}
-	
+
 	/**
-     * Releases a specified vehicle, opening it again for the possibility of
-     * acquisition.
-     * <p>
-     * @param vehicle	{@link DeliveryVehicle} to be released.
-     */
+	 * Releases a specified vehicle, opening it again for the possibility of
+	 * acquisition.
+	 * <p>
+	 * @param vehicle	{@link DeliveryVehicle} to be released.
+	 */
 	public void releaseVehicle(DeliveryVehicle vehicle) {
-		//TODO: Implement this
+		vehicle.release();
 	}
-	
+
 	/**
-     * Receives a collection of vehicles and stores them.
-     * <p>
-     * @param vehicles	Array of {@link DeliveryVehicle} instances to store.
-     */
+	 * Receives a collection of vehicles and stores them.
+	 * <p>
+	 * @param vehicles	Array of {@link DeliveryVehicle} instances to store.
+	 */
 	public void load(DeliveryVehicle[] vehicles) {
 		for (DeliveryVehicle vehicle : vehicles) {
 			deliveryVehicles.add(vehicle);
