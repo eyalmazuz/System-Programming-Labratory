@@ -15,6 +15,7 @@ public class InventoryTest {
     @Before
     public void setUp() throws Exception {
         inv = Inventory.getInstance();
+
     }
 
     protected void setUpBooks(){
@@ -29,7 +30,6 @@ public class InventoryTest {
 
     @Test
     public void checkBookTakenInInventory(){
-        setUpBooks();
         OrderResult o = inv.take("Harry Poter");
         assertEquals(OrderResult.SUCCESSFULLY_TAKEN, o);
     }
@@ -47,7 +47,6 @@ public class InventoryTest {
 
     @Test
     public void checkTake2BooksInIntory(){
-        setUpBooks();
         OrderResult o1 = inv.take("milhama ve shalom");
         assertEquals(OrderResult.SUCCESSFULLY_TAKEN, o1);
         OrderResult o2 = inv.take("sar hatabaot");
@@ -83,6 +82,13 @@ public class InventoryTest {
         int price = -1;
         int priceTEST = inv.checkAvailabiltyAndGetPrice("milhana be shalom");
         assertEquals(price, priceTEST);
+    }
+
+    @Test
+    public void CheckSerlize(){
+        setUpBooks();
+        inv.printInventoryToFile("serlize");
+
     }
 
     @After

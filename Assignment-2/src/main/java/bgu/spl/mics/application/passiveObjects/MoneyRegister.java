@@ -1,6 +1,11 @@
 package bgu.spl.mics.application.passiveObjects;
 
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Passive object representing the store finance management. 
@@ -15,13 +20,17 @@ public class MoneyRegister {
 
 
 	private static MoneyRegister ourInstance = null;
+	private List<OrderReceipt> receipts;
 
 	private int earnings;
 	/**
      * Retrieves the single instance of this class.
      */
 
-	private MoneyRegister() { earnings = 0; }
+	private MoneyRegister() {
+		earnings = 0;
+		receipts = new LinkedList<>();
+	}
 
 	public static MoneyRegister getInstance() {
 		if(ourInstance == null){
@@ -61,6 +70,17 @@ public class MoneyRegister {
      * This method is called by the main method in order to generate the output.. 
      */
 	public void printOrderReceipts(String filename) {
-		//TODO: Implement this
+		try
+		{
+			FileOutputStream fos =
+					new FileOutputStream(filename);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(receipts);
+			oos.close();
+			fos.close();
+		}catch(IOException ioe)
+		{
+			ioe.printStackTrace();
+		}
 	}
 }

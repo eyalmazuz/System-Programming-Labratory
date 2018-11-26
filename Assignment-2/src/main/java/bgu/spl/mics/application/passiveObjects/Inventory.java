@@ -1,7 +1,13 @@
 package bgu.spl.mics.application.passiveObjects;
 
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Passive data-object representing the store inventory.
@@ -60,7 +66,7 @@ public class Inventory {
 		for (BookInventoryInfo item:
 			 books) {
 			if(item.getBookTitle().equals(book) && item.getAmountInInventory() > 0) {
-				checkAlltaken(item);
+				item.decreaseAmount();
 				return OrderResult.SUCCESSFULLY_TAKEN;
 			}
 
@@ -93,15 +99,20 @@ public class Inventory {
      * This method is called by the main method in order to generate the output.
      */
 	public void printInventoryToFile(String filename){
-		//TODO: Implement this
+		Map<String, Integer> serilise = books.stream().collect(Collectors.toMap(BookInventoryInfo::getBookTitle, BookInventoryInfo::getAmountInInventory));
+		try
+		{
+			FileOutputStream fos =
+					new FileOutputStream(filename);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(serilise);
+			oos.close();
+			fos.close();
+		}catch(IOException ioe)
+		{
+			ioe.printStackTrace();
+		}
 	}
 
-	private void checkAlltaken(BookInventoryInfo book){
-		if(book.getAmountInInventory() == 1 ){
-					books.remove(book);
-			}
-
-		book.decreaseAmount();
-	}
 
 }
