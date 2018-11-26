@@ -139,12 +139,11 @@ public class MessageBusImpl implements MessageBus {
 		//return null;
 	}
 
-	private static class MessageQueue {
+	private class MessageQueue {
 
-		private static class Data{
+		private class Data{
 			final Queue<Message> queue = new ConcurrentLinkedQueue<>();
-			//private AtomicBoolean isActive = new AtomicBoolean(false);
-			private AtomicBoolean isCompleted = new AtomicBoolean(true);
+			final AtomicBoolean isCompleted = new AtomicBoolean(true);
 		}
 
 		private final Data data;

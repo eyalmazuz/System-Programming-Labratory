@@ -24,6 +24,7 @@ public class ExampleMessageSenderService extends MicroService {
     @Override
     protected void initialize() {
         System.out.println("Sender " + getName() + " started");
+        long start = System.currentTimeMillis();
         if (broadcast) {
             sendBroadcast(new ExampleBroadcast(getName()));
             System.out.println("Sender " + getName() + " publish an event and terminate");
@@ -34,6 +35,7 @@ public class ExampleMessageSenderService extends MicroService {
             	String resolved = futureObject.get(100, TimeUnit.MILLISECONDS);
             	if (resolved != null) {
             		System.out.println("Completed processing the event, its result is \"" + resolved + "\" - success");
+            		System.out.println("process took: " + (System.currentTimeMillis() - start));
             	}
             	else {
                 	System.out.println("Time has elapsed, no services has resolved the event - terminating");
