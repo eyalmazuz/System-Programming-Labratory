@@ -67,8 +67,8 @@ public class MessageBusImpl implements MessageBus {
 	public <T> void complete(Event<T> e, T result) {
 		MicroService ms = RoundRobin.getMicroService(e);
 		if (ms != null){
-            ((Future<T>)eventResults.get(e)).resolve(result);
-		    //e.getFuture().resolve(result);
+			if (!((Future<T>)eventResults.get(e)).isDone())
+            		((Future<T>)eventResults.get(e)).resolve(result);
 			servicesMessageQueue.get(ms).onCompleted();
 		}
 	}

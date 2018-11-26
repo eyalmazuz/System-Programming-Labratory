@@ -1,19 +1,15 @@
 package bgu.spl.mics.application.messages;
 
-import bgu.spl.mics.Event;
-import bgu.spl.mics.Message;
-
+import bgu.spl.mics.Broadcast;
 
 /**
- * An event class extending {@link Event}. use for define the name of the micro-service
+ * A broadcast class extending {@link Broadcast}. use for define the name of the micro-service
  * that send the event to service that will handle the event
- *
- * @param <T>
  */
-public abstract class BaseEvent<T> implements Event<T> {
+public class BaseBroadcast implements Broadcast {
     private String senderName; //for debugging
 
-    protected BaseEvent(String senderName) {
+    protected BaseBroadcast(String senderName) {
         this.senderName = senderName;
     }
 
