@@ -18,13 +18,15 @@ import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
 public class LogisticsService extends MicroService {
 
 	public LogisticsService() {
-		super("Change_This_Name");
+		super("Logistic Service");
 		// TODO Implement this
 	}
 
 	@Override
 	protected void initialize() {
-		// TODO Implement this
+		subscribeEvent(DeliveryEvent.class, ev->{
+
+		});
 		
 	}
 

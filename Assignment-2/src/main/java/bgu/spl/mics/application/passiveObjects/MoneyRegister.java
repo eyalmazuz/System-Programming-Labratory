@@ -4,6 +4,7 @@ package bgu.spl.mics.application.passiveObjects;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,19 +17,17 @@ import java.util.List;
  * <p>
  * You can add ONLY private fields and methods to this class as you see fit.
  */
-public class MoneyRegister {
+public class MoneyRegister implements Serializable {
 
 
 	private static MoneyRegister ourInstance = null;
 	private List<OrderReceipt> receipts;
 
-	private int earnings;
 	/**
 	 * Retrieves the single instance of this class.
 	 */
 
 	private MoneyRegister() {
-		earnings = 0;
 		receipts = new LinkedList<>();
 	}
 
@@ -45,14 +44,14 @@ public class MoneyRegister {
 	 * @param r		The receipt to save in the money register.
 	 */
 	public void file (OrderReceipt r) {
-		//TODO: Implement this.
+		receipts.add(r);
 	}
 
 	/**
 	 * Retrieves the current total earnings of the store.
 	 */
 	public int getTotalEarnings() {
-		return earnings;
+		return receipts.stream().mapToInt(r -> r.getPrice()).sum();
 	}
 
 	/**

@@ -12,14 +12,15 @@ public class InventoryTest {
 
     Inventory inv;
     boolean flag =false;
+
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         inv = Inventory.getInstance();
 
     }
 
     protected void setUpBooks(){
-        BookInventoryInfo[] infos = {new BookInventoryInfo("milhama ve shalom", 4, 10),
+        BookInventoryInfo[] infos = {new BookInventoryInfo("milhama ve shalom", 8, 10),
                 new BookInventoryInfo("sar hatabaot", 2, 200),
                 new BookInventoryInfo("Harry Poter", 2, 100),
                 new BookInventoryInfo("XD", 2 ,20),
@@ -30,6 +31,7 @@ public class InventoryTest {
 
     @Test
     public void checkBookTakenInInventory(){
+        setUpBooks();
         OrderResult o = inv.take("Harry Poter");
         assertEquals(OrderResult.SUCCESSFULLY_TAKEN, o);
     }
@@ -45,30 +47,6 @@ public class InventoryTest {
         assertEquals(OrderResult.SUCCESSFULLY_TAKEN, o);
     }
 
-    @Test
-    public void checkTake2BooksInIntory(){
-        OrderResult o1 = inv.take("milhama ve shalom");
-        assertEquals(OrderResult.SUCCESSFULLY_TAKEN, o1);
-        OrderResult o2 = inv.take("sar hatabaot");
-        assertEquals(OrderResult.SUCCESSFULLY_TAKEN, o2);
-    }
-
-    @Test
-    public void checkTake2BooksInIntorySameBook(){
-        OrderResult o1 = inv.take("milhama ve shalom");
-        assertEquals(OrderResult.SUCCESSFULLY_TAKEN, o1);
-        OrderResult o2 = inv.take("milhama ve shalom");
-        assertEquals(OrderResult.SUCCESSFULLY_TAKEN, o2);
-    }
-
-
-    @Test
-    public void checkTake2BooksInIntorySameBookFail(){
-        OrderResult o1 = inv.take("milhama ve shalom");
-        assertEquals(OrderResult.SUCCESSFULLY_TAKEN, o1);
-        OrderResult o2 = inv.take("milhama ve shalom");
-        assertEquals(OrderResult.NOT_IN_STOCK, o2);
-    }
 
     @Test
     public void checkPriceOfLordOfTheRings(){
@@ -86,7 +64,6 @@ public class InventoryTest {
 
     @Test
     public void CheckSerlize(){
-        setUpBooks();
         inv.printInventoryToFile("serlize");
 
     }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 /**
@@ -25,12 +26,12 @@ public class Inventory {
 	 * Retrieves the single instance of this class.
 	 */
 
-	private ArrayList<BookInventoryInfo> books;
+	private CopyOnWriteArrayList<BookInventoryInfo> books;
 
 	private static Inventory ourInstance = null;
 
 	private Inventory(){
-		books = new ArrayList<>();
+		books = new CopyOnWriteArrayList<>();
 	}
 
 	public static Inventory getInstance() {
@@ -99,7 +100,7 @@ public class Inventory {
 	 * This method is called by the main method in order to generate the output.
 	 */
 	public void printInventoryToFile(String filename){
-		Map<String, Integer> serilise = books.stream().collect(Collectors.toMap(BookInventoryInfo::getBookTitle, BookInventoryInfo::getAmountInInventory));
+		Map<String, Integer> serilise = books.stream().distinct().collect(Collectors.toMap(BookInventoryInfo::getBookTitle, BookInventoryInfo::getAmountInInventory));
 		try
 		{
 			FileOutputStream fos =

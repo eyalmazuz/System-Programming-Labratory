@@ -19,4 +19,5 @@ public class DeliveryEvent extends BaseEvent<DeliveryVehicle> {
 //    public void processing(DeliveryVehicle deliveryVehicle){
 //        deliveryVehicle.deliver(customer.getAddress(),customer.getDistance());
 //    }
+
 }
