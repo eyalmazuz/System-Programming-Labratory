@@ -1,5 +1,8 @@
 package bgu.spl.mics;
 
+import bgu.spl.mics.application.messages.RequestVehicleEvent;
+import bgu.spl.mics.application.messages.TickBroadcast;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -97,7 +100,6 @@ public class MessageBusImpl implements MessageBus {
 		Objects.requireNonNull(e, "events");
 		Future<T> future = new Future<>();
 		eventResults.put(e,future);
-		//e.addFuture(future);
 		if (!messageSubscribes.containsKey(e.getClass())) return null;
 		int size = messageSubscribes.get(e.getClass()).size();
 		if (size == 0) return null;
@@ -157,8 +159,6 @@ public class MessageBusImpl implements MessageBus {
 		}
 
 		synchronized void addToQueue(Message message){
-			//if (!data.isActive.get())
-				//data.isActive.compareAndSet(false,true);
 			data.queue.add(message);
 			this.notifyAll();
 		}
@@ -182,7 +182,6 @@ public class MessageBusImpl implements MessageBus {
 			data.isCompleted.compareAndSet(false,true);
 			this.notifyAll();
 		}
-
 	}
 
 	private static class RoundRobin {
@@ -201,11 +200,5 @@ public class MessageBusImpl implements MessageBus {
 				eventIdxMap.put(e,new AtomicInteger(-1));
 			return new AtomicInteger(eventIdxMap.get(e).getAndIncrement() % size);
 		}
-
-
 	}
-
-
-	
-
 }

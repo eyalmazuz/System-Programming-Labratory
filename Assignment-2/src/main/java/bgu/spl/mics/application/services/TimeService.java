@@ -1,6 +1,7 @@
 package bgu.spl.mics.application.services;
 
 import bgu.spl.mics.MicroService;
+import bgu.spl.mics.application.messages.TerminateBroadcast;
 import bgu.spl.mics.application.messages.TickBroadcast;
 import bgu.spl.mics.application.passiveObjects.Inventory;
 import bgu.spl.mics.application.passiveObjects.MoneyRegister;
@@ -38,7 +39,7 @@ public class TimeService extends MicroService{
 
 	@Override
 	protected void initialize() {
-
+		curr = System.currentTimeMillis();
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
@@ -46,11 +47,16 @@ public class TimeService extends MicroService{
 				System.out.println("Tick " + tick +" took " + (System.currentTimeMillis()- curr));
 				curr = System.currentTimeMillis();
 				sendBroadcast(new TickBroadcast("TickBroadcast"+tick,tick));
-				if (tick > tickPeriod) timer.cancel();
+				if (tick > tickPeriod) {
+					sendBroadcast(new TerminateBroadcast("TerminateBroadcast"));
+					timer.cancel();
+					System.out.println("terminating " + getName());
+					terminate();
+				}
 			}
 		},0,speed);
 
-		curr = System.currentTimeMillis();
+
 	}
 
 }

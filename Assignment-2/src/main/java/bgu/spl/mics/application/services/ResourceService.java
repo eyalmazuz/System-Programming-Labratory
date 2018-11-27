@@ -1,6 +1,12 @@
 package bgu.spl.mics.application.services;
 
+import bgu.spl.mics.Future;
 import bgu.spl.mics.MicroService;
+import bgu.spl.mics.application.messages.RequestVehicleEvent;
+import bgu.spl.mics.application.messages.RestoreVehicleEvent;
+import bgu.spl.mics.application.messages.ReturnVehicleEvent;
+import bgu.spl.mics.application.messages.TerminateBroadcast;
+import bgu.spl.mics.application.passiveObjects.DeliveryVehicle;
 import bgu.spl.mics.application.passiveObjects.Inventory;
 import bgu.spl.mics.application.passiveObjects.MoneyRegister;
 import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
@@ -16,15 +22,37 @@ import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
  */
 public class ResourceService extends MicroService{
 
+	private ResourcesHolder resourcesHolder;
+	private static Future<DeliveryVehicle> deliveryVehicleFuture;
+
 	public ResourceService() {
-		super("Change_This_Name");
-		// TODO Implement this
+		super("ResourceService");
+		resourcesHolder = ResourcesHolder.getInstance();
 	}
 
 	@Override
 	protected void initialize() {
-		// TODO Implement this
-		
+		subscribeEvent(RequestVehicleEvent.class, ev -> {
+			System.out.println(getName()+": receiving RequestVehicleEvent event from " + ev.getSenderName());
+			deliveryVehicleFuture = resourcesHolder.acquireVehicle();
+			DeliveryVehicle deliveryVehicle = deliveryVehicleFuture.get();
+            System.out.println("found a free vehicle " + deliveryVehicle.getLicense() + " and send him to work");
+            deliveryVehicleFuture = null;
+			complete(ev,deliveryVehicle);
+		});
+		subscribeEvent(ReturnVehicleEvent.class, ev->{
+            System.out.println(getName()+": receiving ReturnVehicleEvent event from" + ev.getSenderName());
+            if (deliveryVehicleFuture == null)
+                resourcesHolder.releaseVehicle(ev.getDeliveryVehicle());
+            else
+                deliveryVehicleFuture.resolve(ev.getDeliveryVehicle());
+            complete(ev,true);
+        });
+		subscribeBroadcast(TerminateBroadcast.class, br->{
+			terminate();
+			System.out.println("terminating " + getName());
+		});
+
 	}
 
 }

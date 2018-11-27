@@ -61,6 +61,7 @@ public class MoneyRegister implements Serializable {
 	 */
 	public void chargeCreditCard(Customer c, int amount) {
 		c.chargeCustomer(amount);
+		earnings+=amount;
 	}
 
 	/**
