@@ -32,7 +32,7 @@ public class APIService extends MicroService{
 	private int maxTick;
 
 	public APIService(String name, Customer customer, ArrayList<OrderSchedule> list) {
-		super(name +customer.getName());
+		super(name+ " " +customer.getName());
 		this.customer = customer;
 		this.list = list.stream()
 				.distinct()
