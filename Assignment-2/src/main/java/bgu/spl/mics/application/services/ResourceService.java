@@ -5,6 +5,7 @@ import bgu.spl.mics.MicroService;
 import bgu.spl.mics.application.messages.RequestVehicleEvent;
 import bgu.spl.mics.application.messages.RestoreVehicleEvent;
 import bgu.spl.mics.application.messages.ReturnVehicleEvent;
+import bgu.spl.mics.application.messages.TerminateBroadcast;
 import bgu.spl.mics.application.passiveObjects.DeliveryVehicle;
 import bgu.spl.mics.application.passiveObjects.Inventory;
 import bgu.spl.mics.application.passiveObjects.MoneyRegister;
@@ -47,6 +48,10 @@ public class ResourceService extends MicroService{
                 deliveryVehicleFuture.resolve(ev.getDeliveryVehicle());
             complete(ev,true);
         });
+		subscribeBroadcast(TerminateBroadcast.class, br->{
+			terminate();
+			System.out.println("terminating " + getName());
+		});
 
 	}
 

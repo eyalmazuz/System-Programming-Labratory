@@ -5,6 +5,7 @@ import bgu.spl.mics.MicroService;
 import bgu.spl.mics.application.messages.DeliveryEvent;
 import bgu.spl.mics.application.messages.RequestVehicleEvent;
 import bgu.spl.mics.application.messages.ReturnVehicleEvent;
+import bgu.spl.mics.application.messages.TerminateBroadcast;
 import bgu.spl.mics.application.passiveObjects.DeliveryVehicle;
 import bgu.spl.mics.application.passiveObjects.Inventory;
 import bgu.spl.mics.application.passiveObjects.MoneyRegister;
@@ -45,6 +46,11 @@ public class LogisticsService extends MicroService {
                 System.out.println("why futureObject is null ?");
             }
 		});
+		subscribeBroadcast(TerminateBroadcast.class, br->{
+			terminate();
+			System.out.println("terminating " + getName());
+		});
 	}
+
 
 }

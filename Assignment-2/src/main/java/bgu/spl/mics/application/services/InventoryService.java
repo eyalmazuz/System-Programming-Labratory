@@ -2,6 +2,7 @@ package bgu.spl.mics.application.services;
 
 import bgu.spl.mics.MicroService;
 import bgu.spl.mics.application.messages.CheckAvailability;
+import bgu.spl.mics.application.messages.TerminateBroadcast;
 import bgu.spl.mics.application.passiveObjects.Inventory;
 import bgu.spl.mics.application.passiveObjects.MoneyRegister;
 import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
@@ -31,6 +32,10 @@ public class InventoryService extends MicroService{
 			System.out.println(getName()+": receiving CheckAvailability from " + ev.getSenderName());
 			String bookTitle = ev.getBookTitle();
 			complete(ev,inv.checkAvailabiltyAndGetPrice(bookTitle)); //if not exist return -1
+		});
+		subscribeBroadcast(TerminateBroadcast.class, br->{
+			terminate();
+			System.out.println("terminating " + getName());
 		});
 		
 	}

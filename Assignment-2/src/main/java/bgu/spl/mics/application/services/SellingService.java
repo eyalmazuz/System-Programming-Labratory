@@ -2,10 +2,7 @@ package bgu.spl.mics.application.services;
 
 import bgu.spl.mics.Future;
 import bgu.spl.mics.MicroService;
-import bgu.spl.mics.application.messages.BookOrderEvent;
-import bgu.spl.mics.application.messages.CheckAvailability;
-import bgu.spl.mics.application.messages.DeliveryEvent;
-import bgu.spl.mics.application.messages.TickBroadcast;
+import bgu.spl.mics.application.messages.*;
 import bgu.spl.mics.application.passiveObjects.Inventory;
 import bgu.spl.mics.application.passiveObjects.MoneyRegister;
 import bgu.spl.mics.application.passiveObjects.OrderReceipt;
@@ -68,6 +65,10 @@ public class SellingService extends MicroService{
 		});
 		subscribeBroadcast(TickBroadcast.class, br ->{
 			index.set(br.getCurrentTick());
+		});
+		subscribeBroadcast(TerminateBroadcast.class, br->{
+			terminate();
+			System.out.println("terminating " + getName());
 		});
 	}
 

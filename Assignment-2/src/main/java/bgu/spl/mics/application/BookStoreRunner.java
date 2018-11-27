@@ -1,13 +1,9 @@
 package bgu.spl.mics.application;
 
-import bgu.spl.mics.application.passiveObjects.BookInventoryInfo;
-import bgu.spl.mics.application.passiveObjects.DeliveryVehicle;
-import bgu.spl.mics.application.passiveObjects.Inventory;
-import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
+import bgu.spl.mics.application.passiveObjects.*;
 import com.google.gson.*;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 
 /** This is the Main class of the application. You should parse the input file,
@@ -30,6 +26,7 @@ public class BookStoreRunner {
 
         updateBooks(inv, obj);
         updateVehicles(hold, obj);
+        updateInventory(args);
         System.out.println("");
 
 
@@ -65,5 +62,22 @@ public class BookStoreRunner {
             arr[i] = books.get(i);
         }
         inv.load(arr);
+    }
+
+    private static void updateInventory(String []args){
+        Inventory.getInstance().printInventoryToFile(args[2]);
+        MoneyRegister.getInstance().printOrderReceipts(args[3]);
+        try
+        {
+            FileOutputStream fos =
+                    new FileOutputStream(args[4]);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(MoneyRegister.getInstance());
+            oos.close();
+            fos.close();
+        }catch(IOException ioe)
+        {
+            ioe.printStackTrace();
+        }
     }
 }
