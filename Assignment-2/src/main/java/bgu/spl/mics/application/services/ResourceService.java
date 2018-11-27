@@ -45,6 +45,7 @@ public class ResourceService extends MicroService{
                 resourcesHolder.releaseVehicle(ev.getDeliveryVehicle());
             else
                 deliveryVehicleFuture.resolve(ev.getDeliveryVehicle());
+            complete(ev,true);
         });
 
 	}
