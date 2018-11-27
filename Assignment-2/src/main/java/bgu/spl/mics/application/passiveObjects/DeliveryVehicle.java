@@ -51,7 +51,7 @@ public class DeliveryVehicle {
 		try {
 			Thread.sleep(distance/getSpeed());
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 

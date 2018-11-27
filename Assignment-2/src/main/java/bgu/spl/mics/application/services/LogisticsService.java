@@ -28,16 +28,18 @@ public class LogisticsService extends MicroService {
 	@Override
 	protected void initialize() {
 		subscribeEvent(DeliveryEvent.class, ev ->{
-			System.out.println(getName()+": receiving Delivery event from" + ev.getSenderName());
+			System.out.println(getName()+": receiving Delivery event from " + ev.getSenderName());
 			Future<DeliveryVehicle> futureObject = sendEvent(new RequestVehicleEvent(getName()));
 			if (futureObject != null) {
 				DeliveryVehicle deliveryVehicle = futureObject.get();
 				if (deliveryVehicle != null) {
 					deliveryVehicle.deliver(ev.getCustomer().getAddress(),ev.getCustomer().getDistance());
-					complete(ev,deliveryVehicle);
+					complete(ev,true);
 					sendEvent(new ReturnVehicleEvent(getName(),deliveryVehicle));
 				}
-			}
+			}else{
+                System.out.println("why futureObject is null ?");
+            }
 		});
 	}
 

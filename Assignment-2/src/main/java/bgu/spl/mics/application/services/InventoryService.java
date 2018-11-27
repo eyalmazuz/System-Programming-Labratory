@@ -28,7 +28,7 @@ public class InventoryService extends MicroService{
 	@Override
 	protected void initialize() {
 		subscribeEvent(CheckAvailability.class, ev->{
-			System.out.println(getName()+": receiving CheckAvailability from" + ev.getSenderName());
+			System.out.println(getName()+": receiving CheckAvailability from " + ev.getSenderName());
 			String bookTitle = ev.getBookTitle();
 			complete(ev,inv.checkAvailabiltyAndGetPrice(bookTitle)); //if not exist return -1
 		});

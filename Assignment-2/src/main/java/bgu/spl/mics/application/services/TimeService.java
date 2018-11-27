@@ -38,7 +38,7 @@ public class TimeService extends MicroService{
 
 	@Override
 	protected void initialize() {
-
+		curr = System.currentTimeMillis();
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
@@ -50,7 +50,7 @@ public class TimeService extends MicroService{
 			}
 		},0,speed);
 
-		curr = System.currentTimeMillis();
+
 	}
 
 }

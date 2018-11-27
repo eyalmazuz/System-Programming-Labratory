@@ -45,7 +45,7 @@ public class MoneyRegister {
 	 * @param r		The receipt to save in the money register.
 	 */
 	public void file (OrderReceipt r) {
-		//TODO: Implement this.
+		receipts.add(r);
 	}
 
 	/**

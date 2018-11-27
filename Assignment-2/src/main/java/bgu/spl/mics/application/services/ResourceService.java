@@ -22,6 +22,7 @@ import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
 public class ResourceService extends MicroService{
 
 	private ResourcesHolder resourcesHolder;
+	private static Future<DeliveryVehicle> deliveryVehicleFuture;
 
 	public ResourceService() {
 		super("ResourceService");
@@ -31,20 +32,19 @@ public class ResourceService extends MicroService{
 	@Override
 	protected void initialize() {
 		subscribeEvent(RequestVehicleEvent.class, ev -> {
-			System.out.println(getName()+": receiving RequestVehicleEvent event from" + ev.getSenderName());
-			Future<DeliveryVehicle> deliveryVehicleFuture = resourcesHolder.acquireVehicle();
-			//waiting for the first vehicle that finished order (in case there is not free vehicle)
-			while (!deliveryVehicleFuture.isDone()){
-                Future<DeliveryVehicle> restoreDeliveryVehicle = sendEvent(new RestoreVehicleEvent(getName()));
-                if (restoreDeliveryVehicle != null && restoreDeliveryVehicle.isDone())
-                    deliveryVehicleFuture.resolve(restoreDeliveryVehicle.get());
-            }
+			System.out.println(getName()+": receiving RequestVehicleEvent event from " + ev.getSenderName());
+			deliveryVehicleFuture = resourcesHolder.acquireVehicle();
 			DeliveryVehicle deliveryVehicle = deliveryVehicleFuture.get();
+            System.out.println("found a free vehicle " + deliveryVehicle.getLicense() + " and send him to work");
+            deliveryVehicleFuture = null;
 			complete(ev,deliveryVehicle);
 		});
 		subscribeEvent(ReturnVehicleEvent.class, ev->{
             System.out.println(getName()+": receiving ReturnVehicleEvent event from" + ev.getSenderName());
-            resourcesHolder.releaseVehicle(ev.getDeliveryVehicle());
+            if (deliveryVehicleFuture == null)
+                resourcesHolder.releaseVehicle(ev.getDeliveryVehicle());
+            else
+                deliveryVehicleFuture.resolve(ev.getDeliveryVehicle());
         });
 
 	}
