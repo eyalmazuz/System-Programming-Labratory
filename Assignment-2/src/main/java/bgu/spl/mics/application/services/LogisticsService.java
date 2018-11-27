@@ -22,8 +22,8 @@ import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
  */
 public class LogisticsService extends MicroService {
 
-	public LogisticsService() {
-		super("LogisticsService");
+	public LogisticsService(String name) {
+		super(name);
 	}
 
 	@Override

@@ -31,8 +31,8 @@ public class APIService extends MicroService{
 	private final AtomicInteger index;
 	private int maxTick;
 
-	public APIService(Customer customer, ArrayList<OrderSchedule> list) {
-		super("APIService_"+customer.getName());
+	public APIService(String name, Customer customer, ArrayList<OrderSchedule> list) {
+		super(name +customer.getName());
 		this.customer = customer;
 		this.list = list.stream()
 				.distinct()

@@ -25,8 +25,8 @@ public class SellingService extends MicroService{
 	private MoneyRegister register;
 	private final AtomicInteger index;
 
-	public SellingService() {
-		super("SellingService");
+	public SellingService(String name) {
+		super(name);
 		register = MoneyRegister.getInstance();
 		index = new AtomicInteger(0);
 	}
