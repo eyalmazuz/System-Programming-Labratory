@@ -49,7 +49,7 @@ public class DeliveryVehicle {
 	 */
 	public void deliver(String address, int distance) {
 		try {
-			Thread.sleep(distance/getSpeed());
+			Thread.sleep(distance/getSpeed()*1000);
 		} catch (InterruptedException e) {
 			//e.printStackTrace();
 		}
