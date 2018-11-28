@@ -1,5 +1,7 @@
 package bgu.spl.mics.application.services;
 
+import bgu.spl.mics.MessageBus;
+import bgu.spl.mics.MessageBusImpl;
 import bgu.spl.mics.MicroService;
 import bgu.spl.mics.application.messages.TerminateBroadcast;
 import bgu.spl.mics.application.messages.TickBroadcast;
@@ -37,6 +39,8 @@ public class TimeService extends MicroService{
 
 	long curr;
 
+
+
 	@Override
 	protected void initialize() {
 		curr = System.currentTimeMillis();
@@ -55,8 +59,8 @@ public class TimeService extends MicroService{
 				}
 			}
 		},0,speed);
-
-
 	}
+
+
 
 }
