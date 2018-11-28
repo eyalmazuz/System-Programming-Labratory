@@ -1,6 +1,7 @@
 package bgu.spl.mics.application.passiveObjects;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,8 +19,9 @@ public class Customer implements Serializable {
 	private List<OrderReceipt> receipts;
 	private int creditAmount;
 	private int creditNumber;
+	private List<OrderSchedule> orderSchedules;
 
-	public Customer(String name, int id, String address, int distance, List<OrderReceipt> receipts, int creditAmount, int creditNumber) {
+	public Customer(String name, int id, String address, int distance, List<OrderReceipt> receipts, int creditAmount, int creditNumber,List<OrderSchedule> orderSchedules) {
 		this.name = name;
 		this.id = id;
 		this.address = address;
@@ -27,6 +29,7 @@ public class Customer implements Serializable {
 		this.receipts = receipts;
 		this.creditAmount = creditAmount;
 		this.creditNumber = creditNumber;
+		this.orderSchedules = orderSchedules;
 	}
 
 	/**
@@ -86,4 +89,25 @@ public class Customer implements Serializable {
 	public void chargeCustomer(int amount) {
 		creditAmount -= amount;
 	}
+
+	/**
+	 * Retrieves this customers OrderSchedules.
+	 */
+	public List<OrderSchedule> getOrderSchedules() {
+		return orderSchedules;
+	}
+
+	/**
+	 * Retrieves this customers Receipts.
+	 */
+	public List<OrderReceipt> getReceipts() {
+		return receipts;
+	}
+
+	/**
+	 * Retrieves this customers creditAmount.
+	 */
+//	public int getCreditAmount() {
+//		return creditAmount;
+//	}
 }

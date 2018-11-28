@@ -2,6 +2,7 @@ package bgu.spl.mics.application.services;
 
 import bgu.spl.mics.MicroService;
 import bgu.spl.mics.application.messages.CheckAvailability;
+import bgu.spl.mics.application.messages.TakingBookEvent;
 import bgu.spl.mics.application.messages.TerminateBroadcast;
 import bgu.spl.mics.application.passiveObjects.Inventory;
 import bgu.spl.mics.application.passiveObjects.MoneyRegister;
@@ -30,8 +31,13 @@ public class InventoryService extends MicroService{
 	protected void initialize() {
 		subscribeEvent(CheckAvailability.class, ev->{
 			System.out.println(getName()+": receiving CheckAvailability from " + ev.getSenderName());
-			String bookTitle = ev.getBookTitle();//ToDo: check if book is exist
-			complete(ev,inv.checkAvailabiltyAndGetPrice(bookTitle)); //if not exist return -1
+			complete(ev,inv.checkAvailabiltyAndGetPrice(ev.getBookTitle())); //if not exist return -1
+		});
+		subscribeEvent(TakingBookEvent.class, ev->{
+			System.out.println(getName()+": receiving TakingBookEvent from " + ev.getSenderName());
+			if (inv.checkAvailabiltyAndGetPrice(ev.getBookTitle()) != 1)
+				inv.take(ev.getBookTitle());
+			complete(ev,true);
 		});
 		subscribeBroadcast(TerminateBroadcast.class, br->{
 			terminate();

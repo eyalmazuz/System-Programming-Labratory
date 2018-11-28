@@ -212,14 +212,17 @@ public class MessageBusImpl implements MessageBus {
 		static MicroService getMicroService(Event<?> event){
 			if (eventIdxMap.get(event) == null)
 				return null;
-			return messageSubscribes.get(event.getClass()).//return list of micro-services
+			return messageSubscribes.get(event.getClass()).//return linkedList of micro-services
 					get(eventIdxMap.get(event).get()); //return the relevant services
 		}
 
 		static AtomicInteger getIndex(Event<?> e, int size) {
-			if (!eventIdxMap.containsKey(e))
-				eventIdxMap.put(e,new AtomicInteger(-1));
-			return new AtomicInteger(eventIdxMap.get(e).getAndIncrement() % size);
+			if (!eventIdxMap.containsKey(e)) {
+				eventIdxMap.put(e, new AtomicInteger(0));
+				return new AtomicInteger(0);
+			}
+			eventIdxMap.get(e).getAndIncrement();
+			return new AtomicInteger(eventIdxMap.get(e).get() % size);
 		}
 	}
 }

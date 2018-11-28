@@ -31,10 +31,10 @@ public class APIService extends MicroService{
 	private final AtomicInteger index;
 	private int maxTick;
 
-	public APIService(String name, Customer customer, ArrayList<OrderSchedule> list) {
+	public APIService(String name, Customer customer) {
 		super(name+ " " +customer.getName());
 		this.customer = customer;
-		this.list = list.stream()
+		this.list = customer.getOrderSchedules().stream()
 				.distinct()
 				.sorted(Comparator.comparingInt(OrderSchedule::getTick))
 				.collect(Collectors.toCollection(CopyOnWriteArrayList::new));
@@ -46,14 +46,14 @@ public class APIService extends MicroService{
 	protected void initialize() {
 		subscribeBroadcast(TickBroadcast.class, br -> {
 			if (index.get() >= list.size() && br.getCurrentTick() >  maxTick){
-				//terminate();//ToDo: check in forum
+				//terminate();
 			}else if (br.getCurrentTick() == list.get(index.get()).getTick()) {
 				System.out.println(getName()+": receiving broadcast from " + br.getSenderName() + " in 'good' tick" + br.getCurrentTick());
-				String name = "BookOrderEvent_"+customer.getName()+"_"+list.get(index.get()).getTick();
+				//String name = "BookOrderEvent_"+customer.getName()+"_"+list.get(index.get()).getTick();
 				System.out.println(getName()+": sending book order event ");
 				Future<OrderReceipt> futureObject = sendEvent(new BookOrderEvent(getName(),customer,list.get(index.get())));
 				if (futureObject != null) {
-					OrderReceipt result = futureObject.get();//ToDo: check in forum
+					OrderReceipt result = futureObject.get();
 					if (result != null)
 						customer.getCustomerReceiptList().add(result);
 				}

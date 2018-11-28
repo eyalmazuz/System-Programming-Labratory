@@ -43,28 +43,43 @@ public class SellingService extends MicroService{
 				if (resolvedPrice != null && resolvedPrice != -1){
 					resolvedPrice = ev.getOrderSchedule().isFiftyDiscount() ? resolvedPrice/2 : resolvedPrice;
         			if (ev.getCustomer().getAvailableCreditAmount() >= resolvedPrice){
-        				Future<Boolean> res = sendEvent(new DeliveryEvent(getName(),ev.getCustomer())); //ToDo: check in forum
-						if (res != null && res.get()) {
-							System.out.println("charging credit card...");
-							register.chargeCreditCard(ev.getCustomer(), resolvedPrice);
-							OrderReceipt orderReceipt = new OrderReceipt(
-									ev.getOrderSchedule().getOrderId(),
-									getName(),
-									ev.getCustomer().getId(),
-									ev.getOrderSchedule().getBookTitle(),
-									resolvedPrice,
-									index.get(),
-									orderTick,
-									ev.getOrderSchedule().getTick());
-							register.file(orderReceipt);
-							complete(ev, orderReceipt);
+						Future<Boolean> take = sendEvent(new TakingBookEvent(getName(),bookTitle));
+						if (take != null && take.get()) {
+							Future<Boolean> res = sendEvent(new DeliveryEvent(getName(), ev.getCustomer()));
+							if (res != null && res.get()) {
+								System.out.println("charging credit card...");
+								register.chargeCreditCard(ev.getCustomer(), resolvedPrice);
+								OrderReceipt orderReceipt = new OrderReceipt(
+										ev.getOrderSchedule().getOrderId(),
+										getName(),
+										ev.getCustomer().getId(),
+										ev.getOrderSchedule().getBookTitle(),
+										resolvedPrice,
+										index.get(),
+										orderTick,
+										ev.getOrderSchedule().getTick());
+								register.file(orderReceipt);
+								complete(ev, orderReceipt);
+							} else {
+								System.out.println("failed to deliver book");
+								complete(ev, null);
+							}
+						}else{
+							System.out.println("failed to take book from inv");
+							complete(ev, null);
 						}
-        			}
+        			}else{
+        				System.out.println("customer " + ev.getCustomer().getName() + "does not have enough money for " + bookTitle);
+        				complete(ev,null);
+					}
 				}else{
-					System.out.println("bug in code : there must be a book !!");
+					System.out.println("customer: " + ev.getCustomer().getName() + " cannot buy the book " + ev.getOrderSchedule().getBookTitle() +"because is too expensive or the amount is 0");
 					complete(ev,null);
 				}
 
+			}else{
+				System.out.println("failed in sending CheckAvailability event");
+				complete(ev,null);
 			}
 		});
 		subscribeBroadcast(TickBroadcast.class, br ->{
