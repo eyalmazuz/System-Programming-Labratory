@@ -60,7 +60,11 @@ public class SellingService extends MicroService{
 							complete(ev, orderReceipt);
 						}
         			}
+				}else{
+					System.out.println("bug in code : there must be a book !!");
+					complete(ev,null);
 				}
+
 			}
 		});
 		subscribeBroadcast(TickBroadcast.class, br ->{

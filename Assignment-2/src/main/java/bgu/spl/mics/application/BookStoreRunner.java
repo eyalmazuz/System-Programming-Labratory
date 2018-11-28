@@ -5,6 +5,10 @@ import com.google.gson.*;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /** This is the Main class of the application. You should parse the input file,
  * create the different instances of the objects, and run the system.
@@ -24,9 +28,11 @@ public class BookStoreRunner {
 
         }
 
+        HashMap<Integer, Customer> customers = getCustomers(obj);
         updateBooks(inv, obj);
         updateVehicles(hold, obj);
         System.out.println("");
+
 
         //Customers.getInstance().printCustomersToFile(args[1]);
         Inventory.getInstance().printInventoryToFile(args[2]);
@@ -35,9 +41,17 @@ public class BookStoreRunner {
         {
             FileOutputStream fos =
                     new FileOutputStream(args[4]);
+            FileOutputStream fos2 = new FileOutputStream(args[1]);
+
             ObjectOutputStream oos = new ObjectOutputStream(fos);
+            ObjectOutputStream oos2 = new ObjectOutputStream(fos2);
+
             oos.writeObject(MoneyRegister.getInstance());
+            oos2.writeObject(customers);
+
+            oos2.close();
             oos.close();
+            fos2.close();
             fos.close();
         }catch(IOException ioe)
         {
@@ -76,5 +90,27 @@ public class BookStoreRunner {
             arr[i] = books.get(i);
         }
         inv.load(arr);
+    }
+
+    public static HashMap<Integer, Customer> getCustomers(JsonObject obj){
+        HashMap<Integer, Customer> customerHashMap = new HashMap<>();
+        JsonArray customers = obj.get("services").getAsJsonObject().get("customers").getAsJsonArray();
+        for (JsonElement customer : customers){
+            Customer c = getCustomerData(customer);
+            customerHashMap.put(c.getId(), c);
+        }
+        return customerHashMap;
+    }
+
+    private static Customer getCustomerData(JsonElement customer) {
+        int id = customer.getAsJsonObject().get("id").getAsInt();
+        String name = customer.getAsJsonObject().get("name").getAsString();
+        String address = customer.getAsJsonObject().get("address").getAsString();
+        int distance = customer.getAsJsonObject().get("distance").getAsInt();
+        int creditCardNumber = customer.getAsJsonObject().get("creditCard").getAsJsonObject().get("number").getAsInt();
+        int creditAmount = customer.getAsJsonObject().get("creditCard").getAsJsonObject().get("amount").getAsInt();
+        Customer c = new Customer(name, id, address, distance, new LinkedList<OrderReceipt>(), creditAmount, creditCardNumber);
+
+        return  c;
     }
 }

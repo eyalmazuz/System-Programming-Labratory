@@ -66,12 +66,25 @@ public class MessageBusImpl implements MessageBus {
 		messageSubscribes.get(type).add(m);
 	}
 
+	/**
+	 *
+	 * @param e      The completed event.
+	 * @param result The resolved result of the completed event.
+	 * @param <T>
+	 */
 	@Override
 	public <T> void complete(Event<T> e, T result) {
+		if (e == null){
+			System.out.println("forcing to terminate all MessageQueue");
+			servicesMessageQueue.values().stream()
+					.forEach(m -> m.onTerminated());
+			return;
+		}
+
 		MicroService ms = RoundRobin.getMicroService(e);
 		if (ms != null){
-			if (!((Future<T>)eventResults.get(e)).isDone())
-            		((Future<T>)eventResults.get(e)).resolve(result);
+			if (!((Future<T>) eventResults.get(e)).isDone())
+				((Future<T>) eventResults.get(e)).resolve(result);
 			servicesMessageQueue.get(ms).onCompleted();
 		}
 	}
@@ -146,6 +159,7 @@ public class MessageBusImpl implements MessageBus {
 		private class Data{
 			final Queue<Message> queue = new ConcurrentLinkedQueue<>();
 			final AtomicBoolean isCompleted = new AtomicBoolean(true);
+			final AtomicBoolean terminated = new AtomicBoolean(false);
 		}
 
 		private final Data data;
@@ -164,13 +178,15 @@ public class MessageBusImpl implements MessageBus {
 		}
 
 		synchronized Message pollMessage(){
-			while (data.queue.isEmpty() || !data.isCompleted.get()) {
+			while (!data.terminated.get() && data.queue.isEmpty() || !data.isCompleted.get()) {
 				try {
 					this.wait();
 				} catch (InterruptedException e) {
 
                 }
 			}
+			if (data.queue.isEmpty() || data.terminated.get())
+				return null;
 			Message message= data.queue.poll();
 			if (!(message instanceof Broadcast))
 				data.isCompleted.compareAndSet(true,false);
@@ -180,6 +196,11 @@ public class MessageBusImpl implements MessageBus {
 
 		synchronized void onCompleted(){
 			data.isCompleted.compareAndSet(false,true);
+			this.notifyAll();
+		}
+
+		synchronized void onTerminated(){
+			data.terminated.compareAndSet(false,true);
 			this.notifyAll();
 		}
 	}
