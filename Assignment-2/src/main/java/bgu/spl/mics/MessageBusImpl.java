@@ -35,7 +35,6 @@ public class MessageBusImpl implements MessageBus {
 	 */
 
 	private static final Map<MicroService, MessageQueue> servicesMessageQueue = new ConcurrentHashMap<>();
-	//ToDo: maybe split messageSubscribes to events and brodcast
 	private static final Map<Class<? extends Message>, CopyOnWriteArrayList<MicroService>> messageSubscribes = new ConcurrentHashMap<>();
     private static final Map<Event<?>, Object> eventResults = new ConcurrentHashMap<>();
 
@@ -113,7 +112,8 @@ public class MessageBusImpl implements MessageBus {
 		Objects.requireNonNull(e, "events");
 		Future<T> future = new Future<>();
 		eventResults.put(e,future);
-		if (!messageSubscribes.containsKey(e.getClass())) return null;
+		if (!messageSubscribes.containsKey(e.getClass()))
+			return null;
 		int size = messageSubscribes.get(e.getClass()).size();
 		if (size == 0) return null;
 		MicroService ms = messageSubscribes.get(e.getClass()).get(RoundRobin.getIndex(e,size).get());
@@ -207,22 +207,22 @@ public class MessageBusImpl implements MessageBus {
 
 	private static class RoundRobin {
 
-		private static final Map<Event<?> , AtomicInteger> eventIdxMap = new ConcurrentHashMap<>();
+		private static final Map<Class<? extends Message> , AtomicInteger> eventIdxMap = new ConcurrentHashMap<>();
 
 		static MicroService getMicroService(Event<?> event){
-			if (eventIdxMap.get(event) == null)
+			if (eventIdxMap.get(event.getClass()) == null)
 				return null;
 			return messageSubscribes.get(event.getClass()).//return linkedList of micro-services
-					get(eventIdxMap.get(event).get()); //return the relevant services
+					get(eventIdxMap.get(event.getClass()).get()); //return the relevant services
 		}
 
 		static AtomicInteger getIndex(Event<?> e, int size) {
-			if (!eventIdxMap.containsKey(e)) {
-				eventIdxMap.put(e, new AtomicInteger(0));
+			if (!eventIdxMap.containsKey(e.getClass())) {
+				eventIdxMap.put(e.getClass(), new AtomicInteger(0));
 				return new AtomicInteger(0);
 			}
-			eventIdxMap.get(e).getAndIncrement();
-			return new AtomicInteger(eventIdxMap.get(e).get() % size);
+			eventIdxMap.get(e.getClass()).getAndIncrement();
+			return new AtomicInteger(eventIdxMap.get(e.getClass()).get() % size);
 		}
 	}
 }
