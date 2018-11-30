@@ -4,29 +4,25 @@ import bgu.spl.mics.application.passiveObjects.Customer;
 import bgu.spl.mics.application.passiveObjects.OrderReceipt;
 import bgu.spl.mics.application.passiveObjects.OrderSchedule;
 
-public class BookOrderEvent extends BaseEvent<OrderReceipt> {
+import java.util.ArrayList;
+import java.util.List;
+
+public class BookOrderEvent extends BaseEvent<List<OrderReceipt>> {
 
     private Customer customer;
-    private OrderSchedule orderSchedule;
+    private int tick;
 
     public Customer getCustomer() {
         return customer;
     }
 
-    public OrderSchedule getOrderSchedule() {
-        return orderSchedule;
+    public int getTick() {
+        return tick;
     }
 
-    public BookOrderEvent(String senderName, Customer customer, OrderSchedule orderSchedule) {
+    public BookOrderEvent(String senderName, Customer customer, int tick) {
         super(senderName);
         this.customer = customer;
-        this.orderSchedule = orderSchedule;
+        this.tick = tick;
     }
-
-//    public int getChargeAmount(OrderReceipt orderReceipt, boolean fiftyDiscount){
-//        int price = fiftyDiscount ? orderReceipt.getPrice()/2 : orderReceipt.getPrice();
-//        if (getCustomer().getAvailableCreditAmount() <= price){
-//            MoneyRegister.getInstance().chargeCreditCard(getCustomer(),price);
-//        }
-//    }
 }

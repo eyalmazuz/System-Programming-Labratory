@@ -10,6 +10,7 @@ import bgu.spl.mics.application.passiveObjects.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,18 +45,24 @@ public class APIService extends MicroService{
 
 	@Override
 	protected void initialize() {
+		subscribeBroadcast(TerminateBroadcast.class, br->{
+			terminate();
+		});
 		subscribeBroadcast(TickBroadcast.class, br -> {
 			if (index.get() >= list.size() && br.getCurrentTick() >  maxTick){
 				//terminate();
 			}else if (br.getCurrentTick() == list.get(index.get()).getTick()) {
-				System.out.println(getName()+": receiving broadcast from " + br.getSenderName() + " in 'good' tick" + br.getCurrentTick());
+				System.out.println(getName()+": receiving broadcast from " + br.getSenderName() + " in 'good' tick");
 				//String name = "BookOrderEvent_"+customer.getName()+"_"+list.get(index.get()).getTick();
 				System.out.println(getName()+": sending book order event ");
-				Future<OrderReceipt> futureObject = sendEvent(new BookOrderEvent(getName(),customer,list.get(index.get())));
+				Future<List<OrderReceipt>> futureObject = sendEvent(new BookOrderEvent(getName(),customer,br.getCurrentTick()));
 				if (futureObject != null) {
-					OrderReceipt result = futureObject.get();
-					if (result != null)
-						customer.getCustomerReceiptList().add(result);
+					List<OrderReceipt> result = futureObject.get();
+					if (result != null && result.size() > 0) {
+						for (OrderReceipt o:result) { customer.getCustomerReceiptList().add(o);}
+					}else {
+						System.err.println("no receipt!!!");
+					}
 				}
 				index.set(br.getCurrentTick());
 			}
@@ -63,10 +70,7 @@ public class APIService extends MicroService{
 		subscribeBroadcast(FiftyPercentDiscountBroadcast.class, br ->{
 			list.stream().filter(l -> l.getBookTitle().equals(br.getBookName())).findFirst().get().setFiftyDiscount(true);
 		});
-		subscribeBroadcast(TerminateBroadcast.class, br->{
-			terminate();
-			System.out.println("terminating " + getName());
-		});
+
 
 	}
 

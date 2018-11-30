@@ -1,14 +1,16 @@
 package bgu.spl.mics.application.messages;
 
-public class TakingBookEvent extends BaseEvent<Boolean> {
-    private String bookTitle;
+import java.util.List;
 
-    public String getBookTitle() {
-        return bookTitle;
+public class TakingBookEvent extends BaseEvent<Boolean> {
+    private List<String> books;
+
+    public List<String> getBooks() {
+        return books;
     }
 
-    public TakingBookEvent(String senderName, String bookTitle) {
+    public TakingBookEvent(String senderName, List<String> books) {
         super(senderName);
-        this.bookTitle = bookTitle;
+        this.books = books;
     }
 }

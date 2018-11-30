@@ -6,6 +6,7 @@ import bgu.spl.mics.application.messages.TakingBookEvent;
 import bgu.spl.mics.application.messages.TerminateBroadcast;
 import bgu.spl.mics.application.passiveObjects.Inventory;
 import bgu.spl.mics.application.passiveObjects.MoneyRegister;
+import bgu.spl.mics.application.passiveObjects.OrderResult;
 import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
 
 /**
@@ -29,20 +30,22 @@ public class InventoryService extends MicroService{
 
 	@Override
 	protected void initialize() {
+		subscribeBroadcast(TerminateBroadcast.class, br->{
+			terminate();
+		});
 		subscribeEvent(CheckAvailability.class, ev->{
 			System.out.println(getName()+": receiving CheckAvailability from " + ev.getSenderName());
 			complete(ev,inv.checkAvailabiltyAndGetPrice(ev.getBookTitle())); //if not exist return -1
 		});
 		subscribeEvent(TakingBookEvent.class, ev->{
 			System.out.println(getName()+": receiving TakingBookEvent from " + ev.getSenderName());
-			if (inv.checkAvailabiltyAndGetPrice(ev.getBookTitle()) != 1)
-				inv.take(ev.getBookTitle());
+			for (String book: ev.getBooks())
+				if (inv.checkAvailabiltyAndGetPrice(book) == -1 || inv.take(book) == OrderResult.NOT_IN_STOCK)
+					complete(ev,false);
+
 			complete(ev,true);
 		});
-		subscribeBroadcast(TerminateBroadcast.class, br->{
-			terminate();
-			System.out.println("terminating " + getName());
-		});
+
 		
 	}
 

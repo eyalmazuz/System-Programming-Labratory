@@ -1,5 +1,6 @@
 package bgu.spl.mics;
 
+import bgu.spl.mics.application.messages.TerminateBroadcast;
 import bgu.spl.mics.application.services.TimeService;
 
 import java.util.Map;
@@ -162,6 +163,10 @@ public abstract class MicroService implements Runnable {
         while (!terminated && !Thread.currentThread().isInterrupted()) {
             try {
                 Message m = MessageBusImpl.getInstance().awaitMessage(this);
+                if (m.getClass() == TerminateBroadcast.class){
+                    terminate();
+                    continue;
+                }
                 if (m != null && mapCallbacks.containsKey(m.getClass()))
                     mapCallbacks.get(m.getClass()).call(m);
             } catch (InterruptedException e) {
@@ -169,7 +174,7 @@ public abstract class MicroService implements Runnable {
             }
         }
         MessageBusImpl.getInstance().unregister(this);
-        System.out.println("unregistering " + getName());
+        //System.out.println("unregistering " + getName());
     }
 
 }

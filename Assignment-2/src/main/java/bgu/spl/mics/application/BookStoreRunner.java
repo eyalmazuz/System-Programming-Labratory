@@ -57,20 +57,18 @@ public class BookStoreRunner {
         MoneyRegister.getInstance().printOrderReceipts(args[3]);
         try
         {
-            FileOutputStream fos =
-                    new FileOutputStream(args[4]);
+            FileOutputStream fos4 = new FileOutputStream(args[4]);
             FileOutputStream fos2 = new FileOutputStream(args[1]);
+            ObjectOutputStream oosMoneyRegister = new ObjectOutputStream(fos4);
+            ObjectOutputStream oosCustomer = new ObjectOutputStream(fos2);
 
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            ObjectOutputStream oos2 = new ObjectOutputStream(fos2);
+            oosMoneyRegister.writeObject(MoneyRegister.getInstance());
+            oosCustomer.writeObject(customers);
 
-            oos.writeObject(MoneyRegister.getInstance());
-            oos2.writeObject(customers);
-
-            oos2.close();
-            oos.close();
+            oosCustomer.close();
+            oosMoneyRegister.close();
             fos2.close();
-            fos.close();
+            fos4.close();
         }catch(IOException ioe)
         {
             ioe.printStackTrace();

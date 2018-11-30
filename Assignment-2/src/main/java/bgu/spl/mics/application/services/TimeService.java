@@ -43,6 +43,9 @@ public class TimeService extends MicroService{
 
 	@Override
 	protected void initialize() {
+		subscribeBroadcast(TerminateBroadcast.class, br->{
+			terminate();
+		});
 		curr = System.currentTimeMillis();
 		timer.schedule(new TimerTask() {
 			@Override
@@ -55,11 +58,13 @@ public class TimeService extends MicroService{
 					sendBroadcast(new TerminateBroadcast("TerminateBroadcast"));
 					timer.cancel();
 					System.out.println("terminating " + getName());
-					complete(null,null);
-					terminate();
+					//complete(null,null);
+					//terminate();
 				}
 			}
 		},0,speed);
+
+
 	}
 
 
