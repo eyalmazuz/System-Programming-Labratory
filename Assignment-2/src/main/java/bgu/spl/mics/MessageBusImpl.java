@@ -1,13 +1,7 @@
 package bgu.spl.mics;
 
-import bgu.spl.mics.application.messages.RequestVehicleEvent;
-import bgu.spl.mics.application.messages.TerminateBroadcast;
-import bgu.spl.mics.application.messages.TickBroadcast;
-import bgu.spl.mics.application.services.APIService;
-
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -73,11 +67,12 @@ public class MessageBusImpl implements MessageBus {
 	 */
 	@Override
 	public <T> void complete(Event<T> e, T result) {
-		MicroService ms = RoundRobin.getMicroService(e);
-		if (ms != null){
+		//MicroService ms = RoundRobin.getMicroService(e);
+		//if (ms != null){
+		if (eventResults.containsKey(e))
 			if (!((Future<T>) eventResults.get(e)).isDone())
 				((Future<T>) eventResults.get(e)).resolve(result);
-		}
+		//}
 	}
 
 	/**
@@ -90,13 +85,7 @@ public class MessageBusImpl implements MessageBus {
 		messageSubscribes.keySet().stream()
 				.filter(type -> type.isAssignableFrom(b.getClass()))
 				.flatMap(type -> messageSubscribes.get(type).stream())
-				.forEach(sub -> {
-					try {
-						servicesMessageQueue.get(sub).add(b);
-					} catch (IllegalStateException e) {
-						e.printStackTrace();
-					}
-				});
+				.forEach(sub -> servicesMessageQueue.get(sub).add(b));
 	}
 
 	/**
@@ -154,12 +143,12 @@ public class MessageBusImpl implements MessageBus {
 
 		private static final Map<Class<? extends Message> , AtomicInteger> eventIdxMap = new ConcurrentHashMap<>();
 
-		static MicroService getMicroService(Event<?> event){
-			if (eventIdxMap.get(event.getClass()) == null)
-				return null;
-			return messageSubscribes.get(event.getClass()).//return linkedList of micro-services
-					get(eventIdxMap.get(event.getClass()).get()); //return the relevant services
-		}
+//		static MicroService getMicroService(Event<?> event, int size){
+//			if (eventIdxMap.get(event.getClass()) == null)
+//				return null;
+//			return messageSubscribes.get(event.getClass()).//return linkedList of micro-services
+//					get(eventIdxMap.get(event.getClass()).get()); //return the relevant services
+//		}
 
 		static AtomicInteger getIndex(Event<?> e, int size) {
 			if (!eventIdxMap.containsKey(e.getClass())) {
