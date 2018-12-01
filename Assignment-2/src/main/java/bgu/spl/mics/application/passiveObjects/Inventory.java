@@ -1,11 +1,12 @@
 package bgu.spl.mics.application.passiveObjects;
 
 
-import java.io.FileNotFoundException;
+import bgu.spl.mics.application.Utils;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  * <p>
  * You can add ONLY private fields and methods to this class as you see fit.
  */
-public class Inventory {
+public class Inventory implements Serializable {
 
 	/**
 	 * Retrieves the single instance of this class.
@@ -64,8 +65,7 @@ public class Inventory {
 	 */
 	public OrderResult take (String book) {
 
-		for (BookInventoryInfo item:
-				books) {
+		for (BookInventoryInfo item: books) {
 			if(item.getBookTitle().equals(book) && item.getAmountInInventory() > 0) {
 				item.decreaseAmount();
 				return OrderResult.SUCCESSFULLY_TAKEN;
@@ -100,19 +100,19 @@ public class Inventory {
 	 * This method is called by the main method in order to generate the output.
 	 */
 	public void printInventoryToFile(String filename){
-		Map<String, Integer> serilise = books.stream().distinct().collect(Collectors.toMap(BookInventoryInfo::getBookTitle, BookInventoryInfo::getAmountInInventory));
-		try
-		{
-			FileOutputStream fos =
-					new FileOutputStream(filename);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(serilise);
-			oos.close();
-			fos.close();
-		}catch(IOException ioe)
-		{
-			ioe.printStackTrace();
-		}
+		Map<String, Integer> serialize = books.stream().distinct().collect(Collectors.toMap(BookInventoryInfo::getBookTitle, BookInventoryInfo::getAmountInInventory));
+        Utils.serialization(filename,serialize);
+//		try
+//		{
+//			FileOutputStream fos = new FileOutputStream(filename);
+//			ObjectOutputStream oos = new ObjectOutputStream(fos);
+//			oos.writeObject(serialize);
+//			oos.close();
+//			fos.close();
+//		}catch(IOException ioe)
+//		{
+//			ioe.printStackTrace();
+//		}
 	}
 
 

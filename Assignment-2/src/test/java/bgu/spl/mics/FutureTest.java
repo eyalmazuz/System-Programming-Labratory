@@ -1,10 +1,10 @@
 package bgu.spl.mics;
 
+import bgu.spl.mics.Future;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.Assert.*;

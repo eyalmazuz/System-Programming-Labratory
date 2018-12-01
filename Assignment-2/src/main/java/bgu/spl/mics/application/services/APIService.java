@@ -8,11 +8,12 @@ import bgu.spl.mics.application.messages.TerminateBroadcast;
 import bgu.spl.mics.application.messages.TickBroadcast;
 import bgu.spl.mics.application.passiveObjects.*;
 
-import java.util.ArrayList;
+
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -28,19 +29,19 @@ import java.util.stream.Collectors;
 public class APIService extends MicroService{
 
 	private Customer customer;
-	private CopyOnWriteArrayList<OrderSchedule> list;
-	private final AtomicInteger index;
+	private ConcurrentLinkedDeque<OrderSchedule> orderSchedulesStack;
+	//private final AtomicInteger index;
 	private int maxTick;
 
 	public APIService(String name, Customer customer) {
 		super(name+ " " +customer.getName());
 		this.customer = customer;
-		this.list = customer.getOrderSchedules().stream()
+		this.orderSchedulesStack = customer.getOrderSchedules().stream()
 				.distinct()
 				.sorted(Comparator.comparingInt(OrderSchedule::getTick))
-				.collect(Collectors.toCollection(CopyOnWriteArrayList::new));
-		this.index = new AtomicInteger(0);
-		this.maxTick = list.stream().max(Comparator.comparing(OrderSchedule::getTick)).get().getTick();
+				.collect(Collectors.toCollection(ConcurrentLinkedDeque::new));
+		//this.index = new AtomicInteger(0);
+		this.maxTick = orderSchedulesStack.stream().max(Comparator.comparing(OrderSchedule::getTick)).get().getTick();
 	}
 
 	@Override
@@ -49,10 +50,11 @@ public class APIService extends MicroService{
 			terminate();
 		});
 		subscribeBroadcast(TickBroadcast.class, br -> {
-			if (index.get() >= list.size() && br.getCurrentTick() >  maxTick){
+			if (orderSchedulesStack.isEmpty() /* || br.getCurrentTick() >  maxTick*/){
 				//terminate();
-			}else if (br.getCurrentTick() == list.get(index.get()).getTick()) {
-				System.out.println(getName()+": receiving broadcast from " + br.getSenderName() + " in 'good' tick");
+				//index.get() < list.size() && br.getCurrentTick() == list.get(index.get()).getTick()
+			}else if (br.getCurrentTick() == orderSchedulesStack.peek().getTick()) {
+				System.out.println(getName()+": receiving broadcast from " + br.getSenderName());
 				//String name = "BookOrderEvent_"+customer.getName()+"_"+list.get(index.get()).getTick();
 				System.out.println(getName()+": sending book order event ");
 				Future<List<OrderReceipt>> futureObject = sendEvent(new BookOrderEvent(getName(),customer,br.getCurrentTick()));
@@ -64,11 +66,13 @@ public class APIService extends MicroService{
 						System.err.println("no receipt!!!");
 					}
 				}
-				index.set(br.getCurrentTick());
+				//index.set(br.getCurrentTick());
+				while (!orderSchedulesStack.isEmpty() && orderSchedulesStack.peek().getTick() == br.getCurrentTick())
+					orderSchedulesStack.poll();
 			}
 		});
 		subscribeBroadcast(FiftyPercentDiscountBroadcast.class, br ->{
-			list.stream().filter(l -> l.getBookTitle().equals(br.getBookName())).findFirst().get().setFiftyDiscount(true);
+			orderSchedulesStack.stream().filter(l -> l.getBookTitle().equals(br.getBookName())).findFirst().get().setFiftyDiscount(true);
 		});
 
 

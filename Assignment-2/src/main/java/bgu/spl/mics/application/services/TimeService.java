@@ -1,7 +1,5 @@
 package bgu.spl.mics.application.services;
 
-import bgu.spl.mics.MessageBus;
-import bgu.spl.mics.MessageBusImpl;
 import bgu.spl.mics.MicroService;
 import bgu.spl.mics.application.messages.TerminateBroadcast;
 import bgu.spl.mics.application.messages.TickBroadcast;
@@ -45,6 +43,8 @@ public class TimeService extends MicroService{
 	protected void initialize() {
 		subscribeBroadcast(TerminateBroadcast.class, br->{
 			terminate();
+			System.out.println("closing timer");
+			timer.cancel();
 		});
 		curr = System.currentTimeMillis();
 		timer.schedule(new TimerTask() {
@@ -54,12 +54,10 @@ public class TimeService extends MicroService{
 				System.out.println("Tick " + tick +" took " + (System.currentTimeMillis()- curr));
 				curr = System.currentTimeMillis();
 				sendBroadcast(new TickBroadcast("TickBroadcast"+tick,tick));
-				if (tick > tickPeriod) {
+				if (tick == tickPeriod) {
 					sendBroadcast(new TerminateBroadcast("TerminateBroadcast"));
 					timer.cancel();
 					System.out.println("terminating " + getName());
-					//complete(null,null);
-					//terminate();
 				}
 			}
 		},0,speed);

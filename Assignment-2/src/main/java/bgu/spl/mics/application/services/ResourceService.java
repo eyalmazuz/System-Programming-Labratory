@@ -2,14 +2,13 @@ package bgu.spl.mics.application.services;
 
 import bgu.spl.mics.Future;
 import bgu.spl.mics.MicroService;
-import bgu.spl.mics.application.messages.RequestVehicleEvent;
-import bgu.spl.mics.application.messages.RestoreVehicleEvent;
-import bgu.spl.mics.application.messages.ReturnVehicleEvent;
-import bgu.spl.mics.application.messages.TerminateBroadcast;
 import bgu.spl.mics.application.passiveObjects.DeliveryVehicle;
 import bgu.spl.mics.application.passiveObjects.Inventory;
 import bgu.spl.mics.application.passiveObjects.MoneyRegister;
 import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
+import bgu.spl.mics.application.messages.RequestVehicleEvent;
+import bgu.spl.mics.application.messages.ReturnVehicleEvent;
+import bgu.spl.mics.application.messages.TerminateBroadcast;
 
 /**
  * ResourceService is in charge of the store resources - the delivery vehicles.
@@ -20,7 +19,7 @@ import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
  * You can add private fields and public methods to this class.
  * You MAY change constructor signatures and even add new public constructors.
  */
-public class ResourceService extends MicroService{
+public class ResourceService extends MicroService {
 
 	private ResourcesHolder resourcesHolder;
 	private static Future<DeliveryVehicle> deliveryVehicleFuture;

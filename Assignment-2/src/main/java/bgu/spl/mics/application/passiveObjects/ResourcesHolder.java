@@ -2,10 +2,7 @@ package bgu.spl.mics.application.passiveObjects;
 
 import bgu.spl.mics.Future;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Passive object representing the resource manager.
@@ -39,7 +36,7 @@ public class ResourcesHolder {
 	 * Tries to acquire a vehicle and gives a future object which will
 	 * resolve to a vehicle.
 	 * <p>
-	 * @return 	{@link Future<DeliveryVehicle>} object which will resolve to a
+	 * @return 	{@link Future <DeliveryVehicle>} object which will resolve to a
 	 * 			{@link DeliveryVehicle} when completed.
 	 */
 	public Future<DeliveryVehicle> acquireVehicle() {

@@ -1,7 +1,5 @@
 package bgu.spl.mics.application.passiveObjects;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 /**
  * Passive data-object representing a delivery vehicle of the store.
  * You must not alter any of the given public methods of this class.

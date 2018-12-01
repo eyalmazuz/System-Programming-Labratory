@@ -39,10 +39,11 @@ public class InventoryService extends MicroService{
 		});
 		subscribeEvent(TakingBookEvent.class, ev->{
 			System.out.println(getName()+": receiving TakingBookEvent from " + ev.getSenderName());
-			for (String book: ev.getBooks())
-				if (inv.checkAvailabiltyAndGetPrice(book) == -1 || inv.take(book) == OrderResult.NOT_IN_STOCK)
-					complete(ev,false);
-
+			synchronized (inv) {
+				for (String book : ev.getBooks())
+					if (inv.checkAvailabiltyAndGetPrice(book) == -1 || inv.take(book) == OrderResult.NOT_IN_STOCK)
+						complete(ev, false);
+			}
 			complete(ev,true);
 		});
 

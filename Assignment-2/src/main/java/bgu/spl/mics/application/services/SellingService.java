@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * You can add private fields and public methods to this class.
  * You MAY change constructor signatures and even add new public constructors.
  */
-public class SellingService extends MicroService{
+public class SellingService extends MicroService {
 
 	private MoneyRegister register;
 	private static final AtomicInteger index = new AtomicInteger(0);
@@ -32,7 +32,7 @@ public class SellingService extends MicroService{
 	}
 
 	private int calculateOrderPrice(List<OrderSchedule> orderSchedulesBooks){
-	    int sum = -1;
+	    int sum = 0;
         for (OrderSchedule orderSchedule: orderSchedulesBooks) {
             Future<Integer> futureObject = sendEvent(new CheckAvailability(getName(),orderSchedule.getBookTitle()));
             if (futureObject == null) return -1;
@@ -58,6 +58,7 @@ public class SellingService extends MicroService{
                     .filter(l -> l.getTick() == ev.getTick()).map(OrderSchedule::getBookTitle).collect(Collectors.toList());
 			int resolvedPrice = calculateOrderPrice(orderSchedules);
 				if (resolvedPrice != -1){
+					//System.out.println("resolved price: " + resolvedPrice + " and customer money : " + ev.getCustomer().getAvailableCreditAmount());
         			if (ev.getCustomer().getAvailableCreditAmount() >= resolvedPrice){
 						Future<Boolean> take = sendEvent(new TakingBookEvent(getName(),books));
 						if (take != null && take.get()) {

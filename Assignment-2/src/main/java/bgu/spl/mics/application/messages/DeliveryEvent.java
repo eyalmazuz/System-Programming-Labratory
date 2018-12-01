@@ -15,8 +15,4 @@ public class DeliveryEvent extends BaseEvent<Boolean> {
         return customer;
     }
 
-//    public void processing(DeliveryVehicle deliveryVehicle){
-//        deliveryVehicle.deliver(customer.getAddress(),customer.getDistance());
-//    }
-
 }

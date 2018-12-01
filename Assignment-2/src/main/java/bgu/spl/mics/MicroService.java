@@ -1,10 +1,8 @@
 package bgu.spl.mics;
 
 import bgu.spl.mics.application.messages.TerminateBroadcast;
-import bgu.spl.mics.application.services.TimeService;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -14,11 +12,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * <p>
  * Derived classes of MicroService should never directly touch the message-bus.
  * Instead, they have a set of internal protected wrapping methods (e.g.,
- * {@link #sendBroadcast(bgu.spl.mics.Broadcast)}, {@link #sendBroadcast(bgu.spl.mics.Broadcast)},
+ * {@link #sendBroadcast(Broadcast)}, {@link #sendBroadcast(Broadcast)},
  * etc.) they can use. When subscribing to message-types,
  * the derived class also supplies a {@link Callback} that should be called when
  * a message of the subscribed type was taken from the micro-service
- * message-queue (see {@link MessageBus#register(bgu.spl.mics.MicroService)}
+ * message-queue (see {@link MessageBus#register(MicroService)}
  * method). The abstract MicroService stores this callback together with the
  * type of the message is related to.
  * 
@@ -153,9 +151,10 @@ public abstract class MicroService implements Runnable {
     }
 
     /**
-     * The entry point of the micro-service. TODO: you must complete this code
+     * The entry point of the micro-service.
      * otherwise you will end up in an infinite loop.
      */
+    @SuppressWarnings("unchecked")
     @Override
     public final void run() {
         initialize();
@@ -163,18 +162,18 @@ public abstract class MicroService implements Runnable {
         while (!terminated && !Thread.currentThread().isInterrupted()) {
             try {
                 Message m = MessageBusImpl.getInstance().awaitMessage(this);
-                if (m.getClass() == TerminateBroadcast.class){
-                    terminate();
-                    continue;
-                }
                 if (m != null && mapCallbacks.containsKey(m.getClass()))
                     mapCallbacks.get(m.getClass()).call(m);
+                if (m == null || m.getClass() == TerminateBroadcast.class){
+                    terminate();
+                    //System.out.println(getName() + " is terminating...");
+                }
+
             } catch (InterruptedException e) {
                 //e.printStackTrace();
             }
         }
         MessageBusImpl.getInstance().unregister(this);
-        //System.out.println("unregistering " + getName());
     }
 
 }

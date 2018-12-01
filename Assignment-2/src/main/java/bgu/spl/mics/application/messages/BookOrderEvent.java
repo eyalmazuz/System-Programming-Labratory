@@ -2,9 +2,7 @@ package bgu.spl.mics.application.messages;
 
 import bgu.spl.mics.application.passiveObjects.Customer;
 import bgu.spl.mics.application.passiveObjects.OrderReceipt;
-import bgu.spl.mics.application.passiveObjects.OrderSchedule;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BookOrderEvent extends BaseEvent<List<OrderReceipt>> {
