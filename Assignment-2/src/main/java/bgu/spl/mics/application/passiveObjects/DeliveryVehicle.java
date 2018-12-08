@@ -49,6 +49,7 @@ public class DeliveryVehicle {
 		try {
 			Thread.sleep(distance/getSpeed()*1000);
 		} catch (InterruptedException e) {
+			System.err.println("failed to Deliver books to address" + address);
 			//e.printStackTrace();
 			//throw new InterruptedException();
 		}

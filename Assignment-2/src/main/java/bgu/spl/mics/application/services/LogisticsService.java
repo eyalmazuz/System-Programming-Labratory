@@ -40,17 +40,20 @@ public class LogisticsService extends MicroService {
 					System.out.println(getName() + " starting to deliver books to customer " + ev.getCustomer().getName());
 					try{
 						deliveryVehicle.deliver(ev.getCustomer().getAddress(),ev.getCustomer().getDistance());
-						complete(ev,true);
+						//complete(ev,true);
 						System.out.println(getName() + " finished to deliver books to customer " + ev.getCustomer().getName());
+						Future<Boolean>booleanFuture = sendEvent(new ReturnVehicleEvent(getName(),deliveryVehicle));
+						if (booleanFuture != null){
+							System.out.println(getName() + " ReturnVehicleEvent");
+							booleanFuture.get();
+						}else {
+							System.err.println(getName()+" failed to ReturnVehicleEvent");
+						}
+						complete(ev,true);
 					}catch (Exception e){
 						System.err.println(getName() + " failed to deliver books to customer " + ev.getCustomer().getName());
 						complete(ev,false);
 					}
-                    Future<Boolean>booleanFuture = sendEvent(new ReturnVehicleEvent(getName(),deliveryVehicle));
-                    if (booleanFuture != null){
-						System.out.println(getName() + " ReturnVehicleEvent");
-                        booleanFuture.get();
-                    }
 				}else{
 					complete(ev,false);
 				}

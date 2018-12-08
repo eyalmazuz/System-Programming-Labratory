@@ -1,9 +1,11 @@
 package bgu.spl.mics;
 
 import bgu.spl.mics.application.messages.TerminateBroadcast;
+import bgu.spl.mics.application.messages.TickBroadcast;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -33,7 +35,7 @@ public class MessageBusImpl implements MessageBus {
 	private static final Map<MicroService, BlockingQueue<Message>> servicesMessageQueue = new ConcurrentHashMap<>();
 	private static final Map<Class<? extends Message>, CopyOnWriteArrayList<MicroService>> messageSubscribes = new ConcurrentHashMap<>();
     private static final Map<Event<?>, Object> eventResults = new ConcurrentHashMap<>();
-    private static boolean sendingEvents = true;
+    private static  boolean sendingEvents = true;//new AtomicBoolean(true);
 
 	/**
 	 *
@@ -83,12 +85,15 @@ public class MessageBusImpl implements MessageBus {
 	@Override
 	public void sendBroadcast(Broadcast b) {
 		Objects.requireNonNull(b, "broadcast");
+        if (b instanceof TickBroadcast && !sendingEvents)
+            sendingEvents = true;
+        else if (b instanceof TerminateBroadcast)
+            sendingEvents = false;
 		messageSubscribes.keySet().stream()
 				.filter(type -> type.isAssignableFrom(b.getClass()))
 				.flatMap(type -> messageSubscribes.get(type).stream())
 				.forEach(sub -> servicesMessageQueue.get(sub).add(b));
-		if (b instanceof TerminateBroadcast)
-			sendingEvents = false;
+
 	}
 
 	/**

@@ -25,7 +25,7 @@ public class BookStoreRunnerTest {
     public void tearDown() { bookStoreRunner = null;}
 
 
-    @Test(timeout = 30*1000)
+    @Test(timeout = 35*1000)
     public void testMain() throws IOException, ClassNotFoundException {
         bookStoreRunner.main(args);
     }
