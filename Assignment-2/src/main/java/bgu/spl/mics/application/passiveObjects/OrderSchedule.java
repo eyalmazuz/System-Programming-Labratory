@@ -7,6 +7,7 @@ public class OrderSchedule implements Serializable {
     private String bookTitle;
     private int tick;
     private boolean fiftyDiscount;
+    private int fixedPrice;
 
     public OrderSchedule(int orderId,String bookTitle, int tick, boolean fiftyDiscount) {
         this.orderId = orderId;
@@ -33,5 +34,13 @@ public class OrderSchedule implements Serializable {
 
     public void setFiftyDiscount(boolean fiftyDiscount) {
         this.fiftyDiscount = fiftyDiscount;
+    }
+
+    public int getFixedPrice() {
+        return fixedPrice;
+    }
+
+    public void setFixedPrice(int fixedPrice) {
+        this.fixedPrice = fixedPrice;
     }
 }

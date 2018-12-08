@@ -7,6 +7,7 @@ import bgu.spl.mics.application.passiveObjects.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -36,18 +37,20 @@ public class SellingService extends MicroService {
         for (OrderSchedule orderSchedule: orderSchedulesBooks) {
             Future<Integer> futureObject = sendEvent(new CheckAvailability(getName(),orderSchedule.getBookTitle()));
             if (futureObject == null) return -1;
+			System.out.println(getName() + " sending CheckAvailability of " + orderSchedule.getBookTitle());
             Integer resolvedPrice = futureObject.get();
             if (!(resolvedPrice != null && resolvedPrice != -1)) return -1;
-            sum += orderSchedule.isFiftyDiscount() ? resolvedPrice / 2 : resolvedPrice;
+            int val = orderSchedule.isFiftyDiscount() ? resolvedPrice / 2 : resolvedPrice;
+            sum += val;
+            orderSchedule.setFixedPrice(val);
         }
 
 	    return sum;
     }
-
 	@Override
 	protected void initialize() {
 		subscribeBroadcast(TerminateBroadcast.class, br->{
-			terminate();
+			Thread.currentThread().interrupt();
 		});
 		subscribeEvent(BookOrderEvent.class, ev->{
 			int orderTick = index.get();
@@ -64,13 +67,13 @@ public class SellingService extends MicroService {
 						if (take != null && take.get()) {
 							Future<Boolean> res = sendEvent(new DeliveryEvent(getName(), ev.getCustomer()));
 							if (res != null && res.get()) {
-								System.out.println("charging credit card in tick " + index.get());
+								System.out.println("charging credit card in tick " + index.get()+ " in service " + getName());
 								register.chargeCreditCard(ev.getCustomer(), resolvedPrice);
 								List<OrderReceipt> orderReceipts = new ArrayList<>();
                                 for (OrderSchedule orderSchedule: orderSchedules) {
                                     OrderReceipt orderReceipt = new OrderReceipt(
                                             orderSchedule.getOrderId(), getName(), ev.getCustomer().getId(), orderSchedule.getBookTitle(),
-                                            resolvedPrice, index.get(), orderTick, orderSchedule.getTick());
+                                            orderSchedule.getFixedPrice(), index.get(), orderTick, orderSchedule.getTick());
                                     register.file(orderReceipt);
                                     orderReceipts.add(orderReceipt);
                                 }
@@ -79,16 +82,17 @@ public class SellingService extends MicroService {
 								System.err.println("failed to deliver book");
 								complete(ev, null);
 							}
+							//deliver.resolve(true);
 						}else{
 							System.err.println("failed to take book from inv");
 							complete(ev, null);
 						}
         			}else{
-        				System.err.println("customer " + ev.getCustomer().getName() + "does not have enough money for books");
+        				System.err.println("customer " + ev.getCustomer().getName() + " does not have enough money for books");
         				complete(ev,null);
 					}
 				}else{
-					System.err.println("customer: " + ev.getCustomer().getName() + " cannot buy the books because is too expensive or the amount is 0");
+					System.err.println("customer: " + ev.getCustomer().getName() + " cannot buy the books because is too expensive or the amount is 0 or service is off");
 					complete(ev,null);
 				}
 		});

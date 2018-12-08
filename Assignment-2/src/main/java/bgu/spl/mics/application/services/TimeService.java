@@ -37,14 +37,10 @@ public class TimeService extends MicroService{
 
 	long curr;
 
-
-
 	@Override
 	protected void initialize() {
 		subscribeBroadcast(TerminateBroadcast.class, br->{
-			terminate();
-			System.out.println("closing timer");
-			timer.cancel();
+			Thread.currentThread().interrupt();
 		});
 		curr = System.currentTimeMillis();
 		timer.schedule(new TimerTask() {
@@ -56,8 +52,8 @@ public class TimeService extends MicroService{
 				sendBroadcast(new TickBroadcast("TickBroadcast"+tick,tick));
 				if (tick == tickPeriod) {
 					sendBroadcast(new TerminateBroadcast("TerminateBroadcast"));
+
 					timer.cancel();
-					System.out.println("terminating " + getName());
 				}
 			}
 		},0,speed);

@@ -31,7 +31,7 @@ public class InventoryService extends MicroService{
 	@Override
 	protected void initialize() {
 		subscribeBroadcast(TerminateBroadcast.class, br->{
-			terminate();
+			Thread.currentThread().interrupt();
 		});
 		subscribeEvent(CheckAvailability.class, ev->{
 			System.out.println(getName()+": receiving CheckAvailability from " + ev.getSenderName());

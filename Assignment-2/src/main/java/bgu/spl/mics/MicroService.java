@@ -1,6 +1,7 @@
 package bgu.spl.mics;
 
 import bgu.spl.mics.application.messages.TerminateBroadcast;
+import bgu.spl.mics.application.services.APIService;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -159,18 +160,14 @@ public abstract class MicroService implements Runnable {
     public final void run() {
         initialize();
         MessageBusImpl.getInstance().register(this);
-        while (!terminated && !Thread.currentThread().isInterrupted()) {
+        while (!terminated /*&& !Thread.currentThread().isInterrupted()*/) {
             try {
                 Message m = MessageBusImpl.getInstance().awaitMessage(this);
                 if (m != null && mapCallbacks.containsKey(m.getClass()))
                     mapCallbacks.get(m.getClass()).call(m);
-                if (m == null || m.getClass() == TerminateBroadcast.class){
-                    terminate();
-                    //System.out.println(getName() + " is terminating...");
-                }
-
             } catch (InterruptedException e) {
-                //e.printStackTrace();
+                System.out.println(getName()+ " is interrupted");
+                terminate();
             }
         }
         MessageBusImpl.getInstance().unregister(this);

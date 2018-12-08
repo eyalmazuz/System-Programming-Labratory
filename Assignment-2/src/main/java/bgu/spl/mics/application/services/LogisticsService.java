@@ -29,7 +29,7 @@ public class LogisticsService extends MicroService {
 	@Override
 	protected void initialize() {
 		subscribeBroadcast(TerminateBroadcast.class, br->{
-			terminate();
+			Thread.currentThread().interrupt();
 		});
 		subscribeEvent(DeliveryEvent.class, ev ->{
 			System.out.println(getName()+": receiving Delivery event from " + ev.getSenderName());
@@ -37,13 +37,22 @@ public class LogisticsService extends MicroService {
 			if (futureObject != null) {
 				DeliveryVehicle deliveryVehicle = futureObject.get();
 				if (deliveryVehicle != null) {
-					deliveryVehicle.deliver(ev.getCustomer().getAddress(),ev.getCustomer().getDistance());
+					System.out.println(getName() + " starting to deliver books to customer " + ev.getCustomer().getName());
+					try{
+						deliveryVehicle.deliver(ev.getCustomer().getAddress(),ev.getCustomer().getDistance());
+						complete(ev,true);
+						System.out.println(getName() + " finished to deliver books to customer " + ev.getCustomer().getName());
+					}catch (Exception e){
+						System.err.println(getName() + " failed to deliver books to customer " + ev.getCustomer().getName());
+						complete(ev,false);
+					}
                     Future<Boolean>booleanFuture = sendEvent(new ReturnVehicleEvent(getName(),deliveryVehicle));
                     if (booleanFuture != null){
-                        Boolean isSent = booleanFuture.get();
-                        if (isSent)
-                            complete(ev,true);
+						System.out.println(getName() + " ReturnVehicleEvent");
+                        booleanFuture.get();
                     }
+				}else{
+					complete(ev,false);
 				}
 			}else{
                 System.err.println("why futureObject is null ?");

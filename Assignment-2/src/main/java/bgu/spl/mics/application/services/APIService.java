@@ -8,13 +8,9 @@ import bgu.spl.mics.application.messages.TerminateBroadcast;
 import bgu.spl.mics.application.messages.TickBroadcast;
 import bgu.spl.mics.application.passiveObjects.*;
 
-
-import java.util.Comparator;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -29,53 +25,54 @@ import java.util.stream.Collectors;
 public class APIService extends MicroService{
 
 	private Customer customer;
-	private ConcurrentLinkedDeque<OrderSchedule> orderSchedulesStack;
-	//private final AtomicInteger index;
-	private int maxTick;
+	private Deque<Integer> orderSchedulesStack;
+	//private int maxTick;
 
 	public APIService(String name, Customer customer) {
-		super(name+ " " +customer.getName());
+		super(name);
 		this.customer = customer;
 		this.orderSchedulesStack = customer.getOrderSchedules().stream()
+				.map(l->l.getTick())
 				.distinct()
-				.sorted(Comparator.comparingInt(OrderSchedule::getTick))
-				.collect(Collectors.toCollection(ConcurrentLinkedDeque::new));
-		//this.index = new AtomicInteger(0);
-		this.maxTick = orderSchedulesStack.stream().max(Comparator.comparing(OrderSchedule::getTick)).get().getTick();
+				.sorted()
+				.collect(Collectors.toCollection(ArrayDeque::new));
 	}
 
 	@Override
 	protected void initialize() {
 		subscribeBroadcast(TerminateBroadcast.class, br->{
-			terminate();
+			Thread.currentThread().interrupt();
 		});
 		subscribeBroadcast(TickBroadcast.class, br -> {
-			if (orderSchedulesStack.isEmpty() /* || br.getCurrentTick() >  maxTick*/){
-				//terminate();
-				//index.get() < list.size() && br.getCurrentTick() == list.get(index.get()).getTick()
-			}else if (br.getCurrentTick() == orderSchedulesStack.peek().getTick()) {
+			if (!orderSchedulesStack.isEmpty() && br.getCurrentTick() == orderSchedulesStack.peek()) {
 				System.out.println(getName()+": receiving broadcast from " + br.getSenderName());
-				//String name = "BookOrderEvent_"+customer.getName()+"_"+list.get(index.get()).getTick();
 				System.out.println(getName()+": sending book order event ");
 				Future<List<OrderReceipt>> futureObject = sendEvent(new BookOrderEvent(getName(),customer,br.getCurrentTick()));
 				if (futureObject != null) {
+					System.out.println(getName() + " is waiting for receipt...");
+					if (Thread.currentThread().isInterrupted()){
+						System.err.println("error in bookOrderEvent");
+						return;
+					}
 					List<OrderReceipt> result = futureObject.get();
 					if (result != null && result.size() > 0) {
 						for (OrderReceipt o:result) { customer.getCustomerReceiptList().add(o);}
+						System.out.println(customer.getName() + " has received his receipts");
 					}else {
 						System.err.println("no receipt!!!");
 					}
+				}else {
+					System.err.println("error in bookOrderEvent");
 				}
-				//index.set(br.getCurrentTick());
-				while (!orderSchedulesStack.isEmpty() && orderSchedulesStack.peek().getTick() == br.getCurrentTick())
-					orderSchedulesStack.poll();
+				orderSchedulesStack.poll();
 			}
 		});
 		subscribeBroadcast(FiftyPercentDiscountBroadcast.class, br ->{
-			orderSchedulesStack.stream().filter(l -> l.getBookTitle().equals(br.getBookName())).findFirst().get().setFiftyDiscount(true);
+			customer.getOrderSchedules().stream()
+					.filter(l->l.getBookTitle().equals(br.getBookName()))
+					.findFirst()
+					.get()
+					.setFiftyDiscount(true);
 		});
-
-
 	}
-
 }

@@ -33,6 +33,7 @@ public class MessageBusImpl implements MessageBus {
 	private static final Map<MicroService, BlockingQueue<Message>> servicesMessageQueue = new ConcurrentHashMap<>();
 	private static final Map<Class<? extends Message>, CopyOnWriteArrayList<MicroService>> messageSubscribes = new ConcurrentHashMap<>();
     private static final Map<Event<?>, Object> eventResults = new ConcurrentHashMap<>();
+    private static boolean sendingEvents = true;
 
 	/**
 	 *
@@ -86,6 +87,8 @@ public class MessageBusImpl implements MessageBus {
 				.filter(type -> type.isAssignableFrom(b.getClass()))
 				.flatMap(type -> messageSubscribes.get(type).stream())
 				.forEach(sub -> servicesMessageQueue.get(sub).add(b));
+		if (b instanceof TerminateBroadcast)
+			sendingEvents = false;
 	}
 
 	/**
@@ -97,15 +100,15 @@ public class MessageBusImpl implements MessageBus {
 	@Override
 	public <T> Future<T> sendEvent(Event<T> e) {
 		Objects.requireNonNull(e, "events");
-		Future<T> future = new Future<>();
-		eventResults.put(e,future);
-		if (!messageSubscribes.containsKey(e.getClass()))
-			return null;
+		if (!sendingEvents) return null;
+		if (!messageSubscribes.containsKey(e.getClass())) return null;
 		int size = messageSubscribes.get(e.getClass()).size();
 		if (size == 0) return null;
 		MicroService ms = messageSubscribes.get(e.getClass()).get(RoundRobin.getIndex(e,size).get());
 		if (ms == null) return null;
 		servicesMessageQueue.get(ms).add(e);
+		Future<T> future = new Future<>();
+		eventResults.put(e,future);
 		return future;
 	}
 
@@ -135,8 +138,7 @@ public class MessageBusImpl implements MessageBus {
 
 	@Override
 	public Message awaitMessage(MicroService m) throws InterruptedException {
-		Message message = servicesMessageQueue.get(m).take();
-		return message;
+		return servicesMessageQueue.get(m).take();
 	}
 
 	private static class RoundRobin {

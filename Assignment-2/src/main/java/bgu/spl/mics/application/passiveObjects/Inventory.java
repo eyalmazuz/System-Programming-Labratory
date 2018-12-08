@@ -100,7 +100,9 @@ public class Inventory implements Serializable {
 	 * This method is called by the main method in order to generate the output.
 	 */
 	public void printInventoryToFile(String filename){
-		Map<String, Integer> serialize = books.stream().distinct().collect(Collectors.toMap(BookInventoryInfo::getBookTitle, BookInventoryInfo::getAmountInInventory));
+		Map<String, Integer> serialize = books.stream()
+				.distinct()
+				.collect(Collectors.toMap(BookInventoryInfo::getBookTitle, BookInventoryInfo::getAmountInInventory,(integer, integer2) -> integer));
         Utils.serialization(filename,serialize);
 //		try
 //		{
