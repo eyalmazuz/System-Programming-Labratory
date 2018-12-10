@@ -29,19 +29,20 @@ public class LogisticsService extends MicroService {
 	@Override
 	protected void initialize() {
 		subscribeBroadcast(TerminateBroadcast.class, br->{
+			System.out.println("terminating: " + getName());
+			terminate();
 			Thread.currentThread().interrupt();
 		});
 		subscribeEvent(DeliveryEvent.class, ev ->{
 			System.out.println(getName()+": receiving Delivery event from " + ev.getSenderName());
-			Future<DeliveryVehicle> futureObject = (Future<DeliveryVehicle>) sendEvent(new RequestVehicleEvent(getName()));
+			Future<DeliveryVehicle> futureObject = sendEvent(new RequestVehicleEvent(getName()));
 			if (futureObject != null) {
 				DeliveryVehicle deliveryVehicle = futureObject.get();
 				if (deliveryVehicle != null) {
-					System.out.println(getName() + " starting to deliver books to customer " + ev.getCustomer().getName());
+					System.out.println(getName() + " starting to deliver book to customer " + ev.getCustomer().getName());
 					try{
 						deliveryVehicle.deliver(ev.getCustomer().getAddress(),ev.getCustomer().getDistance());
-						//complete(ev,true);
-						System.out.println(getName() + " finished to deliver books to customer " + ev.getCustomer().getName());
+						System.out.println(getName() + " finished to deliver book to customer " + ev.getCustomer().getName());
 						Future<Boolean>booleanFuture = sendEvent(new ReturnVehicleEvent(getName(),deliveryVehicle));
 						if (booleanFuture != null){
 							System.out.println(getName() + " ReturnVehicleEvent");
@@ -51,7 +52,7 @@ public class LogisticsService extends MicroService {
 						}
 						complete(ev,true);
 					}catch (Exception e){
-						System.err.println(getName() + " failed to deliver books to customer " + ev.getCustomer().getName());
+						System.err.println(getName() + " failed to deliver book to customer " + ev.getCustomer().getName());
 						complete(ev,false);
 					}
 				}else{

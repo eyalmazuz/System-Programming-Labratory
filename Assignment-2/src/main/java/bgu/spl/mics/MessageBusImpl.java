@@ -35,7 +35,7 @@ public class MessageBusImpl implements MessageBus {
 	private static final Map<MicroService, BlockingQueue<Message>> servicesMessageQueue = new ConcurrentHashMap<>();
 	private static final Map<Class<? extends Message>, CopyOnWriteArrayList<MicroService>> messageSubscribes = new ConcurrentHashMap<>();
     private static final Map<Event<?>, Object> eventResults = new ConcurrentHashMap<>();
-    private static  boolean sendingEvents = true;//new AtomicBoolean(true);
+    private static  AtomicBoolean sendingEvents = new AtomicBoolean(true);
 
 	/**
 	 *
@@ -85,10 +85,10 @@ public class MessageBusImpl implements MessageBus {
 	@Override
 	public void sendBroadcast(Broadcast b) {
 		Objects.requireNonNull(b, "broadcast");
-        if (b instanceof TickBroadcast && !sendingEvents)
-            sendingEvents = true;
+        if (b instanceof TickBroadcast && !sendingEvents.get())
+            sendingEvents.compareAndSet(false,true);
         else if (b instanceof TerminateBroadcast)
-            sendingEvents = false;
+            sendingEvents.compareAndSet(true,false);
 		messageSubscribes.keySet().stream()
 				.filter(type -> type.isAssignableFrom(b.getClass()))
 				.flatMap(type -> messageSubscribes.get(type).stream())
@@ -105,7 +105,7 @@ public class MessageBusImpl implements MessageBus {
 	@Override
 	public <T> Future<T> sendEvent(Event<T> e) {
 		Objects.requireNonNull(e, "events");
-		if (!sendingEvents) return null;
+		if (!sendingEvents.get()) return null;
 		if (!messageSubscribes.containsKey(e.getClass())) return null;
 		int size = messageSubscribes.get(e.getClass()).size();
 		if (size == 0) return null;

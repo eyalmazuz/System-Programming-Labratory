@@ -40,6 +40,8 @@ public class TimeService extends MicroService{
 	@Override
 	protected void initialize() {
 		subscribeBroadcast(TerminateBroadcast.class, br->{
+			System.out.println("terminating: " + getName());
+			terminate();
 			Thread.currentThread().interrupt();
 		});
 		curr = System.currentTimeMillis();
@@ -52,7 +54,6 @@ public class TimeService extends MicroService{
 				sendBroadcast(new TickBroadcast("TickBroadcast"+tick,tick));
 				if (tick == tickPeriod) {
 					sendBroadcast(new TerminateBroadcast("TerminateBroadcast"));
-
 					timer.cancel();
 				}
 			}

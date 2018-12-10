@@ -1,14 +1,12 @@
 package bgu.spl.mics.application.messages;
 
 import bgu.spl.mics.application.passiveObjects.Customer;
-import bgu.spl.mics.application.passiveObjects.OrderReceipt;
 
-import java.util.List;
-
-public class BookOrderEvent extends BaseEvent<List<OrderReceipt>> {
+public class BookOrderEvent extends BaseEvent<Boolean> {
 
     private Customer customer;
     private int tick;
+    private String bookTitle;
 
     public Customer getCustomer() {
         return customer;
@@ -18,9 +16,14 @@ public class BookOrderEvent extends BaseEvent<List<OrderReceipt>> {
         return tick;
     }
 
-    public BookOrderEvent(String senderName, Customer customer, int tick) {
+    public String getBookTitle() {
+        return bookTitle;
+    }
+
+    public BookOrderEvent(String senderName, Customer customer, int tick, String bookTitle) {
         super(senderName);
         this.customer = customer;
         this.tick = tick;
+        this.bookTitle = bookTitle;
     }
 }

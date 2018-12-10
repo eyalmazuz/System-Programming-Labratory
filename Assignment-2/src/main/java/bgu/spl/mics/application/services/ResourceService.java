@@ -31,9 +31,11 @@ public class ResourceService extends MicroService {
 
 	@Override
 	protected void initialize() {
-		subscribeBroadcast(TerminateBroadcast.class, br->{
-			Thread.currentThread().interrupt();
-		});
+        subscribeBroadcast(TerminateBroadcast.class, br->{
+            System.out.println("terminating: " + getName());
+            terminate();
+            Thread.currentThread().interrupt();
+        });
 		subscribeEvent(RequestVehicleEvent.class, ev -> {
 			System.out.println(getName()+": receiving RequestVehicleEvent event from " + ev.getSenderName());
 			deliveryVehicleFuture = resourcesHolder.acquireVehicle();

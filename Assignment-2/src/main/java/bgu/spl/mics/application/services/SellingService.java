@@ -32,72 +32,68 @@ public class SellingService extends MicroService {
 		//index = new AtomicInteger(0);
 	}
 
-	private int calculateOrderPrice(List<OrderSchedule> orderSchedulesBooks){
-	    int sum = 0;
-        for (OrderSchedule orderSchedule: orderSchedulesBooks) {
-            Future<Integer> futureObject = sendEvent(new CheckAvailability(getName(),orderSchedule.getBookTitle()));
-            if (futureObject == null) return -1;
-			System.out.println(getName() + ": sending CheckAvailability of " + orderSchedule.getBookTitle());
-            Integer resolvedPrice = futureObject.get(100,TimeUnit.MILLISECONDS);
-            if (!(resolvedPrice != null && resolvedPrice != -1)) return -1;
-            int val = orderSchedule.isFiftyDiscount() ? resolvedPrice / 2 : resolvedPrice;
-            sum += val;
-            orderSchedule.setFixedPrice(val);
-        }
-
-	    return sum;
+	//ToDo: change if isFiftyDiscount is needed
+	private int calculateOrderPrice(String bookTitle){
+		System.out.println(getName() + ": sending CheckAvailability of " + bookTitle);
+		Future<Integer> futureObject = sendEvent(new CheckAvailability(getName(),bookTitle));
+		if (futureObject == null)
+			return -1;
+		Integer resolvedPrice = futureObject.get(3,TimeUnit.SECONDS);
+		if (resolvedPrice == null || resolvedPrice == -1)
+			return -1;
+		System.out.println(getName()+ " book price: " + resolvedPrice);
+		return resolvedPrice;
     }
 	@Override
 	protected void initialize() {
 		subscribeBroadcast(TerminateBroadcast.class, br->{
+			System.out.println("terminating: " + getName());
+			terminate();
 			Thread.currentThread().interrupt();
 		});
 		subscribeEvent(BookOrderEvent.class, ev->{
 			int orderTick = index.get();
 			System.out.println(getName()+": receiving book order event from " + ev.getSenderName());
-            List<OrderSchedule> orderSchedules = ev.getCustomer().getOrderSchedules().stream()
-                    .filter(l -> l.getTick() == ev.getTick()).collect(Collectors.toList());
-            List<String> books = ev.getCustomer().getOrderSchedules().stream()
-                    .filter(l -> l.getTick() == ev.getTick()).map(OrderSchedule::getBookTitle).collect(Collectors.toList());
-			int resolvedPrice = calculateOrderPrice(orderSchedules);
+			int resolvedPrice = calculateOrderPrice(ev.getBookTitle());
 				if (resolvedPrice != -1){
-					//System.out.println("resolved price: " + resolvedPrice + " and customer money : " + ev.getCustomer().getAvailableCreditAmount());
         			if (ev.getCustomer().getAvailableCreditAmount() >= resolvedPrice){
-						Future<Boolean> take = sendEvent(new TakingBookEvent(getName(),books));
+						System.out.println(getName() + " sending TakingBookEvent " + ev.getBookTitle());
+						Future<Boolean> take = sendEvent(new TakingBookEvent(getName(),ev.getBookTitle()));
 						if (take != null && take.get()) {
+							System.out.println(getName() + " sending DeliveryEvent " + ev.getBookTitle());
 							Future<Boolean> res = sendEvent(new DeliveryEvent(getName(), ev.getCustomer()));
 							if (res != null && res.get()) {
 								System.out.println(getName()+": charging credit card in tick " + index.get()+ " in service " + getName());
 								register.chargeCreditCard(ev.getCustomer(), resolvedPrice);
 								List<OrderReceipt> orderReceipts = new ArrayList<>();
-                                for (OrderSchedule orderSchedule: orderSchedules) {
-                                    OrderReceipt orderReceipt = new OrderReceipt(
-                                            orderSchedule.getOrderId(), getName(), ev.getCustomer().getId(), orderSchedule.getBookTitle(),
-                                            orderSchedule.getFixedPrice(), index.get(), orderTick, orderSchedule.getTick());
-                                    register.file(orderReceipt);
-                                    orderReceipts.add(orderReceipt);
-                                }
-								complete(ev, orderReceipts);
+								OrderSchedule orderSchedule = ev.getCustomer().getOrderSchedules().stream()
+										.filter(b -> b.getBookTitle().equals(ev.getBookTitle()))
+										.findFirst()
+										.get();
+								OrderReceipt orderReceipt = new OrderReceipt(
+										orderSchedule.getOrderId(), getName(), ev.getCustomer().getId(), orderSchedule.getBookTitle(),
+										orderSchedule.getFixedPrice(), index.get(), orderTick, orderSchedule.getTick());
+								register.file(orderReceipt);
+								orderReceipts.add(orderReceipt);
+								complete(ev, true);
 							} else {
 								System.err.println(getName()+": failed to deliver book");
-								complete(ev, null);
+								complete(ev, false);
 							}
 						}else{
 							System.err.println(getName()+": failed to take book from inv");
-							complete(ev, null);
+							complete(ev, false);
 						}
         			}else{
-        				System.err.println(getName()+": customer " + ev.getCustomer().getName() + " does not have enough money for books");
-        				complete(ev,null);
+        				System.err.println(getName()+": customer " + ev.getCustomer().getName() + " does not have enough money for the book " + ev.getBookTitle());
+        				complete(ev,false);
 					}
 				}else{
-					System.err.println(getName()+": customer: " + ev.getCustomer().getName() + " cannot buy the books because is too expensive or the amount is 0 or service is off");
-					complete(ev,null);
+					System.err.println(getName()+": customer: " + ev.getCustomer().getName() + " cannot buy the book " +ev.getBookTitle()+ " because the amount is 0 or service is off");
+					complete(ev,false);
 				}
 		});
-		subscribeBroadcast(TickBroadcast.class, br ->{
-			index.set(br.getCurrentTick());
-		});
+		subscribeBroadcast(TickBroadcast.class, br -> index.set(br.getCurrentTick()));
 
 	}
 }

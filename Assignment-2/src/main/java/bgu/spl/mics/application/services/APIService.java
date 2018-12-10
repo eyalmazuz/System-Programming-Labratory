@@ -33,7 +33,6 @@ public class APIService extends MicroService{
 		this.customer = customer;
 		this.orderSchedulesStack = customer.getOrderSchedules().stream()
 				.map(l->l.getTick())
-				.distinct()
 				.sorted()
 				.collect(Collectors.toCollection(ArrayDeque::new));
 	}
@@ -41,30 +40,17 @@ public class APIService extends MicroService{
 	@Override
 	protected void initialize() {
 		subscribeBroadcast(TerminateBroadcast.class, br->{
-			Thread.currentThread().interrupt();
+			System.out.println("terminating: " + getName());
+			terminate();
+			//Thread.currentThread().interrupt();
 		});
 		subscribeBroadcast(TickBroadcast.class, br -> {
-			if (!orderSchedulesStack.isEmpty() && br.getCurrentTick() == orderSchedulesStack.peek()) {
+			if (orderSchedulesStack != null && !orderSchedulesStack.isEmpty() && br.getCurrentTick() == orderSchedulesStack.peek()) {
 				System.out.println(getName()+": receiving broadcast from " + br.getSenderName());
 				System.out.println(getName()+": sending book order event ");
-				Future<List<OrderReceipt>> futureObject = sendEvent(new BookOrderEvent(getName(),customer,br.getCurrentTick()));
-				if (futureObject != null) {
-					System.out.println(getName() + " is waiting for receipt...");
-					if (Thread.currentThread().isInterrupted()){
-						System.err.println("error in bookOrderEvent");
-						return;
-					}
-					List<OrderReceipt> result = futureObject.get();
-					if (result != null && result.size() > 0) {
-						for (OrderReceipt o:result) { customer.getCustomerReceiptList().add(o);}
-						System.out.println(customer.getName() + " has received his receipts");
-					}else {
-						System.err.println("no receipt!!!");
-					}
-				}else {
-					System.err.println("error in bookOrderEvent");
-				}
-				orderSchedulesStack.poll();
+				customer.getOrderSchedules().stream()
+						.filter(l -> l.getTick() == br.getCurrentTick())
+						.forEach(b -> sendEvent(new BookOrderEvent(getName(),customer,orderSchedulesStack.poll(),b.getBookTitle())));
 			}
 		});
 		subscribeBroadcast(FiftyPercentDiscountBroadcast.class, br ->{
