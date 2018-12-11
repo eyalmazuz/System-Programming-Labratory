@@ -38,7 +38,7 @@ public class SellingService extends MicroService {
 		Future<Integer> futureObject = sendEvent(new CheckAvailability(getName(),bookTitle));
 		if (futureObject == null)
 			return -1;
-		Integer resolvedPrice = futureObject.get(3,TimeUnit.SECONDS);
+		Integer resolvedPrice = futureObject.get();
 		if (resolvedPrice == null || resolvedPrice == -1)
 			return -1;
 		System.out.println(getName()+ " book price: " + resolvedPrice);
