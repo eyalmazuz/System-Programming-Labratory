@@ -34,6 +34,8 @@ public class ResourceService extends MicroService {
         subscribeBroadcast(TerminateBroadcast.class, br->{
             System.out.println("terminating: " + getName());
             terminate();
+            if (deliveryVehicleFuture != null && deliveryVehicleFuture.isDone())
+                deliveryVehicleFuture.resolve(null);
             Thread.currentThread().interrupt();
         });
 		subscribeEvent(RequestVehicleEvent.class, ev -> {

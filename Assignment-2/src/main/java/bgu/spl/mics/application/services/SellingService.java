@@ -49,7 +49,7 @@ public class SellingService extends MicroService {
 		subscribeBroadcast(TerminateBroadcast.class, br->{
 			System.out.println("terminating: " + getName());
 			terminate();
-			Thread.currentThread().interrupt();
+			//Thread.currentThread().interrupt();
 		});
 		subscribeEvent(BookOrderEvent.class, ev->{
 			int orderTick = index.get();
@@ -65,7 +65,6 @@ public class SellingService extends MicroService {
 							if (res != null && res.get()) {
 								System.out.println(getName()+": charging credit card in tick " + index.get()+ " in service " + getName());
 								register.chargeCreditCard(ev.getCustomer(), resolvedPrice);
-								List<OrderReceipt> orderReceipts = new ArrayList<>();
 								OrderSchedule orderSchedule = ev.getCustomer().getOrderSchedules().stream()
 										.filter(b -> b.getBookTitle().equals(ev.getBookTitle()))
 										.findFirst()
@@ -74,7 +73,8 @@ public class SellingService extends MicroService {
 										orderSchedule.getOrderId(), getName(), ev.getCustomer().getId(), orderSchedule.getBookTitle(),
 										orderSchedule.getFixedPrice(), index.get(), orderTick, orderSchedule.getTick());
 								register.file(orderReceipt);
-								orderReceipts.add(orderReceipt);
+								ev.getCustomer().getCustomerReceiptList().add(orderReceipt);
+								System.out.println(getName()+ " completed order book " + ev.getBookTitle());
 								complete(ev, true);
 							} else {
 								System.err.println(getName()+": failed to deliver book");

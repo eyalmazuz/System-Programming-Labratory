@@ -46,7 +46,7 @@ public class LogisticsService extends MicroService {
 						Future<Boolean>booleanFuture = sendEvent(new ReturnVehicleEvent(getName(),deliveryVehicle));
 						if (booleanFuture != null){
 							System.out.println(getName() + " ReturnVehicleEvent");
-							booleanFuture.get();
+							//booleanFuture.get();
 						}else {
 							System.err.println(getName()+" failed to ReturnVehicleEvent");
 						}
