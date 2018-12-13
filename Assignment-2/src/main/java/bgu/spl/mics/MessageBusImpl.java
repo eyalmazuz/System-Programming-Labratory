@@ -35,7 +35,16 @@ public class MessageBusImpl implements MessageBus {
 	private static final Map<MicroService, BlockingQueue<Message>> servicesMessageQueue = new ConcurrentHashMap<>();
 	private static final Map<Class<? extends Message>, CopyOnWriteArrayList<MicroService>> messageSubscribes = new ConcurrentHashMap<>();
     private static final Map<Event<?>, Object> eventResults = new ConcurrentHashMap<>();
-    private static  AtomicBoolean sendingEvents = new AtomicBoolean(true);
+    private static final AtomicBoolean sendingEvents = new AtomicBoolean(true);
+
+	public void subscribeMessage(Class<? extends Message> type, MicroService m){
+		if (!messageSubscribes.containsKey(type)){
+			synchronized (messageSubscribes){
+				if (!messageSubscribes.containsKey(type)) messageSubscribes.put(type,new CopyOnWriteArrayList<>());
+			}
+		}
+		messageSubscribes.get(type).add(m);
+	}
 
 	/**
 	 *
@@ -44,11 +53,9 @@ public class MessageBusImpl implements MessageBus {
 	 * @param <T>
 	 */
 	@Override
+    //ToDo:
 	public <T> void subscribeEvent(Class<? extends Event<T>> type, MicroService m) {
-		if (!messageSubscribes.containsKey(type)){
-			messageSubscribes.put(type,new CopyOnWriteArrayList<>());
-		}
-		messageSubscribes.get(type).add(m);
+		subscribeMessage(type,m);
 	}
 
 	/**
@@ -58,10 +65,7 @@ public class MessageBusImpl implements MessageBus {
 	 */
 	@Override
 	public void subscribeBroadcast(Class<? extends Broadcast> type, MicroService m) {
-		if (!messageSubscribes.containsKey(type)){
-			messageSubscribes.put(type,new CopyOnWriteArrayList<>());
-		}
-		messageSubscribes.get(type).add(m);
+		subscribeMessage(type,m);
 	}
 
 	/**
@@ -78,6 +82,12 @@ public class MessageBusImpl implements MessageBus {
 				((Future<T>) eventResults.get(e)).resolve(result);
 	}
 
+	private void resolveAllfutures(){
+		eventResults.values().stream()
+				.filter(f -> ((Future<Object>) f).isDone())
+				.forEach(f -> ((Future<Object>) f).resolve(null));
+	}
+
 	/**
 	 *
 	 * @param b 	The message to added to the queues.
@@ -85,15 +95,15 @@ public class MessageBusImpl implements MessageBus {
 	@Override
 	public void sendBroadcast(Broadcast b) {
 		Objects.requireNonNull(b, "broadcast");
-        if (b instanceof TickBroadcast && !sendingEvents.get())
-            sendingEvents.compareAndSet(false,true);
-        else if (b instanceof TerminateBroadcast)
-            sendingEvents.compareAndSet(true,false);
+		if (b instanceof TerminateBroadcast) {
+			sendingEvents.compareAndSet(true, false);
+			System.out.println("sending events status: " +sendingEvents.get());
+			resolveAllfutures();
+		}
 		messageSubscribes.keySet().stream()
 				.filter(type -> type.isAssignableFrom(b.getClass()))
 				.flatMap(type -> messageSubscribes.get(type).stream())
 				.forEach(sub -> servicesMessageQueue.get(sub).add(b));
-
 	}
 
 	/**

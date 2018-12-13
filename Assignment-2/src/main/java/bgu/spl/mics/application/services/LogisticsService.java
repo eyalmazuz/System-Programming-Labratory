@@ -11,6 +11,8 @@ import bgu.spl.mics.application.passiveObjects.Inventory;
 import bgu.spl.mics.application.passiveObjects.MoneyRegister;
 import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
 
+import java.util.concurrent.CountDownLatch;
+
 /**
  * Logistic service in charge of delivering books that have been purchased to customers.
  * Handles {@link DeliveryEvent}.
@@ -21,9 +23,10 @@ import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
  * You MAY change constructor signatures and even add new public constructors.
  */
 public class LogisticsService extends MicroService {
-
-	public LogisticsService(String name) {
+	private CountDownLatch countDownLatch;
+	public LogisticsService(String name, CountDownLatch countDownLatch) {
 		super(name);
+		this.countDownLatch = countDownLatch;
 	}
 
 	@Override
@@ -31,7 +34,7 @@ public class LogisticsService extends MicroService {
 		subscribeBroadcast(TerminateBroadcast.class, br->{
 			System.out.println("terminating: " + getName());
 			terminate();
-			Thread.currentThread().interrupt();
+			//Thread.currentThread().interrupt();
 		});
 		subscribeEvent(DeliveryEvent.class, ev ->{
 			System.out.println(getName()+": receiving Delivery event from " + ev.getSenderName());
@@ -39,7 +42,7 @@ public class LogisticsService extends MicroService {
 			if (futureObject != null) {
 				DeliveryVehicle deliveryVehicle = futureObject.get();
 				if (deliveryVehicle != null) {
-					System.out.println(getName() + " starting to deliver book to customer " + ev.getCustomer().getName());
+					System.out.println(getName() + " starting to deliver book to customer " + ev.getCustomer().getName() + " vehicle " + deliveryVehicle.getLicense());
 					try{
 						deliveryVehicle.deliver(ev.getCustomer().getAddress(),ev.getCustomer().getDistance());
 						System.out.println(getName() + " finished to deliver book to customer " + ev.getCustomer().getName());
@@ -63,7 +66,7 @@ public class LogisticsService extends MicroService {
                 complete(ev,null);
             }
 		});
-
+		countDownLatch.countDown();
 	}
 
 

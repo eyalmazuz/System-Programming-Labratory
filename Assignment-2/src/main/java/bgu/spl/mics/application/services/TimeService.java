@@ -9,6 +9,7 @@ import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * TimeService is the global system timer There is only one instance of this micro-service.
@@ -42,7 +43,7 @@ public class TimeService extends MicroService{
 		subscribeBroadcast(TerminateBroadcast.class, br->{
 			System.out.println("terminating: " + getName());
 			terminate();
-			Thread.currentThread().interrupt();
+			//Thread.currentThread().interrupt();
 		});
 		curr = System.currentTimeMillis();
 		timer.schedule(new TimerTask() {

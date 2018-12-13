@@ -10,6 +10,9 @@ import bgu.spl.mics.application.passiveObjects.Inventory;
 import bgu.spl.mics.application.passiveObjects.MoneyRegister;
 import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CountDownLatch;
+
 /**
  * ResourceService is in charge of the store resources - the delivery vehicles.
  * Holds a reference to the {@link ResourcesHolder} singleton of the store.
@@ -22,11 +25,13 @@ import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
 public class ResourceService extends MicroService {
 
 	private ResourcesHolder resourcesHolder;
-	private static Future<DeliveryVehicle> deliveryVehicleFuture;
+	private static ConcurrentLinkedQueue<Future<DeliveryVehicle>> deliveryVehicleFutureQueue = new ConcurrentLinkedQueue<>();
+	private CountDownLatch countDownLatch;
 
-	public ResourceService(String name) {
+	public ResourceService(String name,CountDownLatch countDownLatch) {
 		super(name);
 		resourcesHolder = ResourcesHolder.getInstance();
+		this.countDownLatch = countDownLatch;
 	}
 
 	@Override
@@ -34,28 +39,29 @@ public class ResourceService extends MicroService {
         subscribeBroadcast(TerminateBroadcast.class, br->{
             System.out.println("terminating: " + getName());
             terminate();
-            if (deliveryVehicleFuture != null && deliveryVehicleFuture.isDone())
-                deliveryVehicleFuture.resolve(null);
-            Thread.currentThread().interrupt();
+            deliveryVehicleFutureQueue.stream()
+					.filter(future -> !future.isDone())
+					.forEach(future -> future.resolve(null));
+            //Thread.currentThread().interrupt();
         });
 		subscribeEvent(RequestVehicleEvent.class, ev -> {
 			System.out.println(getName()+": receiving RequestVehicleEvent event from " + ev.getSenderName());
-			deliveryVehicleFuture = resourcesHolder.acquireVehicle();
+			Future<DeliveryVehicle>	deliveryVehicleFuture = resourcesHolder.acquireVehicle();
+			if (!deliveryVehicleFuture.isDone())
+				deliveryVehicleFutureQueue.add(deliveryVehicleFuture);
 			DeliveryVehicle deliveryVehicle = deliveryVehicleFuture.get();
-            System.out.println("found a free vehicle " + deliveryVehicle.getLicense() + " and send him to work");
-            deliveryVehicleFuture = null;
+            System.out.println(getName()+": found a free vehicle " + deliveryVehicle.getLicense() + " and send him to work");
 			complete(ev,deliveryVehicle);
 		});
 		subscribeEvent(ReturnVehicleEvent.class, ev->{
             System.out.println(getName()+": receiving ReturnVehicleEvent event from" + ev.getSenderName());
-            if (deliveryVehicleFuture == null)
+            if (deliveryVehicleFutureQueue.isEmpty())
                 resourcesHolder.releaseVehicle(ev.getDeliveryVehicle());
             else
-                deliveryVehicleFuture.resolve(ev.getDeliveryVehicle());
+				deliveryVehicleFutureQueue.poll().resolve(ev.getDeliveryVehicle());
             complete(ev,true);
         });
-
-
+		countDownLatch.countDown();
 	}
 
 }

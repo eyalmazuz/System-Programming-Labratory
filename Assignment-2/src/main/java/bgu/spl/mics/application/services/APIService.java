@@ -1,16 +1,18 @@
 package bgu.spl.mics.application.services;
 
-import bgu.spl.mics.Future;
 import bgu.spl.mics.MicroService;
 import bgu.spl.mics.application.messages.BookOrderEvent;
 import bgu.spl.mics.application.messages.FiftyPercentDiscountBroadcast;
 import bgu.spl.mics.application.messages.TerminateBroadcast;
 import bgu.spl.mics.application.messages.TickBroadcast;
-import bgu.spl.mics.application.passiveObjects.*;
+import bgu.spl.mics.application.passiveObjects.Customer;
+import bgu.spl.mics.application.passiveObjects.Inventory;
+import bgu.spl.mics.application.passiveObjects.MoneyRegister;
+import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 /**
@@ -26,15 +28,16 @@ public class APIService extends MicroService{
 
 	private Customer customer;
 	private Deque<Integer> orderSchedulesStack;
-	//private int maxTick;
+	private CountDownLatch countDownLatch;
 
-	public APIService(String name, Customer customer) {
+	public APIService(String name, Customer customer, CountDownLatch countDownLatch) {
 		super(name);
 		this.customer = customer;
 		this.orderSchedulesStack = customer.getOrderSchedules().stream()
 				.map(l->l.getTick())
 				.sorted()
 				.collect(Collectors.toCollection(ArrayDeque::new));
+		this.countDownLatch = countDownLatch;
 	}
 
 	@Override
@@ -60,5 +63,6 @@ public class APIService extends MicroService{
 					.get()
 					.setFiftyDiscount(true);
 		});
+		countDownLatch.countDown();
 	}
 }

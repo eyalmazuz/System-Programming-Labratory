@@ -1,88 +1,80 @@
 package bgu.spl.mics.application;
 
-import bgu.spl.mics.application.passiveObjects.*;
-import bgu.spl.mics.application.services.*;
-import bgu.spl.mics.Message;
-import bgu.spl.mics.MessageBus;
-import bgu.spl.mics.MessageBusImpl;
 import bgu.spl.mics.MicroService;
 import bgu.spl.mics.application.messages.DeliveryEvent;
-import bgu.spl.mics.application.messages.TerminateBroadcast;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import bgu.spl.mics.application.passiveObjects.Customer;
+import bgu.spl.mics.application.passiveObjects.MoneyRegister;
 
-
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.lang.reflect.Field;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class playground {
 
 
-    private static void test1() throws InterruptedException {
-        MessageBus mb;
-        Map<String, MicroService> services = new HashMap<>();
-        final int api_count = 50;
-
-        mb =  MessageBusImpl.getInstance();
-        services.put("inv",new InventoryService("InventoryService"));
-        services.put("logistics", new LogisticsService("LogisticsService"));
-        services.put("resource", new ResourceService("ResourceService"));
-        services.put("selling", new SellingService("SellingService"));
-        services.put("time", new TimeService(10,1000));
-        for (int i = 1; i <= api_count ; i++) {
-            ArrayList<OrderSchedule> order = new ArrayList<>();
-            order.add(new OrderSchedule(i,"harryPotter1",5,true));
-            Customer c = new Customer("lebron"+i,
-                    i,"ben-gurion"+i,
-                    1000,
-                    new ArrayList<OrderReceipt>(),
-                    1000,
-                    i,
-                    order);
-
-            services.put("api"+i,new APIService("APIService",c));
-        }
-
-        Inventory.getInstance().load(new BookInventoryInfo[]{
-                new BookInventoryInfo("harryPotter1",40,60),
-                new BookInventoryInfo("harryPotter2",5,50),
-                new BookInventoryInfo("harryPotter3",5,50),
-                new BookInventoryInfo("harryPotter4",5,50),
-                new BookInventoryInfo("harryPotter5",0,50),
-                new BookInventoryInfo("harryPotter6",5,50),
-                new BookInventoryInfo("harryPotter7",5,50),
-                new BookInventoryInfo("harryPotter8",5,50),
-                new BookInventoryInfo("harryPotter9",5,50),
-                new BookInventoryInfo("harryPotter10",5,50),
-        });
-
-        ResourcesHolder.getInstance().load(new DeliveryVehicle[]{
-                new DeliveryVehicle(100,500),
-                new DeliveryVehicle(101,500),
-                new DeliveryVehicle(102,500)
-        });
-
-        ExecutorService executor = Executors.newFixedThreadPool(services.size());
-        for (String key : services.keySet())
-            executor.execute(services.get(key));
-
-        executor.shutdown();
-        while (!executor.isTerminated()){
-        }
-//        Thread t = new Thread(services.get("time"));
-//        t.start();
-//        Thread.sleep(10*1000);
-       // System.out.println("thread is still running: " + t.isAlive());
-        //shutdownAndAwaitTermination(executor);
-        System.out.println("!!!!!!!!!!!!!!!!!");
-
-    }
+//    private static void test1() throws InterruptedException {
+//        MessageBus mb;
+//        Map<String, MicroService> services = new HashMap<>();
+//        final int api_count = 50;
+//
+//        mb =  MessageBusImpl.getInstance();
+//        services.put("inv",new InventoryService("InventoryService"));
+//        services.put("logistics", new LogisticsService("LogisticsService"));
+//        services.put("resource", new ResourceService("ResourceService"));
+//        services.put("selling", new SellingService("SellingService"));
+//        services.put("time", new TimeService(10,1000));
+//        for (int i = 1; i <= api_count ; i++) {
+//            ArrayList<OrderSchedule> order = new ArrayList<>();
+//            order.add(new OrderSchedule(i,"harryPotter1",5,true));
+//            Customer c = new Customer("lebron"+i,
+//                    i,"ben-gurion"+i,
+//                    1000,
+//                    new ArrayList<OrderReceipt>(),
+//                    1000,
+//                    i,
+//                    order);
+//
+//            services.put("api"+i,new APIService("APIService",c));
+//        }
+//
+//        Inventory.getInstance().load(new BookInventoryInfo[]{
+//                new BookInventoryInfo("harryPotter1",40,60),
+//                new BookInventoryInfo("harryPotter2",5,50),
+//                new BookInventoryInfo("harryPotter3",5,50),
+//                new BookInventoryInfo("harryPotter4",5,50),
+//                new BookInventoryInfo("harryPotter5",0,50),
+//                new BookInventoryInfo("harryPotter6",5,50),
+//                new BookInventoryInfo("harryPotter7",5,50),
+//                new BookInventoryInfo("harryPotter8",5,50),
+//                new BookInventoryInfo("harryPotter9",5,50),
+//                new BookInventoryInfo("harryPotter10",5,50),
+//        });
+//
+//        ResourcesHolder.getInstance().load(new DeliveryVehicle[]{
+//                new DeliveryVehicle(100,500),
+//                new DeliveryVehicle(101,500),
+//                new DeliveryVehicle(102,500)
+//        });
+//
+//        ExecutorService executor = Executors.newFixedThreadPool(services.size());
+//        for (String key : services.keySet())
+//            executor.execute(services.get(key));
+//
+//        executor.shutdown();
+//        while (!executor.isTerminated()){
+//        }
+////        Thread t = new Thread(services.get("time"));
+////        t.start();
+////        Thread.sleep(10*1000);
+//       // System.out.println("thread is still running: " + t.isAlive());
+//        //shutdownAndAwaitTermination(executor);
+//        System.out.println("!!!!!!!!!!!!!!!!!");
+//
+//    }
 
     static void shutdownAndAwaitTermination(ExecutorService pool) {
         pool.shutdown(); // Disable new tasks from being submitted

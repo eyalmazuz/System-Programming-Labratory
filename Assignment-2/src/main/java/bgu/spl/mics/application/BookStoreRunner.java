@@ -9,6 +9,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -38,12 +39,23 @@ public class BookStoreRunner {
         updateBooks(inv, obj);
         updateVehicles(hold, obj);
         System.out.println("");
-        ArrayList<MicroService> threads = getThreadList(obj.getAsJsonObject("services"),customers);
+        int size = getThreadNumber(obj.getAsJsonObject("services"),customers.size());
+        CountDownLatch countDownLatch = new CountDownLatch(size-1);
+
+        ArrayList<MicroService> threads = getThreadList(obj.getAsJsonObject("services"),customers,countDownLatch);
+
         ExecutorService executor = Executors.newFixedThreadPool(threads.size());
         for (MicroService m : threads)
             executor.execute(m);
 
         executor.shutdown();
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         while (!executor.isTerminated()){
         }
 
@@ -53,34 +65,37 @@ public class BookStoreRunner {
         //Customers.getInstance().printCustomersToFile(args[1]);
         Inventory.getInstance().printInventoryToFile(args[2]);
         MoneyRegister.getInstance().printOrderReceipts(args[3]);
-        try
+        try (FileOutputStream fos4 = new FileOutputStream(args[4]);
+             FileOutputStream fos2 = new FileOutputStream(args[1]);
+             ObjectOutputStream oosMoneyRegister = new ObjectOutputStream(fos4);
+             ObjectOutputStream oosCustomer = new ObjectOutputStream(fos2);)
         {
-            FileOutputStream fos4 = new FileOutputStream(args[4]);
-            FileOutputStream fos2 = new FileOutputStream(args[1]);
-            ObjectOutputStream oosMoneyRegister = new ObjectOutputStream(fos4);
-            ObjectOutputStream oosCustomer = new ObjectOutputStream(fos2);
-
             oosMoneyRegister.writeObject(MoneyRegister.getInstance());
             oosCustomer.writeObject(customers);
-
-            oosCustomer.close();
-            oosMoneyRegister.close();
-            fos2.close();
-            fos4.close();
         }catch(IOException ioe)
         {
             ioe.printStackTrace();
         }
 
+        //Utils.serialization();
+
     }
 
-     private static ArrayList<MicroService> getThreadList(JsonObject obj,HashMap<Integer, Customer> customers){
+    private static int getThreadNumber(JsonObject obj, int customerNumber){
+        return obj.get("selling").getAsInt()+
+                obj.get("inventoryService").getAsInt()+
+                obj.get("logistics").getAsInt()+
+                obj.get("resourcesService").getAsInt()+
+                +customerNumber +1;
+    }
+
+     private static ArrayList<MicroService> getThreadList(JsonObject obj, HashMap<Integer, Customer> customers, CountDownLatch countDownLatch){
         ArrayList<MicroService> threadsList = new ArrayList<>();
-         for (Customer c: customers.values()) { threadsList.add(new APIService("Api_"+c.getName(),c));}
-         for (int i = 0; i < obj.get("selling").getAsInt(); i++) { threadsList.add(new SellingService("Selling"+i)); }
-         for (int i = 0; i < obj.get("inventoryService").getAsInt(); i++) { threadsList.add(new InventoryService("inv"+i)); }
-         for (int i = 0; i < obj.get("logistics").getAsInt(); i++) { threadsList.add(new LogisticsService("LogisticsService"+i)); }
-         for (int i = 0; i < obj.get("resourcesService").getAsInt(); i++) { threadsList.add(new ResourceService("ResourceService"+i)); }
+         for (Customer c: customers.values()) { threadsList.add(new APIService("Api_"+c.getName(),c,countDownLatch));}
+         for (int i = 0; i < obj.get("selling").getAsInt(); i++) { threadsList.add(new SellingService("Selling"+i,countDownLatch)); }
+         for (int i = 0; i < obj.get("inventoryService").getAsInt(); i++) { threadsList.add(new InventoryService("inv"+i,countDownLatch)); }
+         for (int i = 0; i < obj.get("logistics").getAsInt(); i++) { threadsList.add(new LogisticsService("LogisticsService"+i,countDownLatch)); }
+         for (int i = 0; i < obj.get("resourcesService").getAsInt(); i++) { threadsList.add(new ResourceService("ResourceService"+i,countDownLatch)); }
          threadsList.add(new TimeService(obj.get("time").getAsJsonObject().get("duration").getAsInt(),
                  obj.get("time").getAsJsonObject().get("speed").getAsInt()));
          return threadsList;

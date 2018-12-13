@@ -4,13 +4,10 @@ import java.io.*;
 
 public class Utils implements Serializable {
     public static void serialization(String filename, Object serialize){
-        try
+        try(FileOutputStream fos = new FileOutputStream(filename);
+            ObjectOutputStream oos = new ObjectOutputStream(fos))
         {
-            FileOutputStream fos = new FileOutputStream(filename);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(serialize);
-            oos.close();
-            fos.close();
         }catch(IOException ioe)
         {
             ioe.printStackTrace();
