@@ -12,6 +12,7 @@ import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Semaphore;
 
 /**
  * ResourceService is in charge of the store resources - the delivery vehicles.
@@ -45,13 +46,15 @@ public class ResourceService extends MicroService {
             //Thread.currentThread().interrupt();
         });
 		subscribeEvent(RequestVehicleEvent.class, ev -> {
-			System.out.println(getName()+": receiving RequestVehicleEvent event from " + ev.getSenderName());
-			Future<DeliveryVehicle>	deliveryVehicleFuture = resourcesHolder.acquireVehicle();
-			if (!deliveryVehicleFuture.isDone())
-				deliveryVehicleFutureQueue.add(deliveryVehicleFuture);
-			DeliveryVehicle deliveryVehicle = deliveryVehicleFuture.get();
-            System.out.println(getName()+": found a free vehicle " + deliveryVehicle.getLicense() + " and send him to work");
-			complete(ev,deliveryVehicle);
+			new Thread(() ->{
+				System.out.println(getName()+": receiving RequestVehicleEvent event from " + ev.getSenderName());
+				Future<DeliveryVehicle>	deliveryVehicleFuture = resourcesHolder.acquireVehicle();
+				if (!deliveryVehicleFuture.isDone())
+					deliveryVehicleFutureQueue.add(deliveryVehicleFuture);
+				DeliveryVehicle deliveryVehicle = deliveryVehicleFuture.get();
+				System.out.println(getName()+": found a free vehicle " + deliveryVehicle.getLicense() + " and send him to work");
+				complete(ev,deliveryVehicle);
+			}).start();
 		});
 		subscribeEvent(ReturnVehicleEvent.class, ev->{
             System.out.println(getName()+": receiving ReturnVehicleEvent event from" + ev.getSenderName());

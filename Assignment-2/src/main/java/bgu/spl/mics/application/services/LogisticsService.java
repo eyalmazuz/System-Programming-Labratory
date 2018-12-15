@@ -42,31 +42,34 @@ public class LogisticsService extends MicroService {
 			if (futureObject != null) {
 				DeliveryVehicle deliveryVehicle = futureObject.get();
 				if (deliveryVehicle != null) {
-					System.out.println(getName() + " starting to deliver book to customer " + ev.getCustomer().getName() + " vehicle " + deliveryVehicle.getLicense());
-					try{
-						deliveryVehicle.deliver(ev.getCustomer().getAddress(),ev.getCustomer().getDistance());
-						System.out.println(getName() + " finished to deliver book to customer " + ev.getCustomer().getName());
-						Future<Boolean>booleanFuture = sendEvent(new ReturnVehicleEvent(getName(),deliveryVehicle));
-						if (booleanFuture != null){
-							System.out.println(getName() + " ReturnVehicleEvent");
-							//booleanFuture.get();
-						}else {
-							System.err.println(getName()+" failed to ReturnVehicleEvent");
-						}
-						complete(ev,true);
-					}catch (Exception e){
-						System.err.println(getName() + " failed to deliver book to customer " + ev.getCustomer().getName());
-						complete(ev,false);
-					}
+					sendVehicle(ev, deliveryVehicle);
 				}else{
+					System.out.println(getName() + ": no connection with resource service");
 					complete(ev,false);
 				}
 			}else{
-                System.err.println("why futureObject is null ?");
+                System.err.println(getName() + ": failed to RequestVehicleEvent");
                 complete(ev,null);
             }
 		});
 		countDownLatch.countDown();
+	}
+
+	private void sendVehicle(DeliveryEvent ev, DeliveryVehicle deliveryVehicle) {
+		try{
+			System.out.println(getName() + " starting to deliver book "+ ev.getCustomer().getName() + " to customer " + ev.getCustomer().getName() + " vehicle " + deliveryVehicle.getLicense());
+			deliveryVehicle.deliver(ev.getCustomer().getAddress(),ev.getCustomer().getDistance());
+			System.out.println(getName() + " finished to deliver book to customer " + ev.getCustomer().getName());
+			System.out.println(getName() + " sending ReturnVehicleEvent");
+			Future<Boolean> booleanFuture = sendEvent(new ReturnVehicleEvent(getName(),deliveryVehicle));
+			if (booleanFuture == null){
+				System.err.println(getName()+" failed to ReturnVehicleEvent");
+			}
+			complete(ev,true);
+		}catch (Exception e){
+			System.err.println(getName() + " failed to deliver book to customer " + ev.getCustomer().getName());
+			complete(ev,false);
+		}
 	}
 
 

@@ -3,6 +3,7 @@ package bgu.spl.mics.application.passiveObjects;
 import bgu.spl.mics.Future;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.Semaphore;
 
 /**
  * Passive object representing the resource manager.
@@ -16,8 +17,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class ResourcesHolder {
 
 	private static ResourcesHolder ourInstance = null;
-
 	private ConcurrentLinkedQueue<DeliveryVehicle> deliveryVehicles;
+	//private Semaphore semaphore;
 
 	/**
 	 * Retrieves the single instance of this class.
@@ -40,7 +41,7 @@ public class ResourcesHolder {
 	 * 			{@link DeliveryVehicle} when completed.
 	 */
 	public Future<DeliveryVehicle> acquireVehicle() {
-        Future<DeliveryVehicle> vehicleFuture = new Future<DeliveryVehicle>();
+		Future<DeliveryVehicle> vehicleFuture = new Future<DeliveryVehicle>();
 		if (!deliveryVehicles.isEmpty())
 			vehicleFuture.resolve(deliveryVehicles.poll());
 		return vehicleFuture;
@@ -54,6 +55,7 @@ public class ResourcesHolder {
 	 */
 	public void releaseVehicle(DeliveryVehicle vehicle) {
         deliveryVehicles.add(vehicle);
+        //semaphore.release();
 	}
 
 	/**
@@ -65,5 +67,6 @@ public class ResourcesHolder {
 		for (DeliveryVehicle vehicle : vehicles) {
 			deliveryVehicles.add(vehicle);
 		}
+		//semaphore = new Semaphore(vehicles.length,true);
 	}
 }

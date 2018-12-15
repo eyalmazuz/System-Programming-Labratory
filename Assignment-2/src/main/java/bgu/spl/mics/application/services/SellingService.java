@@ -45,25 +45,20 @@ public class SellingService extends MicroService {
     }
 
    private void chargingCustomer(int resolvedPrice,BookOrderEvent ev){
-	   //if (res != null && res.get()) {
-		   System.out.println(getName()+": charging credit card in tick " + index.get()+ " in service " + getName());
-		   register.chargeCreditCard(ev.getCustomer(), resolvedPrice);
-		   OrderSchedule orderSchedule = ev.getCustomer().getOrderSchedules().stream()
-				   .filter(b -> b.getBookTitle().equals(ev.getBookTitle()))
-				   .findFirst()
-				   .get();
-		   orderSchedule.setFixedPrice(resolvedPrice);
-		   OrderReceipt orderReceipt = new OrderReceipt(
-				   orderSchedule.getOrderId(), getName(), ev.getCustomer().getId(), orderSchedule.getBookTitle(),
-				   orderSchedule.getFixedPrice(), index.get(), ev.getTick(), orderSchedule.getTick());
-		   register.file(orderReceipt);
-		   ev.getCustomer().getCustomerReceiptList().add(orderReceipt);
-		   System.out.println(getName()+ ": completed order book " + ev.getBookTitle());
-		   complete(ev, true);
-//	   } else {
-//		   System.err.println(getName()+": failed to deliver book");
-//		   complete(ev, false);
-//	   }
+	   System.out.println(getName()+": charging credit card in tick " + index.get()+ " in service " + getName());
+	   register.chargeCreditCard(ev.getCustomer(), resolvedPrice);
+	   OrderSchedule orderSchedule = ev.getCustomer().getOrderSchedules().stream()
+			   .filter(b -> b.getBookTitle().equals(ev.getBookTitle()))
+			   .findFirst()
+			   .get();
+	   orderSchedule.setFixedPrice(resolvedPrice);
+	   OrderReceipt orderReceipt = new OrderReceipt(
+			   orderSchedule.getOrderId(), getName(), ev.getCustomer().getId(), orderSchedule.getBookTitle(),
+			   orderSchedule.getFixedPrice(), index.get(), ev.getTick(), orderSchedule.getTick());
+	   register.file(orderReceipt);
+	   ev.getCustomer().getCustomerReceiptList().add(orderReceipt);
+	   System.out.println(getName()+ ": completed order book " + ev.getBookTitle());
+	   complete(ev, true);
    }
 
    	private void deliverBook(BookOrderEvent ev, int resolvedPrice){
