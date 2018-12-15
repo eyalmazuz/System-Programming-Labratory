@@ -1,0 +1,75 @@
+{
+  "initialInventory": [
+    {"bookTitle": "Harry Poter", "amount": 10, "price": 90},
+    {"bookTitle": "The Hunger Games", "amount": 90, "price": 102},
+    {"bookTitle": "Asterix and Obelix", "amount": 1, "price": 50},
+    {"bookTitle": "Trump: The Art of the Deal", "amount": 1, "price": 550}
+  ],
+  "initialResources":[
+    {"vehicles":[
+      {"license":123483, "speed": 2},
+      {"license":999994, "speed": 4}
+    ]
+    }
+  ],
+  "services":{
+    "time": {
+      "speed": 1000,
+      "duration": 24
+    },
+    "selling": 6,
+    "inventoryService": 3,
+    "logistics": 4,
+    "resourcesService": 2,
+    "customers": [
+      {
+        "id": 123456789,
+        "name": "Bruria",
+        "address": "NewYork 123",
+        "distance":33,
+        "creditCard":{"number":67890,"amount":220},
+        "orderSchedule": [
+          {"bookTitle": "Harry Poter", "tick": 3},
+          {"bookTitle": "Asterix and Obelix", "tick": 4},
+          {"bookTitle": "The Hunger Games", "tick": 3}
+        ]
+      },
+      {
+        "id": 123456785,
+        "name": "Moshe",
+        "address": "Building 35, Room 123",
+        "distance":2,
+        "creditCard":{"number":67891,"amount":549},
+        "orderSchedule": [
+          {"bookTitle": "Trump: The Art of the Deal", "tick": 7}
+        ]
+      },
+      {
+        "id": 123456781,
+        "name": "Haim",
+        "address": "Building 35, Room 124",
+        "distance":2,
+        "creditCard":{"number":67891,"amount":551},
+        "orderSchedule": [
+          {"bookTitle": "Trump: The Art of the Deal", "tick": 7}
+        ]
+      },
+      {
+        "id": 234567891,
+        "name": "Shraga",
+        "address": "BeerSheva 3333",
+        "distance":12,
+        "creditCard":{"number":453536,"amount":220},
+        "orderSchedule": [
+          {"bookTitle": "The Hunger Games", "tick": 12},
+          {"bookTitle": "Asterix and Obelix", "tick": 4},
+          {"bookTitle": "Harry Poter", "tick": 3},
+          {"bookTitle": "Trump: The Art of the Deal", "tick": 17}
+        ]
+      }
+    ]
+  }
+
+
+
+}

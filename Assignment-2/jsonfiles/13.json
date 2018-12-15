@@ -1,0 +1,145 @@
+{
+  "initialInventory": [
+    {"bookTitle": "Harry Poter", "amount": 10, "price": 90},
+    {"bookTitle": "The Hunger Games", "amount": 99, "price": 102},
+    {"bookTitle": "Pinuky Goes To The Garden", "amount": 12, "price": 30},
+    {"bookTitle": "Ben Tzion Kun", "amount": 3, "price": 200},
+    {"bookTitle": "Java For Dummies", "amount": 14, "price": 75},
+    {"bookTitle": "Al Blima", "amount": 7, "price": 188},
+    {"bookTitle": "Madrich Hatrempist", "amount": 42, "price": 99},
+    {"bookTitle": "Sefer Ha-jungle", "amount": 33, "price": 11}
+  ],
+  "initialResources":[
+    {"vehicles":[
+      {"license":123483, "speed": 2},
+      {"license":999994, "speed": 4},
+      {"license":111111, "speed": 199}
+      
+    ]
+    }
+  ],
+  "services":{
+    "time": {
+      "speed": 1000,
+      "duration": 30
+    },
+    "selling": 3,
+    "inventoryService": 5,
+    "logistics": 4,
+    "resourcesService": 2,
+    "customers": [
+      {
+        "id": 1,
+        "name": "Bruria -1",
+        "address": "NewYork 123",
+        "distance":33,
+        "creditCard":{"number":67890,"amount":235},
+        "orderSchedule": [
+          {"bookTitle": "Harry Poter", "tick": 6},
+          {"bookTitle": "The Hunger Games", "tick": 5}
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Shraga -2",
+        "address": "BeerSheva 3333",
+        "distance":12,
+        "creditCard":{"number":453536,"amount":220},
+        "orderSchedule": [
+          {"bookTitle": "The Hunger Games", "tick": 1},
+          {"bookTitle": "Java For Dummies", "tick": 13}
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Ahikam -3",
+        "address": "London 666",
+        "distance":22,
+        "creditCard":{"number":90122,"amount":600},
+        "orderSchedule": [
+          {"bookTitle": "Ben Tzion Kun", "tick": 22},
+          {"bookTitle": "The Hunger Games", "tick": 30},
+          {"bookTitle": "Java For Dummies", "tick": 22}
+        
+        ]
+      }
+      ,
+      {
+        "id": 4,
+        "name": "Nevosmic -4",
+        "address": "Jerusalem 42",
+        "distance":9,
+        "creditCard":{"number":90122,"amount":999},
+        "orderSchedule": [
+          {"bookTitle": "Harry Poter", "tick": 2},
+          {"bookTitle": "The Hunger Games", "tick": 4},
+          {"bookTitle": "Hedva 3", "tick": 6},
+          {"bookTitle": "Pinuky Goes To The Garden", "tick": 11},
+          {"bookTitle": "Pinuky Goes To The Garden", "tick": 12},
+          {"bookTitle": "Pinuky Goes To The Garden", "tick": 13},
+          {"bookTitle": "Java For Dummies", "tick": 2},
+          {"bookTitle": "Sefer Ha-jungle", "tick": 17}
+
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Amir -5",
+        "address": "Meitar 666",
+        "distance":13,
+        "creditCard":{"number":90122,"amount":222},
+        "orderSchedule": [
+          {"bookTitle": "Harry Poter", "tick": 5},
+          {"bookTitle": "Al Blima", "tick": 23},
+          {"bookTitle": "Ben Tzion Kun", "tick": 5}
+
+        ]
+      },
+      {
+        "id": 6,
+        "name": "Noy -6",
+        "address": "London 666",
+        "distance":11,
+        "creditCard":{"number":90122,"amount":160},
+        "orderSchedule": [
+          {"bookTitle": "Java For Dummies", "tick": 1},
+          {"bookTitle": "Pinuky Goes To The Garden", "tick": 11},
+          {"bookTitle": "The Hunger Games", "tick": 12},
+          {"bookTitle": "Java For Dummies", "tick": 13}
+
+        ]
+      },
+      {
+        "id": 7,
+        "name": "Hagit -7",
+        "address": "Lod 1234",
+        "distance":15,
+        "creditCard":{"number":90122,"amount":20000},
+        "orderSchedule": [
+          {"bookTitle": "Madrich Hatrempist", "tick": 24},
+          {"bookTitle": "Madrich Hatrempist", "tick": 24},
+          {"bookTitle": "Madrich Hatrempist", "tick": 24}
+
+        ]
+      },
+      {
+        "id": 8,
+        "name": "Avi Goren -8",
+        "address": "London 666",
+        "distance":9,
+        "creditCard":{"number":90122,"amount":222},
+        "orderSchedule": [
+          {"bookTitle": "Ben Tzion Kun", "tick": 2},
+          {"bookTitle": "Ben Tzion Kun", "tick": 5},
+          {"bookTitle": "Ben Tzion Kun", "tick": 6},
+          {"bookTitle": "Ben Tzion Kun", "tick": 6},
+         {"bookTitle": "Java For Dummies", "tick": 6},
+         {"bookTitle": "Pinuky Goes To The Garden", "tick": 14},
+         {"bookTitle": "Pinuky Goes To The Garden", "tick": 15},
+         {"bookTitle": "Pinuky Goes To The Garden", "tick": 16}
+
+        ]
+      }
+    ]
+  }
+}

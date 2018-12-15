@@ -52,7 +52,7 @@ public class ResourceService extends MicroService {
 				if (!deliveryVehicleFuture.isDone())
 					deliveryVehicleFutureQueue.add(deliveryVehicleFuture);
 				DeliveryVehicle deliveryVehicle = deliveryVehicleFuture.get();
-				System.out.println(getName()+": found a free vehicle " + deliveryVehicle.getLicense() + " and send him to work");
+				//System.out.println(getName()+": found a free vehicle " + deliveryVehicle.getLicense() + " and send him to work");
 				complete(ev,deliveryVehicle);
 			}).start();
 		});
