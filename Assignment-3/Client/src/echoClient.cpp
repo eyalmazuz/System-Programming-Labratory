@@ -11,13 +11,17 @@ int main (int argc, char *argv[]) {
     }
     std::string host = argv[1];
     short port = atoi(argv[2]);
-    
+
+    //TODO add support to read messages from the socket
+    // add 2 thread client support
     ConnectionHandler connectionHandler(host, port);
     if (!connectionHandler.connect()) {
         std::cerr << "Cannot connect to " << host << ":" << port << std::endl;
         return 1;
     }
-	
+
+
+    //TODO change while loop to terminate only when receive ACK 3 from the server
 	//From here we will see the rest of the ehco client implementation:
     while (1) {
         const short bufsize = 1024;
