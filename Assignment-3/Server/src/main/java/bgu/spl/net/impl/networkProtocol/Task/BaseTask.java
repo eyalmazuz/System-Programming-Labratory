@@ -6,8 +6,8 @@ import bgu.spl.net.impl.networkProtocol.UsersManager;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract  class BaseTask implements Task {
-    protected static String fail=null;
-    protected static String success =null;
+    protected String fail=null;
+    protected String success =null;
 
     protected UsersManager userManager;
     protected ConcurrentHashMap<String,Integer> loggedInMap;
@@ -19,8 +19,8 @@ public abstract  class BaseTask implements Task {
         this.loggedInMap = loggedInMap;
         this.connectionId = connectionId;
         this.optCode = optCode;
-        if (fail == null) fail = "ERROR " + optCode;
-        if (success == null) success = "ACK " + optCode;
+        this.fail = "ERROR " + optCode;
+        this.success = "ACK " + optCode;
     }
 
     public abstract String run();

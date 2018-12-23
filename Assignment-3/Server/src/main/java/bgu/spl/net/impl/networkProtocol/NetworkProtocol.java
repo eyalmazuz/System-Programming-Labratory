@@ -3,9 +3,11 @@ package bgu.spl.net.impl.networkProtocol;
 import bgu.spl.net.api.bidi.BidiMessagingProtocol;
 import bgu.spl.net.api.bidi.Connections;
 import bgu.spl.net.impl.networkProtocol.Task.Login;
+import bgu.spl.net.impl.networkProtocol.Task.Logout;
 import bgu.spl.net.impl.networkProtocol.Task.Register;
 import bgu.spl.net.impl.networkProtocol.Task.Task;
 
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class NetworkProtocol implements BidiMessagingProtocol<String> {
@@ -29,6 +31,7 @@ public class NetworkProtocol implements BidiMessagingProtocol<String> {
 
     @Override
     public void process(String msg) {
+        System.out.println("message received: " + msg);
         String replay = parseMessage(msg);
         System.out.println("sending replay: " + replay);
         connections.send(connectionId,replay);
@@ -40,8 +43,9 @@ public class NetworkProtocol implements BidiMessagingProtocol<String> {
 
     private String parseMessage(String msg) {
         String ans="";
-        int optCode = Integer.valueOf(msg.substring(0,2));
-        String []tokens = msg.substring(2).replace("\n","").split("0");
+        byte[] bytes = msg.substring(0,2).getBytes(StandardCharsets.UTF_8);
+        short optCode = bytesToShort(bytes);
+        String []tokens = msg.substring(2).replace("\n","").split("\0");
         MessageType messageType = MessageType.fromInteger(optCode);
         Task task=null;
         switch (messageType){
@@ -55,6 +59,8 @@ public class NetworkProtocol implements BidiMessagingProtocol<String> {
                 ans = task.run();
                 break;
             case LOGOUT:
+                task = new Logout(usersManager,loggedInMap,connectionId,optCode);
+                ans = task.run();
                 break;
             case FOLLOW_UNFOLLOW:
                 break;
@@ -76,5 +82,12 @@ public class NetworkProtocol implements BidiMessagingProtocol<String> {
         return shouldTerminate;
     }
 
+
+    private short bytesToShort(byte[] byteArr)
+    {
+        short result = (short)((byteArr[0] & 0xff) << 8);
+        result += (short)(byteArr[1] & 0xff);
+        return result;
+    }
 
 }

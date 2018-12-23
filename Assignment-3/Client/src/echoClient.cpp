@@ -35,7 +35,6 @@ int main (int argc, char *argv[]) {
         messageEncoder encoder;
         std::string out = encoder.encode(line);
         std::cout << out << std::endl;
-        std::cout << '0' << "\0" << std::endl;
         if (!connectionHandler.sendLine(out)) {
             std::cout << "Disconnected. Exiting...\n" << std::endl;
             break;

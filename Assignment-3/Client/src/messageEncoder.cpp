@@ -64,15 +64,13 @@ std::string messageEncoder::encodeLogin(std::string &line) {
     char zeroByte = '\0';
 
     opcodes type = LOGIN;
-    shortToBytes('0x01', bytesArr);
+    shortToBytes(type, bytesArr);
 
     std::istringstream iss(line);
     std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
                                     std::istream_iterator<std::string>{}};
 
-    std::string ans;
-    ans.append(std::to_string(bytesArr[0]));
-    ans.append(std::to_string(bytesArr[1]));
+    std::string ans (bytesArr, sizeof(bytesArr));
     ans.append(tokens[1]+zeroByte);
     ans.append(tokens[2]+zeroByte);
     return ans;
@@ -90,9 +88,7 @@ std::string messageEncoder::encodeRegister(std::string &line) {
     std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
                                     std::istream_iterator<std::string>{}};
 
-    std::string ans;
-    ans.append(""+zeroByte);
-    ans.append(std::to_string(bytesArr[1]));
+    std::string ans (bytesArr, sizeof(bytesArr));
     ans.append(tokens[1]+zeroByte);
     ans.append(tokens[2]+zeroByte);
     return ans;
