@@ -2,6 +2,7 @@
 #include <thread>
 #include "../include/connectionHandler.h"
 #include "../include/Task.h"
+#include "../include/message.h"
 #include <boost/thread.hpp>
 
 /**
@@ -31,12 +32,18 @@ int main (int argc, char *argv[]) {
         char buf[bufsize];
         std::cin.getline(buf, bufsize);
         std::string line(buf);
-        if (!connectionHandler.sendLine(line)) {
+        messageEncoder *encoder = messageSelector::getClientMessage(line);
+        if (encoder == nullptr){
+            std::cout << "Invalid Command !!!\n" << std::endl;
+            continue;
+        }
+        std::string out = encoder->encode(line);
+        if (!connectionHandler.sendLine(out)) {
             std::cout << "Disconnected. Exiting...\n" << std::endl;
             break;
         }
         // connectionHandler.sendLine(line) appends '\n' to the message. Therefor we send len+1 bytes.
-        std::cout << "Sent " << line.length()+1 << " bytes to server" << std::endl;
+        std::cout << "Sent " << out.length()+1 << " bytes to server" << std::endl;
 
     }
 
