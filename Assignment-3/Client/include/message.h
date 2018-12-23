@@ -11,7 +11,7 @@
 #endif //CLIENT_MESSAGE_H
 
 
-enum messageClientToServerType{
+enum opcodes{ 
     REGISTER=1,
     LOGIN=2,
     LOGOUT=3,
@@ -22,14 +22,8 @@ enum messageClientToServerType{
     STAT=8
 };
 
-//enum messageServerToClientType{
-//    NOTIFICATIONS=9,
-//    ACK=10,
-//    ERROR=11
-//};
-
-struct messageClientTypeMap : public std::map<std::string,messageClientToServerType>{
-    messageClientTypeMap(){
+struct opcodesMap : public std::map<std::string,opcodes>{
+    opcodesMap(){
         this->operator[]("REGISTER") = REGISTER;
         this->operator[]("LOGIN") = LOGIN;
         this->operator[]("LOGOUT") = LOGOUT;
@@ -40,17 +34,8 @@ struct messageClientTypeMap : public std::map<std::string,messageClientToServerT
         this->operator[]("STAT") = STAT;
 
     }
-    ~messageClientTypeMap(){};
+    ~opcodesMap(){};
 };
-
-//struct messageServerTypeMap : public std::map<std::string,messageServerToClientType>{
-//    messageServerTypeMap(){
-//        this->operator[]("NOTIFICATIONS") = NOTIFICATIONS;
-//        this->operator[]("ACK") = ACK;
-//        this->operator[]("ERROR") = ERROR;
-//    }
-//    ~messageServerTypeMap(){};
-//};
 
 class messageEncoder{
 private:
@@ -58,45 +43,31 @@ protected:
     void shortToBytes(short num, char* bytesArr);
 public:
     messageEncoder();
-    virtual std::string encode(std::string &in)=0;
+    std::string encode(std::string &line);
 };
 
-//class messageDecoder{
-//private:
-//protected:
-//    short bytesToShort(char* bytesArr);
-//public:
-//    messageDecoder();
-//    virtual std::string decode(std::string &out)=0;
-//};
+class message{
+    private: 
+        char* opcode;
 
-
-class messageSelector{
-private:
-    static bool checkValidInput(std::string input);
-    static bool checkValidOutput(std::string output);
-public:
-    static messageEncoder * getClientMessage(std::string &txt);
-    //static messageDecoder * getServerMessage(std::string txt);
+    public:
+        message(char *opcode);
+        virtual std::string encode(std::string &line)=0;
+        virtual ~message();
 };
 
-class loginMessage : public messageEncoder{
-public:
-    loginMessage();
-    std::string encode(std::string &in) override;
+class loginMessage : public message{
+    private:
+    public:
+        loginMessage(char* opcode);
+        std::string encode(std::string &line);
+        ~loginMessage();
 };
 
-class registerMessage : public messageEncoder{
-public:
-    registerMessage();
-    std::string encode(std::string &in) override;
+class registerMessage : public message{
+    private:
+    public:
+        registerMessage(char *opcode);
+        std::string encode(std::string &line);
+        ~registerMessage();
 };
-
-//class ackMessage : public messageDecoder{
-//public:
-//    ackMessage();
-//    std::string decode(std::string &out) override;
-//};
-
-
-

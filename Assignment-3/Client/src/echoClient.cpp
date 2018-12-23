@@ -32,12 +32,9 @@ int main (int argc, char *argv[]) {
         char buf[bufsize];
         std::cin.getline(buf, bufsize);
         std::string line(buf);
-        messageEncoder *encoder = messageSelector::getClientMessage(line);
-        if (encoder == nullptr){
-            std::cout << "Invalid Command !!!\n" << std::endl;
-            continue;
-        }
-        std::string out = encoder->encode(line);
+        messageEncoder encoder;
+        std::string out = encoder.encode(line);
+        std::cout << out << std::endl;
         if (!connectionHandler.sendLine(out)) {
             std::cout << "Disconnected. Exiting...\n" << std::endl;
             break;

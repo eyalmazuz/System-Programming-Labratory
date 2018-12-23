@@ -15,24 +15,15 @@ void messageEncoder::shortToBytes(short num, char *bytesArr) {
     bytesArr[1] = (num & 0xFF);
 }
 
-//messageDecoder::messageDecoder() {}
 
-//short messageDecoder::bytesToShort(char *bytesArr) {
-//    short result = (short)((bytesArr[0] & 0xff) << 8);
-//    result += (short)(bytesArr[1] & 0xff);
-//    return result;
-//}
-
-
-std::string loginMessage::encode(std::string &in) {
+std::string loginMessage::encode(std::string &line) {
 
     char bytesArr[2];
-    char zeroByte = '0';
+    char zeroByte = '\0';
 
-    messageClientToServerType type = LOGIN;
-    shortToBytes((short) type,bytesArr);
+    opcodes type = LOGIN;
 
-    std::istringstream iss(in);
+    std::istringstream iss(line);
     std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
                                     std::istream_iterator<std::string>{}};
 
@@ -44,34 +35,33 @@ std::string loginMessage::encode(std::string &in) {
     return ans;
 }
 
-loginMessage::loginMessage() {
+loginMessage::loginMessage(char* _opcode) : message(_opcode){ }
 
+loginMessage::~loginMessage() {
 }
 
-//std::string ackMessage::decode(std::string &out) {
-//    //2 bytes - optcode. 1 - end of username. 1 - end of password.
-//
-//
-//}
+std::string messageEncoder::encode(std::string &line){
 
-//ackMessage::ackMessage() {
-//
-//}
-
-
-messageEncoder * messageSelector::getClientMessage(std::string &txt) {
-    if (!checkValidInput(txt))
-        return nullptr;
-
-    std::istringstream iss(txt);
+    std::istringstream iss(line);
     std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
                                     std::istream_iterator<std::string>{}};
 
-    messageClientTypeMap map;
-    auto type = map[tokens[0]];
+    opcodesMap map;
+    opcodes type = map[tokens[0]];
+    char *opcode;
     switch (type){
-        case LOGIN:return new loginMessage();
-        case REGISTER:return new registerMessage();
+        case LOGIN: {
+            shortToBytes(type, opcode);
+            loginMessage loginM(opcode);
+            return loginM.encode(line);
+            break;
+        }
+        case REGISTER: {
+            shortToBytes(type, opcode);
+            registerMessage registerM(opcode);
+            return registerM.encode(line);
+            break;
+        }
         case LOGOUT:break;
         case FOLLOW_UNFOLLOW:break;
         case POST:break;
@@ -84,62 +74,15 @@ messageEncoder * messageSelector::getClientMessage(std::string &txt) {
     return nullptr;
 }
 
-//messageDecoder * messageSelector::getServerMessage(std::string txt) {
-//    if (checkValidOutput(txt))
-//        return nullptr;
-//
-//    std::istringstream iss(txt);
-//    std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
-//                                    std::istream_iterator<std::string>{}};
-//
-//    messageServerTypeMap map;
-//    auto type = map[tokens[0]];
-//    switch (type){
-//        case NOTIFICATIONS:break;
-//        case ACK:break;
-//        case ERROR:break;
-//    }
-//
-//    return nullptr;
-//}
 
-bool messageSelector::checkValidInput(std::string input) {
-    std::istringstream iss(input);
-    std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
-                                    std::istream_iterator<std::string>{}};
-
-    messageClientTypeMap map;
-    auto type = map[tokens[0]];
-    switch (type){
-        case LOGIN: return tokens.size() == 3;
-        case REGISTER: return tokens.size() == 3;
-        case LOGOUT:break;
-        case FOLLOW_UNFOLLOW:break;
-        case POST:break;
-        case PM:break;
-        case USERLIST:break;
-        case STAT:break;
-        default:return false;
-    }
-
-    return false;
-}
-
-bool messageSelector::checkValidOutput(std::string output) {
-    return true;
-}
-
-
-registerMessage::registerMessage() {
+registerMessage::registerMessage(char *_opcode) : message(_opcode){
 
 }
 
 std::string registerMessage::encode(std::string &in) {
     char bytesArr[2];
-    char zeroByte = '0';
+    char zeroByte = '\0';
 
-    messageClientToServerType type = REGISTER;
-    shortToBytes((short) type,bytesArr);
 
     std::istringstream iss(in);
     std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
@@ -151,4 +94,16 @@ std::string registerMessage::encode(std::string &in) {
     ans.append(tokens[1]+zeroByte);
     ans.append(tokens[2]+zeroByte);
     return ans;
+}
+
+registerMessage::~registerMessage() {
+
+}
+
+message::~message() {
+
+}
+
+message::message(char *opcode) {
+
 }
