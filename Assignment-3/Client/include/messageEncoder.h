@@ -9,7 +9,7 @@
 class messageEncoder {
 
     public:
-    
+        encodeLogin();
 };
 
 
