@@ -18,7 +18,7 @@ void messageEncoder::shortToBytes(short num, char *bytesArr) {
 messageEncoder::messageEncoder() {}
 
 
-std::string messageEncoder::encode(std::string &line) {
+std::vector<char> messageEncoder::encode(std::string &line) {
 
     std::istringstream iss(line);
     std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
@@ -54,55 +54,224 @@ std::string messageEncoder::encode(std::string &line) {
         case STAT: {
             return encodeStats(line);
         }
-        default:return nullptr;
+
     }
 
 }
 
-std::string messageEncoder::encodeLogin(std::string &line) {
+std::vector<char> messageEncoder::encodeLogin(std::string &line) {
     char bytesArr[2];
     char zeroByte = '\0';
 
-    opcodes type = LOGIN;
-    shortToBytes(type, bytesArr);
+    shortToBytes(LOGIN, bytesArr);
+
+    std::vector<char> bytes;
+    bytes.insert(bytes.begin(), bytesArr[1]);
+    bytes.insert(bytes.begin(), bytesArr[0]);
 
     std::istringstream iss(line);
     std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
                                     std::istream_iterator<std::string>{}};
 
-    std::string ans (bytesArr, sizeof(bytesArr));
-    ans.append(tokens[1]+zeroByte);
-    ans.append(tokens[2]+zeroByte);
-    return ans;
+    tokens.erase(tokens.begin());
+
+    for(auto t : tokens){
+        bytes.insert(bytes.end(), t.begin(), t.end());
+        bytes.push_back(zeroByte);
+    }
+
+    return bytes;
 
 }
 
-std::string messageEncoder::encodeRegister(std::string &line) {
+std::vector<char> messageEncoder::encodeRegister(std::string &line) {
 
     char bytesArr[2];
     char zeroByte = '\0';
-    opcodes type = REGISTER;
-    shortToBytes(type, bytesArr);
+
+    shortToBytes(REGISTER, bytesArr);
+
+    std::vector<char> bytes;
+    bytes.insert(bytes.begin(), bytesArr[1]);
+    bytes.insert(bytes.begin(), bytesArr[0]);
+
+    std::istringstream iss(line);
+    std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
+                                    std::istream_iterator<std::string>{}};
+    tokens.erase(tokens.begin());
+
+    for(auto t : tokens){
+      bytes.insert(bytes.end(), t.begin(), t.end());
+      bytes.push_back(zeroByte);
+    }
+
+
+    return bytes;
+
+}
+
+std::vector<char> messageEncoder::encodeLogout(std::string &line) {
+    char bytesArr[2];
+    char zeroByte = '\0';
+
+    shortToBytes(LOGOUT, bytesArr);
+
+    std::vector<char> bytes;
+    bytes.insert(bytes.begin(), bytesArr[1]);
+    bytes.insert(bytes.begin(), bytesArr[0]);
+
+    std::istringstream iss(line);
+    std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
+                                    std::istream_iterator<std::string>{}};
+    tokens.erase(tokens.begin());
+
+    for(auto t : tokens){
+        bytes.insert(bytes.end(), t.begin(), t.end());
+        bytes.push_back('\0');
+    }
+
+    return bytes;
+}
+
+std::vector<char> messageEncoder::encodeFollow(std::string &line) {
+    char bytesArr[2];
+    char zeroByte = '\0';
+
+    shortToBytes(FOLLOW_UNFOLLOW, bytesArr);
+
+    std::vector<char> bytes;
+    bytes.insert(bytes.begin(), bytesArr[1]);
+    bytes.insert(bytes.begin(), bytesArr[0]);
+
+    std::istringstream iss(line);
+    std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
+                                    std::istream_iterator<std::string>{}};
+    tokens.erase(tokens.begin());
+
+    //FOLLOW 1 2 RICK BIRDPERSON
+    //TOKENS = [1, 2 , RICK, BIRDPERSON]
+    //BYTES = [1 2 RICK BIRDPERSON ]
+
+    for(auto t : tokens){
+        bytes.insert(bytes.end(), t.begin(), t.end());
+        bytes.push_back(' ');
+    }
+
+    bytes.erase(bytes.end());
+    bytes.push_back(zeroByte);
+
+    return bytes;
+
+}
+
+std::vector<char> messageEncoder::encodePost(std::string &line) {
+    char bytesArr[2];
+    char zeroByte = '\0';
+
+    shortToBytes(POST, bytesArr);
+
+    std::vector<char> bytes;
+    bytes.insert(bytes.begin(), bytesArr[1]);
+    bytes.insert(bytes.begin(), bytesArr[0]);
+
+    std::istringstream iss(line);
+    std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
+                                    std::istream_iterator<std::string>{}};
+    tokens.erase(tokens.begin());
+
+    //FOLLOW 1 2 RICK BIRDPERSON
+    //TOKENS = [1, 2 , RICK, BIRDPERSON]
+    //BYTES = [1 2 RICK BIRDPERSON ]
+
+    for(auto t : tokens){
+        bytes.insert(bytes.end(), t.begin(), t.end());
+        bytes.push_back(' ');
+    }
+
+    bytes.pop_back();
+    bytes.push_back(zeroByte);
+
+    return bytes;
+}
+
+std::vector<char> messageEncoder::encodePM(std::string &line) {
+
+    char bytesArr[2];
+    char zeroByte = '\0';
+
+    shortToBytes(PM, bytesArr);
+
+    std::vector<char> bytes;
+    bytes.insert(bytes.begin(), bytesArr[1]);
+    bytes.insert(bytes.begin(), bytesArr[0]);
+
+    std::istringstream iss(line);
+    std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
+                                    std::istream_iterator<std::string>{}};
+    tokens.erase(tokens.begin());
+    std::string userName = tokens[0];
+    tokens.erase(tokens.begin());
+    bytes.insert(bytes.end(), userName.begin(), userName.end());
+    bytes.push_back(zeroByte);
+    for(auto t : tokens){
+        bytes.insert(bytes.end(), t.begin(), t.end());
+        bytes.push_back(' ');
+    }
+
+    bytes.pop_back();
+    bytes.push_back(zeroByte);
+
+    return bytes;
+
+
+}
+
+std::vector<char> messageEncoder::encodeUserList(std::string &line) {
+    char bytesArr[2];
+    char zeroByte = '\0';
+
+    shortToBytes(USERLIST, bytesArr);
+
+    std::vector<char> bytes;
+    bytes.insert(bytes.begin(), bytesArr[1]);
+    bytes.insert(bytes.begin(), bytesArr[0]);
+
+    std::istringstream iss(line);
+    std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
+                                    std::istream_iterator<std::string>{}};
+    tokens.erase(tokens.begin());
+
+    for(auto t : tokens){
+        bytes.insert(bytes.end(), t.begin(), t.end());
+        bytes.push_back('\0');
+    }
+
+    return bytes;
+
+}
+
+std::vector<char> messageEncoder::encodeStats(std::string &line) {
+
+    char bytesArr[2];
+    char zeroByte = '\0';
+
+    shortToBytes(STAT, bytesArr);
+
+    std::vector<char> bytes;
+    bytes.insert(bytes.begin(), bytesArr[1]);
+    bytes.insert(bytes.begin(), bytesArr[0]);
 
     std::istringstream iss(line);
     std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
                                     std::istream_iterator<std::string>{}};
 
-    std::string ans (bytesArr, sizeof(bytesArr));
-    ans.append(tokens[1]+zeroByte);
-    ans.append(tokens[2]+zeroByte);
-    return ans;
+    tokens.erase(tokens.begin());
+
+    for(auto t : tokens){
+        bytes.insert(bytes.end(), t.begin(), t.end());
+        bytes.push_back(zeroByte);
+    }
+
+    return bytes;
 
 }
-
-std::string messageEncoder::encodeLogout(std::string &line) {}
-
-std::string messageEncoder::encodeFollow(std::string &line) {}
-
-std::string messageEncoder::encodePost(std::string &line) {}
-
-std::string messageEncoder::encodePM(std::string &line) {}
-
-std::string messageEncoder::encodeUserList(std::string &line) {}
-
-std::string messageEncoder::encodeStats(std::string &line) {}

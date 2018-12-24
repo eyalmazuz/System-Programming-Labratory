@@ -10,7 +10,11 @@ if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
     add_executable(Client include/connectionHandler.h
             src/connectionHandler.cpp
-            src/echoClient.cpp include/Task.h src/Task.cpp src/messageEncoder.cpp include/messageEncoder.h)
+            src/echoClient.cpp
+            include/Task.h
+            src/Task.cpp
+            src/messageEncoder.cpp
+            include/messageEncoder.h)
     target_link_libraries(Client ${Boost_LIBRARIES})
 endif()
 

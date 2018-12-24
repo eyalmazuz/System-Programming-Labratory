@@ -8,7 +8,7 @@
 
 #include <string>
 #include <map>
-
+#include <vector>
 
 enum opcodes{
     REGISTER=1,
@@ -42,15 +42,15 @@ class messageEncoder {
     public:
         messageEncoder();
         void shortToBytes(short num, char *bytesArr);
-        std::string encode(std::string &line);
-        std::string encodeLogin(std::string &line);
-        std::string encodeRegister(std::string &line);
-        std::string encodeLogout(std::string &line);
-        std::string encodeFollow(std::string &line);
-        std::string encodePost(std::string &line);
-        std::string encodeUserList(std::string &line);
-        std::string encodeStats(std::string &line);
-        std::string encodePM(std::string &line);
+    std::vector<char> encode(std::string &line);
+    std::vector<char> encodeLogin(std::string &line);
+    std::vector<char> encodeRegister(std::string &line);
+    std::vector<char> encodeLogout(std::string &line);
+    std::vector<char> encodeFollow(std::string &line);
+    std::vector<char> encodePost(std::string &line);
+    std::vector<char> encodeUserList(std::string &line);
+    std::vector<char> encodeStats(std::string &line);
+    std::vector<char> encodePM(std::string &line);
 };
 
 

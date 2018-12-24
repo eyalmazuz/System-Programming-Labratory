@@ -102,3 +102,9 @@ void ConnectionHandler::close() {
         std::cout << "closing failed: connection already closed" << std::endl;
     }
 }
+
+bool ConnectionHandler::sendBytesArray(const char *bytes, char delimiter, int bytesToWrite) {
+    bool result=sendBytes(bytes, bytesToWrite);
+    if(!result) return false;
+    return sendBytes(&delimiter,1);
+}

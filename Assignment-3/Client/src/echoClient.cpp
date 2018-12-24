@@ -5,9 +5,28 @@
 #include "../include/messageEncoder.h"
 #include <boost/thread.hpp>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-noreturn"
 /**
 * This code assumes that the server replies the exact text the client sent it (as opposed to the practical session example)
 */
+
+struct HexCharStruct
+{
+    unsigned char c;
+    HexCharStruct(unsigned char _c) : c(_c) { }
+};
+
+inline std::ostream& operator<<(std::ostream& o, const HexCharStruct& hs)
+{
+    return (o << std::hex << (int)hs.c);
+}
+
+inline HexCharStruct hex(unsigned char _c)
+{
+    return HexCharStruct(_c);
+}
+
 int main (int argc, char *argv[]) {
     if (argc < 3) {
         std::cerr << "Usage: " << argv[0] << " host port" << std::endl << std::endl;
@@ -16,7 +35,7 @@ int main (int argc, char *argv[]) {
     std::string host = argv[1];
     short port = atoi(argv[2]);
 
-    //TODO add support to read messages from the socket
+    //TODO Check about client termination when sending LOGOUT message
     // add 2 thread client support
     ConnectionHandler connectionHandler(host, port);
     if (!connectionHandler.connect()) {
@@ -33,14 +52,19 @@ int main (int argc, char *argv[]) {
         std::cin.getline(buf, bufsize);
         std::string line(buf);
         messageEncoder encoder;
-        std::string out = encoder.encode(line);
-        std::cout << out << std::endl;
-        if (!connectionHandler.sendLine(out)) {
-            std::cout << "Disconnected. Exiting...\n" << std::endl;
-            break;
+        std::vector<char> bytes(encoder.encode(line));
+        char c[bytes.size()];
+        std::copy(bytes.begin(), bytes.end(), c);
+
+        for(auto a: bytes){
+            std::cout << hex(a) << " ";
+        }
+
+        if(!connectionHandler.sendBytesArray(c, '\n', bytes.size())){
+            std::cout<< "Disconnected. Exiting...\n" << std::endl;
         }
         // connectionHandler.sendLine(line) appends '\n' to the message. Therefor we send len+1 bytes.
-        std::cout << "Sent " << out.length()+1 << " bytes to server" << std::endl;
+        std::cout << "Sent " << bytes.size()+1 << " bytes to server" << std::endl;
 
     }
 
@@ -48,3 +72,5 @@ int main (int argc, char *argv[]) {
 
     return 0;
 }
+
+#pragma clang diagnostic pop
