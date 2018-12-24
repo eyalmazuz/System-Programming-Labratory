@@ -6,12 +6,12 @@ import bgu.spl.net.srv.ConnectionHandler;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class BidiConnections<T> implements Connections<T> {
+public class ConnectionsImpl<T> implements Connections<T> {
 
     private ConcurrentHashMap<Integer, ConnectionHandler> connections;
     private int idCounter;
 
-    public BidiConnections() {
+    public ConnectionsImpl() {
         this.connections=new ConcurrentHashMap<>();
         this.idCounter=0;
     }

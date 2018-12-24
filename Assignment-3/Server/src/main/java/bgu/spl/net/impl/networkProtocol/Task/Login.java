@@ -7,25 +7,31 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Login extends BaseTask {
-    private User user;
+    private String userName;
+    private String password;
+    public Login(UsersManager userManager, int connectionId, int optCode, String userName, String password) {
+        super(userManager, connectionId, optCode);
+        this.userName = userName;
+        this.password = password;
 
-    public Login(UsersManager userManager, ConcurrentHashMap<String, Integer> loggedInMap, int connectionId, int optCode, User user) {
-        super(userManager, loggedInMap, connectionId, optCode);
-        this.user = user;
     }
 
     @Override
     public String run() {
-        boolean login=false;
-        if (loggedInMap.containsKey(user.getName())||loggedInMap.containsValue(connectionId)) return fail;
-        ConcurrentLinkedQueue<User> users= userManager.acquireUsersReadLock();
-        for(User user:users)
-            if(this.user.compareTo(user) == 0) {
-                loggedInMap.put(user.getName(),connectionId);
-                login = true;
-            }
-        userManager.releaseUsersReadLock();
-        if(login) return success;
-        else return fail;
+        boolean login = false;
+        ConcurrentHashMap<User, Integer> users = userManager.acquireUsersReadLock();
+        if (users.keySet().stream().filter(f -> f.compareTo(new User(userName, password)) != 0 || f.isLoggedIn()).findAny().isPresent()) {
+            userManager.releaseUsersReadLock();
+            return new ErrorMessage(optCode).toString();
+        } else {
+            userManager.releaseUsersReadLock();
+            users = userManager.acquireUsersWriteLock();
+            users.keySet().stream().filter(f -> f.compareTo(new User(userName, password)) == 0).findAny().get().setLoggedIn(true);
+            userManager.releaseUsersWriteLock();
+            login = true;
+        }
+        if (login) {
+            return new AckMessage(optCode).toString();
+        } else return new ErrorMessage(optCode).toString();
     }
 }

@@ -1,25 +1,31 @@
 package bgu.spl.net.impl.networkProtocol.Task;
 
+import bgu.spl.net.impl.networkProtocol.User;
 import bgu.spl.net.impl.networkProtocol.UsersManager;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Logout extends BaseTask {
-    public Logout(UsersManager userManager, ConcurrentHashMap<String, Integer> loggedInMap, int connectionId, int optCode) {
-        super(userManager, loggedInMap, connectionId, optCode);
+    public Logout(UsersManager userManager, int connectionId, int optCode) {
+        super(userManager, connectionId, optCode);
     }
 
     @Override
     public String run() {
-        if(loggedInMap.containsValue(connectionId))
+        ConcurrentHashMap<User, Integer> users= userManager.acquireUsersReadLock();
+        if(users.keySet().stream().filter(f -> f.isLoggedIn()).findAny().isPresent())
         {
-            for(Map.Entry<String,Integer> user:loggedInMap.entrySet() )
-                if(user.getValue() ==connectionId)
-                    loggedInMap.remove(user.getKey());
-
-            return success;
+            userManager.releaseUsersReadLock();
+            users= userManager.acquireUsersWriteLock();
+            users.keySet().stream().filter(f -> f.compareTo(new User(userName, password)) == 0).findAny().get().setLoggedIn(false);
+            userManager.releaseUsersWriteLock();
+            return new AckMessage(optCode).toString();
         }
-        return fail;
+        else{
+            userManager.releaseUsersReadLock();
+            return new ErrorMessage(optCode).toString();
+        }
+
     }
 }

@@ -1,18 +1,19 @@
 package bgu.spl.net.impl.networkProtocol;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class UsersManager {
     private ReentrantReadWriteLock usersRWLock;
-    private ConcurrentLinkedQueue<User> users;
+    private ConcurrentHashMap<User, Integer> users;
 
     public UsersManager() {
         this.usersRWLock = new ReentrantReadWriteLock();
-        this.users = new ConcurrentLinkedQueue<>();
+        this.users = new ConcurrentHashMap<>();
     }
 
-    public ConcurrentLinkedQueue<User> acquireUsersReadLock(){
+    public ConcurrentHashMap<User,Integer> acquireUsersReadLock(){
         this.usersRWLock.readLock().lock();
         return users;
     }
@@ -21,7 +22,7 @@ public class UsersManager {
         this.usersRWLock.readLock().unlock();
     }
 
-    public ConcurrentLinkedQueue<User> acquireUsersWriteLock(){
+    public ConcurrentHashMap<User, Integer> acquireUsersWriteLock(){
         this.usersRWLock.writeLock().lock();
         return users;
     }
