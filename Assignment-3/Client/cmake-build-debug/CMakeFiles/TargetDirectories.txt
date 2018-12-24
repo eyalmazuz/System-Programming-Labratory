@@ -1,3 +1,0 @@
-/users/studs/bsc/2019/mazuze/Desktop/Programming/System-Programming-Labratory/Assignment-3/Client/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/users/studs/bsc/2019/mazuze/Desktop/Programming/System-Programming-Labratory/Assignment-3/Client/cmake-build-debug/CMakeFiles/edit_cache.dir
-/users/studs/bsc/2019/mazuze/Desktop/Programming/System-Programming-Labratory/Assignment-3/Client/cmake-build-debug/CMakeFiles/Client.dir
