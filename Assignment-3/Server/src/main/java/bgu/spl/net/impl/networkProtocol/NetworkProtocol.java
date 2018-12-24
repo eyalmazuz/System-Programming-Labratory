@@ -8,18 +8,15 @@ import bgu.spl.net.impl.networkProtocol.Task.Register;
 import bgu.spl.net.impl.networkProtocol.Task.Task;
 
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class NetworkProtocol implements BidiMessagingProtocol<String> {
 
     private boolean shouldTerminate = false;
     private Connections<String> connections;
-    private ConcurrentHashMap<String,Integer> loggedInMap;
     private UsersManager usersManager;
     private int connectionId;
 
-    public NetworkProtocol(ConcurrentHashMap<String, Integer> loggedIn, UsersManager usersManager) {
-        this.loggedInMap = loggedIn;
+    public NetworkProtocol(UsersManager usersManager) {
         this.usersManager = usersManager;
     }
 
@@ -51,15 +48,15 @@ public class NetworkProtocol implements BidiMessagingProtocol<String> {
         switch (messageType){
 
             case REGISTER:
-                task = new Register(usersManager,loggedInMap,connectionId,optCode,new User(tokens[0],tokens[1]));
+                task = new Register(usersManager,connectionId,optCode,new User(tokens[0],tokens[1]));
                 ans = task.run();
                 break;
             case LOGIN:
-                task = new Login(usersManager,loggedInMap,connectionId,optCode,new User(tokens[0],tokens[1]));
+                task = new Login(usersManager,connectionId,optCode,new User(tokens[0],tokens[1]));
                 ans = task.run();
                 break;
             case LOGOUT:
-                task = new Logout(usersManager,loggedInMap,connectionId,optCode);
+                task = new Logout(usersManager,connectionId,optCode);
                 ans = task.run();
                 break;
             case FOLLOW_UNFOLLOW:

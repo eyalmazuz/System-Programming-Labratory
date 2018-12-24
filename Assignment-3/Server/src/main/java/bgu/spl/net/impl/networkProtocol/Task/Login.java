@@ -9,15 +9,18 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Login extends BaseTask {
     private User user;
 
-    public Login(UsersManager userManager, ConcurrentHashMap<String, Integer> loggedInMap, int connectionId, int optCode, User user) {
-        super(userManager, loggedInMap, connectionId, optCode);
+    public Login(UsersManager userManager, int connectionId, int optCode, User user) {
+        super(userManager, connectionId, optCode);
         this.user = user;
     }
 
     @Override
     public String run() {
         boolean login=false;
-        if (loggedInMap.containsKey(user.getName())||loggedInMap.containsValue(connectionId)) return fail;
+        ConcurrentHashMap<String, Integer> loggedInMap= userManager.getLoggedInMap();
+        if (loggedInMap.containsKey(user.getName())||loggedInMap.containsValue(connectionId)) {
+            return fail;
+        }
         ConcurrentLinkedQueue<User> users= userManager.acquireUsersReadLock();
         for(User user:users)
             if(this.user.compareTo(user) == 0) {

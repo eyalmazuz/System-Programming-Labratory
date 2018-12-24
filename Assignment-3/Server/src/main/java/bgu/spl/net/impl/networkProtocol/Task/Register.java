@@ -9,14 +9,17 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Register extends BaseTask {
     private User user;
 
-    public Register(UsersManager userManager, ConcurrentHashMap<String, Integer> loggedInMap, int connectionId, int optCode, User user) {
-        super(userManager, loggedInMap, connectionId, optCode);
+    public Register(UsersManager userManager, int connectionId, int optCode, User user) {
+        super(userManager, connectionId, optCode);
         this.user = user;
     }
 
     @Override
     public String run() {
-        if(loggedInMap.containsKey(user.getName()) || loggedInMap.containsValue(this.connectionId)) return fail;
+        ConcurrentHashMap<String, Integer> loggedInMap= userManager.getLoggedInMap();
+        if(loggedInMap.containsKey(user.getName()) || loggedInMap.containsValue(this.connectionId)) {
+            return fail;
+        }
         ConcurrentLinkedQueue<User> users = userManager.acquireUsersWriteLock();
         for (User user : users){
             if(this.user.compareTo(user) == 0){
