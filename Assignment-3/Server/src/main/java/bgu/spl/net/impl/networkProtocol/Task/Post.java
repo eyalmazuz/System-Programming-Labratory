@@ -1,8 +1,11 @@
 package bgu.spl.net.impl.networkProtocol.Task;
 
 import bgu.spl.net.impl.networkProtocol.Database;
+import bgu.spl.net.impl.networkProtocol.User;
 
-public class Post extends BaseTask {
+import java.util.ArrayList;
+
+public class Post extends BaseTask <ArrayList<String>> {
 
     private String post;
     public Post(Database database, int connectionId, int opCode, String post) {
@@ -11,7 +14,7 @@ public class Post extends BaseTask {
     }
 
     @Override
-    public String run() {
-
+    public ArrayList<String> run() {
+        return database.getUserByConnectionID(connectionId).getFollowers();
     }
 }

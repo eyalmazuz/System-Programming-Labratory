@@ -1,5 +1,5 @@
 package bgu.spl.net.impl.networkProtocol.Task;
 
-public interface Task {
-    public String run();
+public interface Task <T> {
+    public T run();
 }

@@ -5,7 +5,7 @@ import bgu.spl.net.impl.networkProtocol.Database;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Register extends BaseTask {
+public class Register extends BaseTask <String> {
     private User user;
 
     public Register(Database database, int connectionId, int opCode, User user) {

@@ -2,6 +2,7 @@ package bgu.spl.net.impl.networkProtocol;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Collectors;
 
 public class User implements Comparable<User> {
     private String name;
@@ -55,5 +56,9 @@ public class User implements Comparable<User> {
 
     public void addFollower(String name) {
         followerList.add(name);
+    }
+
+    public ArrayList<String> getFollowers() {
+        return followerList.stream().collect(Collectors.toCollection(ArrayList::new));
     }
 }

@@ -5,8 +5,6 @@
 #include "../include/messageEncoder.h"
 #include <boost/thread.hpp>
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wmissing-noreturn"
 /**
 * This code assumes that the server replies the exact text the client sent it (as opposed to the practical session example)
 */
@@ -62,6 +60,7 @@ int main (int argc, char *argv[]) {
 
         if(!connectionHandler.sendBytesArray(c, '\n', bytes.size())){
             std::cout<< "Disconnected. Exiting...\n" << std::endl;
+            break;
         }
         // connectionHandler.sendLine(line) appends '\n' to the message. Therefor we send len+1 bytes.
         std::cout << "Sent " << bytes.size()+1 << " bytes to server" << std::endl;
@@ -72,5 +71,3 @@ int main (int argc, char *argv[]) {
 
     return 0;
 }
-
-#pragma clang diagnostic pop

@@ -5,7 +5,7 @@ import bgu.spl.net.impl.networkProtocol.Database;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Logout extends BaseTask {
+public class Logout extends BaseTask <String>{
     public Logout(Database database, int connectionId, int opCode) {
         super(database, connectionId, opCode);
     }

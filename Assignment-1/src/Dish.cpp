@@ -14,30 +14,22 @@ int Dish::getPrice() const {return price; }
 
 DishType Dish::getType() const {return type; }
 
-//Dish::~Dish() {
-//
-//}
-//
-//Dish &Dish::operator=(const Dish &other) {
-//    return *this;
-//}
+std::string Dish::getStrType() const {
+    std::string s;
+    switch (getType()) {
+        case VEG:
+            s = "VEG";
+            break;
+        case SPC:
+            s = "SPC";
+            break;
+        case BVG:
+            s = "BVG";
+            break;
+        case ALC:
+            s = "ALC";
+            break;
 
-//Dish::Dish(const Dish &other) : id(other.id), price(other.price), name(other.name), type(other.type) {
-//
-//
-//}
-
-
-
-//Dish::Dish(const Dish &other) : id(other.id), name(other.name), price(other.price), type(other.type) {
-//
-//}
-
-//Dish::Dish(Dish &&other) : id(other.id), name(other.name), price(other.price), type(other.type) {
-//
-//}
-
-//Dish &Dish::operator=(Dish &&other) {
-//    return *this;
-//}
-
+    }
+    return s;
+}

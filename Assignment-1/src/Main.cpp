@@ -1,6 +1,5 @@
-#include "../include/Restaurant.h"
+#include "Restaurant.h"
 #include <iostream>
-#include "algorithm"
 
 using namespace std;
 
@@ -13,12 +12,14 @@ int main(int argc, char** argv){
         return 0;
     }
     string configurationFile = argv[1];
+
     Restaurant rest(configurationFile);
     rest.start();
+    Restaurant rest2(std::move(*backup));
+    rest2.start();
     if(backup!=nullptr){
         delete backup;
         backup = nullptr;
     }
-
     return 0;
 }

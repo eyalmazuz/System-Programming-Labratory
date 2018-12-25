@@ -4,7 +4,7 @@ public class AckMessage {
 
     private int opCode;
 
-    AckMessage(int opCode){
+    public AckMessage(int opCode){
         this.opCode = opCode;
     }
 

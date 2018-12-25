@@ -2,7 +2,7 @@ package bgu.spl.net.impl.networkProtocol.Task;
 
 import bgu.spl.net.impl.networkProtocol.Database;
 
-public abstract  class BaseTask implements Task {
+public abstract  class BaseTask <T> implements Task {
 
     protected Database database;
     protected int connectionId;
@@ -14,5 +14,5 @@ public abstract  class BaseTask implements Task {
         this.opCode = opCode;
     }
 
-    public abstract String run();
+    public abstract T run();
 }

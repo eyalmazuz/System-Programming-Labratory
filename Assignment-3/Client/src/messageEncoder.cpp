@@ -39,7 +39,7 @@ std::vector<char> messageEncoder::encode(std::string &line) {
         case LOGOUT:{
             return encodeLogout(line);
         }
-        case FOLLOW_UNFOLLOW:{
+        case FOLLOW:{
             return encodeFollow(line);
         }
         case POST:{
@@ -137,7 +137,7 @@ std::vector<char> messageEncoder::encodeFollow(std::string &line) {
     char bytesArr[2];
     char zeroByte = '\0';
 
-    shortToBytes(FOLLOW_UNFOLLOW, bytesArr);
+    shortToBytes(FOLLOW, bytesArr);
 
     std::vector<char> bytes;
     bytes.insert(bytes.begin(), bytesArr[1]);
@@ -147,18 +147,23 @@ std::vector<char> messageEncoder::encodeFollow(std::string &line) {
     std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
                                     std::istream_iterator<std::string>{}};
     tokens.erase(tokens.begin());
-
+    std::string sign = tokens[0];
+    tokens.erase(tokens.begin());
+    bytes.insert(bytes.end(), sign.begin(), sign.end());
+    bytes.push_back(' ');
+    std::string size = tokens[0];
+    tokens.erase(tokens.begin());
+    bytes.insert(bytes.end(), size.begin(), size.end());
+    bytes.push_back(' ');
     //FOLLOW 1 2 RICK BIRDPERSON
     //TOKENS = [1, 2 , RICK, BIRDPERSON]
     //BYTES = [1 2 RICK BIRDPERSON ]
 
     for(auto t : tokens){
         bytes.insert(bytes.end(), t.begin(), t.end());
-        bytes.push_back(' ');
+        bytes.push_back(zeroByte);
     }
 
-    bytes.erase(bytes.end());
-    bytes.push_back(zeroByte);
 
     return bytes;
 

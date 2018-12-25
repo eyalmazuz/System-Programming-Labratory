@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 
-public class Follow_Unfollow extends BaseTask {
+public class Follow_Unfollow extends BaseTask <String> {
 
     private int sign;
     private ConcurrentLinkedQueue<String> userNameList;

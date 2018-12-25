@@ -23,7 +23,7 @@ public class Database {
     }
 
     public User getUserbyName(String userName){
-        return users.stream().filter(u -> u.getName().equals(userName)).findFirst().get();
+        return users.stream().filter(u -> u.getName().equals(userName)).count() > 0 ? users.stream().filter(u -> u.getName().equals(userName)).findFirst().get() : null ;
     }
 
     public User getUserByConnectionID(int connectionId){
@@ -32,6 +32,10 @@ public class Database {
                 return getUserbyName(user.getKey());
             }
         return null;
+    }
+
+    public int getConnetionIdByName(String name){
+        return loggedInMap.get(name);
     }
 
     public void addUser(User user){

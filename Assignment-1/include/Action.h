@@ -24,12 +24,13 @@ public:
     std::string getStrStatus() const;
     virtual void act(Restaurant& restaurant)=0;
     virtual std::string toString() const=0;
-    void setError();
+    void setError(const std::string &errorMessage);
     void setErrorMsg(const std::string &errorMsg);
     const std::string &getLogger() const;
     virtual ~BaseAction();
     void setLogger(const std::string &logger);
     void appendLogger(const std::string &data);
+    void changeStatus(const ActionStatus &actionStatus);
 
 protected:
     void complete();
@@ -55,7 +56,7 @@ public:
 
 private:
     const int tableId;
-    const std::vector<Customer *> customers;
+    std::vector<Customer *> customers;
 };
 
 

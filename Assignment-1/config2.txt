@@ -1,13 +1,11 @@
-#Config file 2
-#number of tables
-6
-#tables description
-6,4,4,14,10,10
+#number of tables.
+3
+#tables
+2,6,6
 #Menu
-Butterbeer,ALC,50
-Fire Whisky,ALC,60
-Honey Wine,ALC,80
-Water,BVG,20
-Pumpkin juice,BVG,40
-Pumpkin cake,VEG,50
-Spicy meat,SPC,300
+Beer,ALC,50
+Water,BVG,10
+Wine,ALC,60
+Chili con carne,SPC,200
+Chicken Tikka,SPC,60
+Orange juice,BVG,13
