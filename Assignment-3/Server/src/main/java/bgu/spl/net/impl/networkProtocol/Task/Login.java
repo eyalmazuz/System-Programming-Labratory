@@ -1,34 +1,31 @@
 package bgu.spl.net.impl.networkProtocol.Task;
 
 import bgu.spl.net.impl.networkProtocol.User;
-import bgu.spl.net.impl.networkProtocol.UsersManager;
+import bgu.spl.net.impl.networkProtocol.Database;
 
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Login extends BaseTask {
     private User user;
 
-    public Login(UsersManager userManager, int connectionId, int optCode, User user) {
-        super(userManager, connectionId, optCode);
+    public Login(Database database, int connectionId, int opCode, User user) {
+        super(database, connectionId, opCode);
         this.user = user;
     }
 
     @Override
     public String run() {
         boolean login=false;
-        ConcurrentHashMap<String, Integer> loggedInMap= userManager.getLoggedInMap();
+        ConcurrentHashMap<String, Integer> loggedInMap= database.getLoggedInMap();
         if (loggedInMap.containsKey(user.getName())||loggedInMap.containsValue(connectionId)) {
-            return fail;
+            return new ErrorMessage(opCode).toString();
         }
-        ConcurrentLinkedQueue<User> users= userManager.acquireUsersReadLock();
-        for(User user:users)
-            if(this.user.compareTo(user) == 0) {
-                loggedInMap.put(user.getName(),connectionId);
-                login = true;
-            }
-        userManager.releaseUsersReadLock();
-        if(login) return success;
-        else return fail;
+        User check = database.getUserbyName(user.getName());
+        if(check != null){
+            loggedInMap.put(user.getName(),connectionId);
+            login = true;
+        }
+        if(login) return new AckMessage(opCode).toString();
+        else return new ErrorMessage(opCode).toString();
     }
 }

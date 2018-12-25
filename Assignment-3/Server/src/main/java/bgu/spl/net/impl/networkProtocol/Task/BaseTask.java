@@ -1,21 +1,17 @@
 package bgu.spl.net.impl.networkProtocol.Task;
 
-import bgu.spl.net.impl.networkProtocol.UsersManager;
+import bgu.spl.net.impl.networkProtocol.Database;
 
 public abstract  class BaseTask implements Task {
-    protected String fail=null;
-    protected String success =null;
 
-    protected UsersManager userManager;
+    protected Database database;
     protected int connectionId;
-    protected int optCode;
+    protected int opCode;
 
-    public BaseTask(UsersManager userManager, int connectionId, int optCode) {
-        this.userManager = userManager;
+    public BaseTask(Database database, int connectionId, int opCode) {
+        this.database = database;
         this.connectionId = connectionId;
-        this.optCode = optCode;
-        this.fail = "ERROR " + optCode;
-        this.success = "ACK " + optCode;
+        this.opCode = opCode;
     }
 
     public abstract String run();

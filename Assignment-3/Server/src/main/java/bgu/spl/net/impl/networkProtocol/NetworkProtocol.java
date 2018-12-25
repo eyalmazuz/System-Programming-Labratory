@@ -13,11 +13,11 @@ public class NetworkProtocol implements BidiMessagingProtocol<String> {
 
     private boolean shouldTerminate = false;
     private Connections<String> connections;
-    private UsersManager usersManager;
+    private Database database;
     private int connectionId;
 
-    public NetworkProtocol(UsersManager usersManager) {
-        this.usersManager = usersManager;
+    public NetworkProtocol(Database database) {
+        this.database = database;
     }
 
     @Override
@@ -41,22 +41,22 @@ public class NetworkProtocol implements BidiMessagingProtocol<String> {
     private String parseMessage(String msg) {
         String ans="";
         byte[] bytes = msg.substring(0,2).getBytes(StandardCharsets.UTF_8);
-        short optCode = bytesToShort(bytes);
+        short opCode = bytesToShort(bytes);
         String []tokens = msg.substring(2).replace("\n","").split("\0");
-        MessageType messageType = MessageType.fromInteger(optCode);
+        MessageType messageType = MessageType.fromInteger(opCode);
         Task task=null;
         switch (messageType){
 
             case REGISTER:
-                task = new Register(usersManager,connectionId,optCode,new User(tokens[0],tokens[1]));
+                task = new Register(database,connectionId,opCode,new User(tokens[0],tokens[1]));
                 ans = task.run();
                 break;
             case LOGIN:
-                task = new Login(usersManager,connectionId,optCode,new User(tokens[0],tokens[1]));
+                task = new Login(database,connectionId,opCode,new User(tokens[0],tokens[1]));
                 ans = task.run();
                 break;
             case LOGOUT:
-                task = new Logout(usersManager,connectionId,optCode);
+                task = new Logout(database,connectionId,opCode);
                 ans = task.run();
                 break;
             case FOLLOW_UNFOLLOW:

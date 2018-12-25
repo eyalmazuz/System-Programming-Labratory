@@ -11,19 +11,19 @@ public enum MessageType {
     USERLIST(7),
     STAT(8);
 
-    private final int optcode;
+    private final int opcode;
     //private
-    MessageType(int optcode) {
-        this.optcode = optcode;
+    MessageType(int opcode) {
+        this.opcode = opcode;
     }
 
-    public int getOptcode() {
-        return optcode;
+    public int getOpcode() {
+        return opcode;
     }
 
-    public static MessageType fromInteger(int optcode) {
+    public static MessageType fromInteger(int opcode) {
         for (MessageType messageType : values())
-            if (messageType.getOptcode() == optcode)
+            if (messageType.getOpcode() == opcode)
                 return messageType;
         return null;
     }
