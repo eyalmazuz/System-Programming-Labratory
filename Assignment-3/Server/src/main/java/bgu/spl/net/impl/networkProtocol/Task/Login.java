@@ -16,13 +16,12 @@ public class Login extends BaseTask <String>{
     @Override
     public String run() {
         boolean login=false;
-        ConcurrentHashMap<String, Integer> loggedInMap= database.getLoggedInMap();
-        if (loggedInMap.containsKey(user.getName())||loggedInMap.containsValue(connectionId)) {
+        if (database.isLoggedInByName(user.getName()) || database.isLoggedInbyConnId(connectionId)) {
             return new ErrorMessage(opCode).toString();
         }
         User check = database.getUserbyName(user.getName());
         if(check != null && user.compareTo(check) == 0){
-            loggedInMap.put(user.getName(),connectionId);
+            database.putNewLogin(user.getName(),connectionId);
             login = true;
         }
         if(login) return new AckMessage(opCode).toString();

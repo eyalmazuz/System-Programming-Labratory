@@ -59,44 +59,82 @@ public class NetworkProtocol implements BidiMessagingProtocol<String> {
                         .forEach( m-> connections.send(connectionId, new Notification(opCode, "Public", m.getUserName(), m.getMessage()).toString()));
                 break;
             case LOGOUT:
-                task = new Logout(database,connectionId,opCode);
-                ans = task.run();
+                if(database.isLoggedInbyConnId(connectionId)) {
+                    task = new Logout(database, connectionId, opCode);
+                    ans = task.run();
+                }else{
+                    ans =  new ErrorMessage(opCode);
+                }
                 break;
             case FOLLOW:
-                //04 1 3 ITAY EYAL DDD
-                //[04, 1 3 ITAY, EYAL, DDD]
-                int sign = tokens[0].charAt(0)-48;
-                int size = tokens[0].charAt(2) - 48;
-                tokens[0] = tokens[0].substring(4);
-                ArrayList<String> list = new ArrayList<>();
-                list.addAll(Arrays.asList(tokens));
-                task = new Follow_Unfollow(database, connectionId, opCode, sign, size, list);
-                ans = task.run();
+                if(database.isLoggedInbyConnId(connectionId)) {
+                    int sign = tokens[0].charAt(0) - 48;
+                    int size = tokens[0].charAt(2) - 48;
+                    tokens[0] = tokens[0].substring(4);
+                    ArrayList<String> list = new ArrayList<>();
+                    list.addAll(Arrays.asList(tokens));
+                    task = new Follow_Unfollow(database, connectionId, opCode, sign, size, list);
+                    ans = task.run();
+                }
+                else{
+                    ans = new ErrorMessage(opCode);
+                }
                 break;
             case POST:
-                long time = System.currentTimeMillis();
-                ArrayList<String> users = new Post(database, connectionId, opCode, tokens[0]).run();
-                for(String user: users){
-                    int connId = database.getConnetionIdByName(user);
-                    if(connId != 0) {
-                        Notification reply = new Notification(opCode, "Public", database.getUserByConnectionID(connectionId).getName(), tokens[0]);
-                        connections.send(connId, reply.toString());
+                if(database.isLoggedInbyConnId(connectionId)) {
+                    long time = System.currentTimeMillis();
+                    ArrayList<String> users = new Post(database, connectionId, opCode, tokens[0]).run();
+                    for (String user : users) {
+                        synchronized (user) {
+                            if (database.isLoggedInByName(user)) {
+                                int connId = database.getConnetionIdByName(user);
+                                Notification reply = new Notification(opCode, "Public", database.getUserByConnectionID(connectionId).getName(), tokens[0]);
+                                connections.send(connId, reply.toString());
+                            }
+                            database.getUserbyName(user).addMessage(new Message(tokens[0], time, database.getUserByConnectionID(connectionId).getName()));
+                        }
                     }
-                    database.getUserbyName(user).addMessage(new Message(tokens[0], time, database.getUserByConnectionID(connectionId).getName()));
+                    database.getUserByConnectionID(connectionId).addPost(new Message(tokens[0], time, database.getUserByConnectionID(connectionId).getName()));
+                    ans = new AckMessage(opCode).toString();
                 }
-
-                database.getUserByConnectionID(connectionId).addPost(new Message(tokens[0], time, database.getUserByConnectionID(connectionId).getName()));
-                ans = new AckMessage(opCode).toString();
+                else{
+                    ans = new ErrorMessage(opCode);
+                }
                 break;
             case PM:
+                if(database.isLoggedInbyConnId(connectionId)) {
+                    long timeStamp = System.currentTimeMillis();
+
+                    int connId = database.getConnetionIdByName(tokens[0]);
+                    if (connId != 0) {
+                        Notification reply = new Notification(opCode, "Private", database.getUserByConnectionID(connectionId).getName(), tokens[1]);
+                        connections.send(connId, reply.toString());
+                    }
+                    database.getUserbyName(tokens[0]).addMessage(new Message(tokens[0], timeStamp, database.getUserByConnectionID(connectionId).getName()));
+
+                    database.getUserByConnectionID(connectionId).addPost(new Message(tokens[0], timeStamp, database.getUserByConnectionID(connectionId).getName()));
+                    ans = new AckMessage(opCode).toString();
+                }
+                else{
+                    ans = new ErrorMessage(opCode);
+                }
                 break;
             case USERLIST:
-                String userList = new UserList(database.getUsers()).toString();
-                ans = new AckMessage(opCode, database.getNumOfUsers(), userList).toString();
+                if(database.isLoggedInbyConnId(connectionId)) {
+                    String userList = new UserList(database.getUsers()).toString();
+                    ans = new AckMessage(opCode, database.getNumOfUsers(), userList).toString();
+                }else{
+                    ans = new ErrorMessage(opCode);
+                }
                 break;
             case STAT:
-                User user = database.getUserbyName(tokens[0]);
-                ans = new AckMessage(opCode, user.getNumOfPost(), user.getNumOfFollowers(), user.getNumOfFollowing()).toString();
+                if(database.isLoggedInbyConnId(connectionId)) {
+                    User user = database.getUserbyName(tokens[0]);
+                    ans = new AckMessage(opCode, user.getNumOfPost(), user.getNumOfFollowers(), user.getNumOfFollowing()).toString();
+                }
+                else{
+                    ans = new ErrorMessage(opCode);
+                }
                 break;
         }
 

@@ -51,6 +51,22 @@ public class Database {
 
     public ArrayList<User> getUsers() {
 
-        return users.stream().collect(Collectors.toCollection(ArrayList::new));
+        return new ArrayList<>(users);
+    }
+
+    public boolean isLoggedInbyConnId(int connectionId){
+        return loggedInMap.containsValue(connectionId);
+    }
+
+    public boolean isLoggedInByName(String user) {
+        return loggedInMap.containsKey(user);
+    }
+
+    public void putNewLogin(String name, int connectionId) {
+        loggedInMap.put(name, connectionId);
+    }
+
+    public void removeUser(int connectionId) {
+        loggedInMap.remove(getUserByConnectionID(connectionId));
     }
 }

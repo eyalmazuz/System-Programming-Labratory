@@ -12,14 +12,10 @@ public class Logout extends BaseTask <String>{
 
     @Override
     public String run() {
-        ConcurrentHashMap<String, Integer> loggedInMap= database.getLoggedInMap();
-        if(loggedInMap.containsValue(connectionId))
-        {
-            for(Map.Entry<String,Integer> user:loggedInMap.entrySet() )
-                if(user.getValue() ==connectionId) {
-                    database.getUserbyName(user.getKey()).updateTimeStamp();
-                    loggedInMap.remove(user.getKey());
-                }
+        if(database.isLoggedInbyConnId(connectionId)) {
+            database.getUserByConnectionID(connectionId).updateTimeStamp();
+            database.removeUser(connectionId);
+
 
             return new AckMessage(opCode).toString();
         }
