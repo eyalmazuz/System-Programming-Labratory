@@ -5,7 +5,7 @@ import bgu.spl.net.impl.networkProtocol.Database;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Login extends BaseTask {
+public class Login extends BaseTask <String>{
     private User user;
 
     public Login(Database database, int connectionId, int opCode, User user) {
@@ -21,7 +21,7 @@ public class Login extends BaseTask {
             return new ErrorMessage(opCode).toString();
         }
         User check = database.getUserbyName(user.getName());
-        if(check != null){
+        if(check != null && user.compareTo(check) == 0){
             loggedInMap.put(user.getName(),connectionId);
             login = true;
         }

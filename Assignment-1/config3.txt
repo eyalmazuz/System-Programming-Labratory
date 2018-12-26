@@ -1,0 +1,12 @@
+#number of tables.
+4
+#tables
+12,10,15,7
+#Menu
+Beer,ALC,50
+Wine,ALC,60
+Chili con carne,SPC,200
+Salad,VEG,40
+Pasta,VEG,55
+Orange juice,BVG,13
+Milkshake,BVG,20

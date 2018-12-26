@@ -2,6 +2,7 @@ package bgu.spl.net.impl.networkProtocol;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Collectors;
 
 public class User implements Comparable<User> {
     private String name;
@@ -9,6 +10,8 @@ public class User implements Comparable<User> {
     private ConcurrentLinkedQueue<String> followerList;
     private ConcurrentLinkedQueue<String> followingList;
     private long timeStamp;
+    private ConcurrentLinkedQueue<Message> messageList;
+    private ConcurrentLinkedQueue<Message> postList;
 
     public User(String name, String password) {
         this.name = name;
@@ -16,6 +19,8 @@ public class User implements Comparable<User> {
         followerList = new ConcurrentLinkedQueue<>();
         followingList = new ConcurrentLinkedQueue<>();
         timeStamp = 0;
+        messageList = new ConcurrentLinkedQueue<>();
+        postList = new ConcurrentLinkedQueue<>();
     }
 
     public String getName() {
@@ -55,5 +60,43 @@ public class User implements Comparable<User> {
 
     public void addFollower(String name) {
         followerList.add(name);
+    }
+
+    public ArrayList<String> getFollowers() {
+        return followerList.stream().collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public void addPost(Message message) {
+        postList.add(message);
+
+    }
+
+    public void addMessage(Message message){
+        messageList.add(message);
+    }
+
+    public String getNumOfPost() {
+
+        return String.valueOf(postList.stream().count());
+    }
+
+    public String getNumOfFollowers() {
+
+        return String.valueOf(followerList.stream().count());
+    }
+
+    public String getNumOfFollowing() {
+
+        return String.valueOf(followingList.stream().count());
+    }
+
+    public ArrayList<Message> getMessages() {
+
+       return messageList.stream().collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public long getLogoutTime() {
+
+        return timeStamp;
     }
 }

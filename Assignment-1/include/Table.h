@@ -18,7 +18,7 @@ public:
     std::vector<Customer*>& getCustomers();
     std::vector<OrderPair>& getOrders();
     //std::vector<OrderPair>& getOrders(int id);
-    void replaceOrder(const std::vector<OrderPair> &otherOrderList);
+    void addOrder(const std::vector<OrderPair> &otherOrderList);
     void order(const std::vector<Dish> &menu);
     void openTable();
     void closeTable();
@@ -38,7 +38,7 @@ public:
     Table (Table &&other);
 
 
-    void removeOrders(const std::vector<OrderPair> &otherOrderList);
+    void replaceOrders(const std::vector<OrderPair> &otherOrderList);
 
 private:
     int capacity;

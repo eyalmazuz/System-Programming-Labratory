@@ -14,7 +14,7 @@ enum opcodes{
     REGISTER=1,
     LOGIN=2,
     LOGOUT=3,
-    FOLLOW_UNFOLLOW=4,
+    FOLLOW=4,
     POST=5,
     PM=6,
     USERLIST=7,
@@ -26,7 +26,7 @@ struct opcodesMap : public std::map<std::string,opcodes>{
         this->operator[]("REGISTER") = REGISTER;
         this->operator[]("LOGIN") = LOGIN;
         this->operator[]("LOGOUT") = LOGOUT;
-        this->operator[]("FOLLOW_UNFOLLOW") = FOLLOW_UNFOLLOW;
+        this->operator[]("FOLLOW") = FOLLOW;
         this->operator[]("POST") = POST;
         this->operator[]("PM") = PM;
         this->operator[]("USERLIST") = USERLIST;

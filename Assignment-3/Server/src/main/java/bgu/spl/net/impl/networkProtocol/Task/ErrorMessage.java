@@ -4,7 +4,7 @@ public class ErrorMessage {
 
     private int opCode;
 
-    ErrorMessage(int opCode){
+    public ErrorMessage(int opCode){
         this.opCode = opCode;
     }
 

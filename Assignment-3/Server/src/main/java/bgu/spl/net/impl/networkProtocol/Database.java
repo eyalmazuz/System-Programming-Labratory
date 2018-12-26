@@ -1,9 +1,11 @@
 package bgu.spl.net.impl.networkProtocol;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 
 //ToDo: check if necessary to lock/unblock ConcurrentHashMap<String, Integer> loggedInMap;
 public class Database {
@@ -23,7 +25,7 @@ public class Database {
     }
 
     public User getUserbyName(String userName){
-        return users.stream().filter(u -> u.getName().equals(userName)).findFirst().get();
+        return users.stream().filter(u -> u.getName().equals(userName)).count() > 0 ? users.stream().filter(u -> u.getName().equals(userName)).findFirst().get() : null ;
     }
 
     public User getUserByConnectionID(int connectionId){
@@ -34,7 +36,21 @@ public class Database {
         return null;
     }
 
+    public int getConnetionIdByName(String name){
+        return loggedInMap.keySet().stream().filter(u -> u.equals(name)).count() > 0 ? loggedInMap.get(name) : 0;
+    }
+
     public void addUser(User user){
         users.add(user);
+    }
+
+    public String getNumOfUsers() {
+
+        return String.valueOf(users.stream().count());
+    }
+
+    public ArrayList<User> getUsers() {
+
+        return users.stream().collect(Collectors.toCollection(ArrayList::new));
     }
 }

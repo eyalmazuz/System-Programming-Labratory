@@ -8,9 +8,7 @@
 #include <iostream>
 
 
-using namespace std;
-
-Table::Table(int t_capacity) : capacity(t_capacity), open(false), customersList{}, orderList{}, bill(0), id(0){ }
+Table::Table(int t_capacity) : capacity(t_capacity), open(false), customersList{}, orderList{}, bill(0), id(-1){ }
 int Table::getCapacity() const { return capacity; }
 
 std::vector<Customer*>& Table::getCustomers() { return customersList; }
@@ -19,7 +17,7 @@ bool Table::isOpen() { return open; }
 
 void Table::openTable() { open = true; }
 
-void Table::closeTable() { open = false; clean(); orderList.clear(); bill = 0;}
+void Table::closeTable() { open = false; clean(); orderList.clear();customersList.clear(); bill = 0;}
 
 void Table::addCustomer(Customer *customer) {
     //check if customer is exist
@@ -87,7 +85,7 @@ int Table::getBill() {
 
 void Table::order(const std::vector<Dish> &menu) {
     for(auto customer : getCustomers()){
-        vector<int>order(customer->order(menu));
+        std::vector<int>order(customer->order(menu));
         for(auto id : order){
             //adding the order of each customer to orderList vector
             auto iterator = find_if(menu.begin(), menu.end(),
@@ -97,13 +95,13 @@ void Table::order(const std::vector<Dish> &menu) {
                 OrderPair o(customer->getId(), d);
                 orderList.push_back(o);
                 bill += d.getPrice();
-                std::cout<< customer->getName() + " ordered " +d.getName() << endl;
+                std::cout<< customer->getName() + " ordered " +d.getName() << std::endl;
             }
         }
     }
 }
 
-void Table::replaceOrder(const std::vector<OrderPair> &otherOrderList) {
+void Table::addOrder(const std::vector<OrderPair> &otherOrderList) {
     for (auto o : otherOrderList){
         orderList.push_back(o);
         bill += o.second.getPrice();
@@ -195,7 +193,7 @@ void Table::setId(int id) {
     Table::id = id;
 }
 
-void Table::removeOrders(const std::vector<OrderPair> &otherOrderList) {
+void Table::replaceOrders(const std::vector<OrderPair> &otherOrderList) {
     orderList.clear();
     for (const auto &i : otherOrderList) {
         OrderPair::first_type f = i.first;

@@ -5,7 +5,7 @@ public enum MessageType {
     REGISTER(1),
     LOGIN(2),
     LOGOUT(3),
-    FOLLOW_UNFOLLOW(4),
+    FOLLOW(4),
     POST(5),
     PM(6),
     USERLIST(7),

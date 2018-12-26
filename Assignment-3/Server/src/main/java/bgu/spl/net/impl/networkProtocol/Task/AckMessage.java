@@ -1,15 +1,23 @@
 package bgu.spl.net.impl.networkProtocol.Task;
 
+import java.util.Arrays;
+
 public class AckMessage {
 
     private int opCode;
-
-    AckMessage(int opCode){
+    private String[] data;
+    public AckMessage(int opCode, String... data){
         this.opCode = opCode;
+        this.data = data;
     }
 
     @Override
     public String toString() {
-        return "ACK " + opCode;
+        StringBuilder message = new StringBuilder("ACK " + opCode);
+        for (String item :data) {
+            message.append(" ").append(item);
+
+        }
+        return message.toString().substring(0, message.length());
     }
 }
