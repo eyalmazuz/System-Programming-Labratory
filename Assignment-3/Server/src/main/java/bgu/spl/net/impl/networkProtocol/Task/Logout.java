@@ -1,6 +1,8 @@
 package bgu.spl.net.impl.networkProtocol.Task;
 
 import bgu.spl.net.impl.networkProtocol.Database;
+import bgu.spl.net.impl.networkProtocol.Operation.AckMessage;
+import bgu.spl.net.impl.networkProtocol.Operation.ErrorMessage;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
