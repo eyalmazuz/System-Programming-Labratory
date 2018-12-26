@@ -2,16 +2,16 @@ package bgu.spl.net.impl;
 
 import bgu.spl.net.api.bidi.BidiMessagingProtocol;
 import bgu.spl.net.api.bidi.Connections;
-import bgu.spl.net.impl.networkProtocol.Operation.ClientMessage;
+import bgu.spl.net.impl.networkProtocol.Operation.NetworkMessage;
 
-public class NetworkProtocolTester implements BidiMessagingProtocol<ClientMessage> {
+public class NetworkProtocolTester implements BidiMessagingProtocol<NetworkMessage> {
     @Override
-    public void start(int connectionId, Connections<ClientMessage> connections) {
+    public void start(int connectionId, Connections<NetworkMessage> connections) {
 
     }
 
     @Override
-    public void process(ClientMessage message) {
+    public void process(NetworkMessage message) {
 
     }
 

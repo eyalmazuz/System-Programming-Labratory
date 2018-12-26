@@ -1,22 +1,29 @@
 package bgu.spl.net.impl.networkProtocol.Operation;
 
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import bgu.spl.net.impl.Utils;
+import bgu.spl.net.impl.networkProtocol.MessageType;
+
 import java.util.Arrays;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Pattern;
 
-public class Follow_Unfollow_Message extends ClientMessage {
+public class Follow_Unfollow_Message extends NetworkMessage {
     private int sign;
     private int numOfUsers;
-    private ArrayList<String> userNameList;
+    private ConcurrentLinkedQueue<String> userNameList;
+
+    public Follow_Unfollow_Message() {
+        MessageType messageType = MessageType.FOLLOW;
+        setOpCode(messageType.getOpcode());
+    }
 
     @Override
     public boolean checkIfMessageIsValid(String msg) {
         //String msg = new String(bytes, StandardCharsets.UTF_8);
         if (msg.length() > 5 &&
-                (msg.charAt(2) == 0 || msg.charAt(2) == 1) &&
-                Character.isDigit(msg.charAt(3)) &&
-                Pattern.compile("([\\w+].*[0]){"+Integer.valueOf(msg.charAt(3))+"}$").matcher(msg.substring(2)).find()){
+                (Integer.valueOf(msg.charAt(2)) == 0 || Integer.valueOf(msg.charAt(2)) == 1) &&
+                //(Character.isDigit(msg.charAt(3)) && Character.isDigit(msg.charAt(4))) &&
+                Pattern.compile("([\\w+].*[\0]){"+ Utils.twoBytesToShort(msg,3) +"}$").matcher(msg.substring(5)).find()){
             updateFields(msg);
             return true;
         }
@@ -26,14 +33,12 @@ public class Follow_Unfollow_Message extends ClientMessage {
     @Override
     public void updateFields(String msg) {
         this.messageStr = msg;
-        setOpCode(Integer.valueOf(msg.substring(0,2)));
-        String []tokens = messageStr.substring(2).split("\0");
-        int sign = tokens[0].charAt(0) - 48;
-        int size = tokens[0].charAt(2) - 48;
-        tokens[0] = tokens[0].substring(4);
+        String []tokens = messageStr.substring(5).split("\0");
+        int sign = Integer.valueOf(msg.charAt(2));
+        int size = Utils.twoBytesToShort(msg,3);
         this.sign = sign;
         this.numOfUsers = size;
-        userNameList = new ArrayList<>();
+        userNameList = new ConcurrentLinkedQueue<>();
         userNameList.addAll(Arrays.asList(tokens));
     }
 
@@ -45,7 +50,14 @@ public class Follow_Unfollow_Message extends ClientMessage {
         return numOfUsers;
     }
 
-    public ArrayList<String> getUserNameList() {
+    public ConcurrentLinkedQueue<String> getUserNameList() {
         return userNameList;
+    }
+
+    private short bytesToShort(byte[] byteArr)
+    {
+        short result = (short)((byteArr[0] & 0xff) << 8);
+        result += (short)(byteArr[1] & 0xff);
+        return result;
     }
 }

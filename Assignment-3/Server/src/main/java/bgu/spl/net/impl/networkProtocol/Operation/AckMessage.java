@@ -1,12 +1,22 @@
 package bgu.spl.net.impl.networkProtocol.Operation;
 
-public class AckMessage {
+public class AckMessage extends NetworkMessage {
 
     private int opCode;
     private String[] data;
     public AckMessage(int opCode, String...data){
         this.opCode = opCode;
         this.data = data;
+    }
+
+    @Override
+    public boolean checkIfMessageIsValid(String msg) {
+        return true;
+    }
+
+    @Override
+    protected void updateFields(String msg) {
+
     }
 
     @Override

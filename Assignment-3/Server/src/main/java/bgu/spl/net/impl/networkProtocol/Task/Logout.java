@@ -1,26 +1,25 @@
 package bgu.spl.net.impl.networkProtocol.Task;
 
 import bgu.spl.net.impl.networkProtocol.Database;
+import bgu.spl.net.impl.networkProtocol.NetworkProtocol;
 import bgu.spl.net.impl.networkProtocol.Operation.AckMessage;
 import bgu.spl.net.impl.networkProtocol.Operation.ErrorMessage;
+import bgu.spl.net.impl.networkProtocol.Operation.NetworkMessage;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-public class Logout extends BaseTask <String>{
+public class Logout extends BaseTask <NetworkMessage>{
     public Logout(Database database, int connectionId, int opCode) {
         super(database, connectionId, opCode);
     }
 
     @Override
-    public String run() {
+    public NetworkMessage run() {
         if(database.isLoggedInbyConnId(connectionId)) {
             database.getUserByConnectionID(connectionId).updateTimeStamp();
             database.removeUser(connectionId);
 
 
-            return new AckMessage(opCode).toString();
+            return new AckMessage(opCode);
         }
-        return new ErrorMessage(opCode).toString();
+        return new ErrorMessage(opCode);
     }
 }

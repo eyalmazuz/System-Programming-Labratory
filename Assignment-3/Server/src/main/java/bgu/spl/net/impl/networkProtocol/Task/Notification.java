@@ -1,6 +1,8 @@
 package bgu.spl.net.impl.networkProtocol.Task;
 
-public class Notification {
+import bgu.spl.net.impl.networkProtocol.Operation.NetworkMessage;
+
+public class Notification extends NetworkMessage {
 
     private int opCode;
     private String type;
@@ -12,6 +14,16 @@ public class Notification {
         this.type = type;
         this.userName = userName;
         this.content = content;
+    }
+
+    @Override
+    public boolean checkIfMessageIsValid(String msg) {
+        return true;
+    }
+
+    @Override
+    protected void updateFields(String msg) {
+
     }
 
     @Override

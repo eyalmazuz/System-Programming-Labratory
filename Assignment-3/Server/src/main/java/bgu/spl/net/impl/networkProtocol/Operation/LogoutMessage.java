@@ -1,8 +1,13 @@
 package bgu.spl.net.impl.networkProtocol.Operation;
 
-import java.nio.charset.StandardCharsets;
+import bgu.spl.net.impl.networkProtocol.MessageType;
 
-public class LogoutMessage extends ClientMessage {
+public class LogoutMessage extends NetworkMessage {
+    public LogoutMessage() {
+        MessageType messageType = MessageType.LOGOUT;
+        setOpCode(messageType.getOpcode());
+    }
+
     //assuming opcode is correct
     @Override
     public boolean checkIfMessageIsValid(String msg) {
@@ -16,7 +21,5 @@ public class LogoutMessage extends ClientMessage {
     @Override
     public void updateFields(String msg) {
         this.messageStr = msg;
-        setOpCode(Integer.valueOf(msg.substring(0,2)));
-
     }
 }
