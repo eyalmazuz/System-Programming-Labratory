@@ -38,19 +38,19 @@ struct opcodesMap : public std::map<std::string,opcodes>{
 
 
 class messageEncoder {
-
-    public:
+private:
+public:
         messageEncoder();
         void shortToBytes(short num, char *bytesArr);
-    std::vector<char> encode(std::string &line);
-    std::vector<char> encodeLogin(std::string &line);
-    std::vector<char> encodeRegister(std::string &line);
-    std::vector<char> encodeLogout(std::string &line);
-    std::vector<char> encodeFollow(std::string &line);
-    std::vector<char> encodePost(std::string &line);
-    std::vector<char> encodeUserList(std::string &line);
-    std::vector<char> encodeStats(std::string &line);
-    std::vector<char> encodePM(std::string &line);
+        std::vector<char> encode(std::string &line);
+        std::vector<char> encodeLogin(std::string &line);
+        std::vector<char> encodeRegister(std::string &line);
+        std::vector<char> encodeLogout(std::string &line);
+        std::vector<char> encodeFollow(std::string &line);
+        std::vector<char> encodePost(std::string &line);
+        std::vector<char> encodeUserList(std::string &line);
+        std::vector<char> encodeStats(std::string &line);
+        std::vector<char> encodePM(std::string &line);
 };
 
 

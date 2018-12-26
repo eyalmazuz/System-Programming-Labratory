@@ -147,17 +147,16 @@ std::vector<char> messageEncoder::encodeFollow(std::string &line) {
     std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
                                     std::istream_iterator<std::string>{}};
     tokens.erase(tokens.begin());
-    std::string sign = tokens[0];
+    int sign = std::stoi(tokens[0]);
     tokens.erase(tokens.begin());
-    bytes.insert(bytes.end(), sign.begin(), sign.end());
-    bytes.push_back(' ');
-    std::string size = tokens[0];
+    bytes.push_back((sign >> 8) & 0xFF);
+    //bytes.push_back(zeroByte);
+    int size = std::stoi(tokens[0]);
     tokens.erase(tokens.begin());
-    bytes.insert(bytes.end(), size.begin(), size.end());
-    bytes.push_back(' ');
-    //FOLLOW 1 2 RICK BIRDPERSON
-    //TOKENS = [1, 2 , RICK, BIRDPERSON]
-    //BYTES = [1 2 RICK BIRDPERSON ]
+    //bytes.insert(bytes.end(), size.begin(), size.end());
+    bytes.push_back((size >> 8) & 0xFF);
+    bytes.push_back(size & 0xFF);
+    //bytes.push_back(zeroByte);
 
     for(auto t : tokens){
         bytes.insert(bytes.end(), t.begin(), t.end());
@@ -248,7 +247,7 @@ std::vector<char> messageEncoder::encodeUserList(std::string &line) {
 
     for(auto t : tokens){
         bytes.insert(bytes.end(), t.begin(), t.end());
-        bytes.push_back('\0');
+        bytes.push_back(zeroByte);
     }
 
     return bytes;
