@@ -16,6 +16,6 @@ public class Notification {
 
     @Override
     public String toString() {
-        return "Notifiction" + opCode + " " + type + " " + userName + '\0' + content + '\0';
+        return "Notifiction " + type + " " + userName + '\0' + content + '\0';
     }
 }

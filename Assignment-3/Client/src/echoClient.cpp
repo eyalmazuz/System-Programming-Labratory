@@ -9,21 +9,6 @@
 * This code assumes that the server replies the exact text the client sent it (as opposed to the practical session example)
 */
 
-struct HexCharStruct
-{
-    unsigned char c;
-    HexCharStruct(unsigned char _c) : c(_c) { }
-};
-
-inline std::ostream& operator<<(std::ostream& o, const HexCharStruct& hs)
-{
-    return (o << std::hex << (int)hs.c);
-}
-
-inline HexCharStruct hex(unsigned char _c)
-{
-    return HexCharStruct(_c);
-}
 
 int main (int argc, char *argv[]) {
     if (argc < 3) {
@@ -53,11 +38,6 @@ int main (int argc, char *argv[]) {
         std::vector<char> bytes(encoder.encode(line));
         char c[bytes.size()];
         std::copy(bytes.begin(), bytes.end(), c);
-
-        for(auto a: bytes){
-            std::cout << hex(a) << " ";
-        }
-
         if(!connectionHandler.sendBytesArray(c, '\n', bytes.size())){
             std::cout<< "Disconnected. Exiting...\n" << std::endl;
             break;

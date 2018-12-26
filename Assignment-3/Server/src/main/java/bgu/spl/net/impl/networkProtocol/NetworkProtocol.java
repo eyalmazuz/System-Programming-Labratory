@@ -6,6 +6,7 @@ import bgu.spl.net.impl.networkProtocol.Task.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class NetworkProtocol implements BidiMessagingProtocol<String> {
 
@@ -58,13 +59,13 @@ public class NetworkProtocol implements BidiMessagingProtocol<String> {
                 ans = task.run();
                 break;
             case FOLLOW:
+                //04 1 3 ITAY EYAL DDD
+                //[04, 1 3 ITAY, EYAL, DDD]
                 int sign = tokens[0].charAt(0)-48;
                 int size = tokens[0].charAt(2) - 48;
                 tokens[0] = tokens[0].substring(4);
                 ArrayList<String> list = new ArrayList<>();
-                for (int i = 0; i < tokens.length; i++){
-                    list.add(tokens[i]);
-                }
+                list.addAll(Arrays.asList(tokens));
                 task = new Follow_Unfollow(database, connectionId, opCode, sign, size, list);
                 ans = task.run();
                 break;

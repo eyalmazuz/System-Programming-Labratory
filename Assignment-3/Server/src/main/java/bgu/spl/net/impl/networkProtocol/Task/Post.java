@@ -4,6 +4,8 @@ import bgu.spl.net.impl.networkProtocol.Database;
 import bgu.spl.net.impl.networkProtocol.User;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Post extends BaseTask <ArrayList<String>> {
 
@@ -15,6 +17,12 @@ public class Post extends BaseTask <ArrayList<String>> {
 
     @Override
     public ArrayList<String> run() {
-        return database.getUserByConnectionID(connectionId).getFollowers();
+        ArrayList<String> users = new ArrayList<>();
+        Matcher m = Pattern.compile("(?=@([^\\s]+))").matcher(post);
+        while(m.find()){
+            users.add(m.group(1));
+        }
+        users.addAll(database.getUserByConnectionID(connectionId).getFollowers());
+        return users;
     }
 }
