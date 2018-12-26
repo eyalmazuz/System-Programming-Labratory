@@ -17,5 +17,6 @@ public class PostMessage extends ClientMessage {
     protected void updateFields(String msg) {
         this.messageStr = msg;
         content = messageStr.substring(3,messageStr.length() - 1);
+        setOpCode(Integer.valueOf(msg.substring(0,2)));
     }
 }

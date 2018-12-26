@@ -23,6 +23,7 @@ public class RegisterMessage extends ClientMessage {
     @Override
     public void updateFields(String msg) {
         this.messageStr = msg;
+        setOpCode(Integer.valueOf(msg.substring(0,2)));
         String []tokens = messageStr.substring(2).split("\0");
         username = tokens[0];
         password = tokens[1];

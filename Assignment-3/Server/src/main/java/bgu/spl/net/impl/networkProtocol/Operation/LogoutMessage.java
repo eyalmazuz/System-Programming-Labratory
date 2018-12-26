@@ -16,6 +16,7 @@ public class LogoutMessage extends ClientMessage {
     @Override
     public void updateFields(String msg) {
         this.messageStr = msg;
+        setOpCode(Integer.valueOf(msg.substring(0,2)));
 
     }
 }

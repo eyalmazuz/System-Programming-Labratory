@@ -26,6 +26,7 @@ public class Follow_Unfollow_Message extends ClientMessage {
     @Override
     public void updateFields(String msg) {
         this.messageStr = msg;
+        setOpCode(Integer.valueOf(msg.substring(0,2)));
         String []tokens = messageStr.substring(2).split("\0");
         int sign = tokens[0].charAt(0) - 48;
         int size = tokens[0].charAt(2) - 48;
