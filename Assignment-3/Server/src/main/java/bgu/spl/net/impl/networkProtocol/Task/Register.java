@@ -1,5 +1,7 @@
 package bgu.spl.net.impl.networkProtocol.Task;
 
+import bgu.spl.net.impl.networkProtocol.Operation.AckMessage;
+import bgu.spl.net.impl.networkProtocol.Operation.ErrorMessage;
 import bgu.spl.net.impl.networkProtocol.User;
 import bgu.spl.net.impl.networkProtocol.Database;
 

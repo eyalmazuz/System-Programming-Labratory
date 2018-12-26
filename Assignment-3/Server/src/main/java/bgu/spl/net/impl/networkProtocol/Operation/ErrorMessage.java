@@ -1,4 +1,4 @@
-package bgu.spl.net.impl.networkProtocol.Task;
+package bgu.spl.net.impl.networkProtocol.Operation;
 
 public class ErrorMessage {
 
