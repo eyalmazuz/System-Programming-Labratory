@@ -44,7 +44,7 @@ public class NetworkProtocol implements BidiMessagingProtocol<NetworkMessage> {
         switch (messageType){
             case REGISTER:
                 task = new Register(database,connectionId,msg.getOpCode(),(RegisterMessage)msg);
-                ans = (NetworkMessage) task.run();
+                ans = task.run();
                 break;
             case LOGIN:
                 task = new Login(database,connectionId,msg.getOpCode(),(LoginMessage)msg);

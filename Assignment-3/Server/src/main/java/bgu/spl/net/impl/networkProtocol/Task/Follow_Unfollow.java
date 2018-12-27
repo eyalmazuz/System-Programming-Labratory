@@ -1,6 +1,5 @@
 package bgu.spl.net.impl.networkProtocol.Task;
 
-import bgu.spl.net.impl.networkProtocol.NetworkProtocol;
 import bgu.spl.net.impl.networkProtocol.Operation.AckMessage;
 import bgu.spl.net.impl.networkProtocol.Operation.ErrorMessage;
 import bgu.spl.net.impl.networkProtocol.Operation.Follow_Unfollow_Message;
@@ -10,7 +9,6 @@ import bgu.spl.net.impl.networkProtocol.Database;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 
 public class Follow_Unfollow extends BaseTask <NetworkMessage> {
@@ -21,7 +19,7 @@ public class Follow_Unfollow extends BaseTask <NetworkMessage> {
     private int succesfull;
 
     public Follow_Unfollow(Database database, int connectionId, int opCode, Follow_Unfollow_Message follow_unfollow_message) {
-        super(database, connectionId, opCode);
+        super();
 
         this.follow_unfollow_message = follow_unfollow_message;
         succesfull = 0;

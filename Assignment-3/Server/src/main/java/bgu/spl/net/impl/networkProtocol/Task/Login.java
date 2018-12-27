@@ -7,18 +7,16 @@ import bgu.spl.net.impl.networkProtocol.Operation.NetworkMessage;
 import bgu.spl.net.impl.networkProtocol.User;
 import bgu.spl.net.impl.networkProtocol.Database;
 
-import java.util.concurrent.ConcurrentHashMap;
-
-public class Login extends BaseTask <NetworkMessage>{
+public class Login extends BaseTask <Database>{
     private LoginMessage user;
 
     public Login(Database database, int connectionId, int opCode, LoginMessage user) {
-        super(database, connectionId, opCode);
+        super();
         this.user = user;
     }
 
     @Override
-    public NetworkMessage run() {
+    public NetworkMessage run(Database base) {
         boolean login=false;
         if (database.isLoggedInByName(user.getUsername()) || database.isLoggedInbyConnId(connectionId)) {
             return new ErrorMessage(opCode);
@@ -30,5 +28,6 @@ public class Login extends BaseTask <NetworkMessage>{
         }
         if(login) return new AckMessage(opCode);
         else return new ErrorMessage(opCode);
+        return base.putNewLogin();
     }
 }

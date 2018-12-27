@@ -3,6 +3,7 @@ package bgu.spl.net.impl;
 import bgu.spl.net.api.MessageEncoderDecoder;
 import bgu.spl.net.impl.networkProtocol.MessageType;
 import bgu.spl.net.impl.networkProtocol.Operation.*;
+import bgu.spl.net.impl.networkProtocol.Task.BaseTask;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -60,7 +61,7 @@ public class NetworkEncoderDecoder implements MessageEncoderDecoder<NetworkMessa
         return copy;
     }
 
-    private NetworkMessage getClientMessage(short opCode){
+    private BaseTask getClientMessage(short opCode){
         MessageType messageType = MessageType.fromInteger(opCode);
         String ans = new String(bytes, start , len, StandardCharsets.UTF_8);
         NetworkMessage networkMessage = null;

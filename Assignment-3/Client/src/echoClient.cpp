@@ -54,7 +54,7 @@ int main (int argc, char *argv[]) {
         std::vector<char> bytes(encoder.encode(line));
         char c[bytes.size()];
         std::copy(bytes.begin(), bytes.end(), c);
-        if(!connectionHandler.sendBytesArray(c, '\n', bytes.size())){
+        if(!connectionHandler.sendBytes(c, bytes.size())){
             std::cout<< "Disconnected. Exiting...\n" << std::endl;
             break;
         }

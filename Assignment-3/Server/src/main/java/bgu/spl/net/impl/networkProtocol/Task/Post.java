@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class Post extends BaseTask <NetworkMessage> {
     private PostMessage postMessage;
     public Post(Database database, int connectionId, int opCode, PostMessage postMessage) {
-        super(database, connectionId, opCode);
+        super();
         this.postMessage = postMessage;
 
     }
