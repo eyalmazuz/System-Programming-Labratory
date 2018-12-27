@@ -94,10 +94,19 @@ public class NetworkEncoderDecoder implements MessageEncoderDecoder<NetworkMessa
                     return networkMessage;
                 break;
             case PM:
+                networkMessage = new PMMessage();
+                if(networkMessage.checkIfMessageIsValid(ans))
+                    return networkMessage;
                 break;
             case USERLIST:
+                networkMessage = new UserListMessage();
+                if(networkMessage.checkIfMessageIsValid(ans))
+                    return networkMessage;
                 break;
             case STAT:
+                networkMessage = new StatMessage();
+                if(networkMessage.checkIfMessageIsValid(ans))
+                    return networkMessage;
                 break;
         }
 

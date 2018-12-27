@@ -21,7 +21,7 @@ public class RegisterMessage implements Task<Database> {
     @Override
     public boolean checkIfMessageIsValid(String msg) {
         if (msg.length() > 2 &&
-                Pattern.compile("([\\w+].*[\0]){2}$").matcher(msg.substring(2)).find()){
+                Pattern.compile("([\\w].*[\0]){2}$").matcher(msg.substring(2)).find()){
             updateFields(msg);
             return true;
         }

@@ -17,7 +17,7 @@ public interface Database{
 
     ArrayList<String> postCommand(String content, int connectionId);
 
-    ReplyMessage pmCommand(int connectionId, String username);
+    String pmCommand(int connectionId, String username);
 
     ReplyMessage userListCommand(int connectionId);
 

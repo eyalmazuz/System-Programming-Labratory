@@ -136,7 +136,9 @@ public class DatabaseImpl implements Database{
         ArrayList<String> users = new ArrayList<>();
         Matcher m = Pattern.compile("(?=@([^\\s]+))").matcher(content);
         while(m.find()){
-            users.add(m.group(1));
+            String user = m.group(1);
+            if(users.contains(user))
+                users.add(user);
         }
         users.addAll(getUserByConnectionID(connectionId).getFollowers());
         return users;
@@ -195,7 +197,11 @@ public class DatabaseImpl implements Database{
     }
 
     @Override
-    public ReplyMessage pmCommand(int connectionId, String username) {
+    public String pmCommand(int connectionId, String username) {
+
+        if (getUserbyName(username) != null){
+            return username;
+        }
         return null;
     }
 

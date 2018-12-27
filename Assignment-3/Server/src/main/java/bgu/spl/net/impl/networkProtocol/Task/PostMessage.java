@@ -35,7 +35,7 @@ public class PostMessage implements Task<Database> {
                 synchronized (user) {
                     if (database.isLoggedInByName(user)) {
                         int connId = database.getConnetionIdByName(user);
-                        Notification reply = new Notification(opCode, "Public", database.getUserByConnectionID(connectionId).getName(), content);
+                        Notification reply = new Notification(opCode, "Public", database.getUserByConnectionID(connectionId).getName() + " ", content);
                         connections.send(connId, reply);
                     }
                     database.getUserbyName(user).addMessage(new Message(content, time, database.getUserByConnectionID(connectionId).getName()));
@@ -52,7 +52,7 @@ public class PostMessage implements Task<Database> {
 
     @Override
     public boolean checkIfMessageIsValid(String msg) {
-        if (msg.length() > 2 && Pattern.compile("([\\w+].*[\0]){1}$").matcher(msg.substring(2)).find()){
+        if (msg.length() > 2 && Pattern.compile("([\\w].*[\0]){1}$").matcher(msg.substring(2)).find()){
             updateFields(msg);
             return true;
         }

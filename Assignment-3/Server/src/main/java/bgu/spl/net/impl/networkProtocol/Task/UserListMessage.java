@@ -22,6 +22,10 @@ public class UserListMessage implements Task<Database> {
 
     @Override
     public boolean checkIfMessageIsValid(String msg) {
+        if (msg.length() == 2){
+            updateFields(msg);
+            return true;
+        }
         return false;
     }
 
