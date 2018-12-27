@@ -209,8 +209,9 @@ public class DatabaseImpl implements Database{
     public ReplyMessage userListCommand(int connectionId) {
         int opCode = MessageType.USERLIST.getOpcode();
         if(isLoggedInbyConnId(connectionId)) {
-            String userList = new UserListMessage().getUsers();
-            return new AckMessage(opCode, getNumOfUsers(), userList);
+            StringBuilder userlist = new StringBuilder("");
+            users.stream().forEach(u -> userlist.append(u.getName()).append(" "));
+            return new AckMessage(opCode, getNumOfUsers(), userlist.toString());
         }else{
             return new ErrorMessage(opCode);
         }    }
