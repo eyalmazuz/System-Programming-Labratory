@@ -1,8 +1,8 @@
-package bgu.spl.net.impl.networkProtocol.Task;
+package bgu.spl.net.impl.networkProtocol.ReplayMessage;
 
-import bgu.spl.net.impl.networkProtocol.Operation.NetworkMessage;
+import bgu.spl.net.impl.networkProtocol.ReplayMessage.ReplyMessage;
 
-public class Notification extends NetworkMessage {
+public class Notification implements ReplyMessage {
 
     private int opCode;
     private String type;
@@ -16,17 +16,6 @@ public class Notification extends NetworkMessage {
         this.content = content;
     }
 
-    @Override
-    public boolean checkIfMessageIsValid(String msg) {
-        return true;
-    }
-
-    @Override
-    protected void updateFields(String msg) {
-
-    }
-
-    @Override
     public String toString() {
         return "Notification " + type + " " + userName + '\0' + content + '\0';
     }

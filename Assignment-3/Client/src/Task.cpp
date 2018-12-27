@@ -4,7 +4,7 @@
 
 #include "../include/Task.h"
 
-Task::Task(ConnectionHandler *connectionHandler) :connectionHandler(connectionHandler){
+Task::Task(ConnectionHandler *connectionHandler, bool* flag) :connectionHandler(connectionHandler), flag(flag){
 }
 
 void Task::operator()() {
@@ -24,13 +24,11 @@ void Task::operator()() {
         if (answer == "ACK 3") {
             connectionHandler->close();
             std::cout << "Exiting...\n" << std::endl;
+            *flag = true;
             break;
         }
     }
 }
-
-
-helllo this @Itay well this is @Eyal bye
 
 
 

@@ -12,8 +12,9 @@
 class Task {
 private:
     ConnectionHandler* connectionHandler;
+    bool *flag;
 public:
-    Task(ConnectionHandler* connectionHandler);
+    Task(ConnectionHandler* connectionHandler, bool* flag);
     void operator()();
 
 };

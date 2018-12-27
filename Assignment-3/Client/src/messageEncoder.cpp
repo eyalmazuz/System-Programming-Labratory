@@ -149,7 +149,7 @@ std::vector<char> messageEncoder::encodeFollow(std::string &line) {
     tokens.erase(tokens.begin());
     int sign = std::stoi(tokens[0]);
     tokens.erase(tokens.begin());
-    bytes.push_back((sign >> 8) & 0xFF);
+    bytes.push_back(sign);
     //bytes.push_back(zeroByte);
     int size = std::stoi(tokens[0]);
     tokens.erase(tokens.begin());

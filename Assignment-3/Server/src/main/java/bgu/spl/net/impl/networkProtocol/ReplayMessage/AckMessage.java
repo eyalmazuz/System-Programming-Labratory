@@ -1,6 +1,6 @@
-package bgu.spl.net.impl.networkProtocol.Operation;
+package bgu.spl.net.impl.networkProtocol.ReplayMessage;
 
-public class AckMessage extends NetworkMessage {
+public class AckMessage implements ReplyMessage {
 
     private int opCode;
     private String[] data;
@@ -9,17 +9,7 @@ public class AckMessage extends NetworkMessage {
         this.data = data;
     }
 
-    @Override
-    public boolean checkIfMessageIsValid(String msg) {
-        return true;
-    }
 
-    @Override
-    protected void updateFields(String msg) {
-
-    }
-
-    @Override
     public String toString() {
         StringBuilder message = new StringBuilder("ACK " + opCode);
         for (String item :data) {

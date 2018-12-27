@@ -1,17 +1,21 @@
 package bgu.spl.net.impl.networkProtocol;
 
-import bgu.spl.net.impl.networkProtocol.Operation.AckMessage;
-import bgu.spl.net.impl.networkProtocol.Operation.ErrorMessage;
-import bgu.spl.net.impl.networkProtocol.Operation.NetworkMessage;
+import bgu.spl.net.impl.networkProtocol.ReplayMessage.AckMessage;
+import bgu.spl.net.impl.networkProtocol.ReplayMessage.ErrorMessage;
+import bgu.spl.net.impl.networkProtocol.ReplayMessage.ReplyMessage;
+import bgu.spl.net.impl.networkProtocol.Task.UserListMessage;
 
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 //ToDo: check if necessary to lock/unblock ConcurrentHashMap<String, Integer> loggedInMap;
-public class DatabaseImpl implements Database <NetworkMessage>{
+public class DatabaseImpl implements Database{
     private ReentrantReadWriteLock usersRWLock;
     private ConcurrentLinkedQueue<User> users;
     private ConcurrentHashMap<String, Integer> loggedInMap;
@@ -70,12 +74,15 @@ public class DatabaseImpl implements Database <NetworkMessage>{
     }
 
     public void removeUser(int connectionId) {
-        loggedInMap.remove(getUserByConnectionID(connectionId));
+        User check = getUserByConnectionID(connectionId);
+        if(check != null) {
+            loggedInMap.remove(check.getName());
+        }
     }
 
     @Override
-    public NetworkMessage regsiterCommand(int connectionId, String username, String password) {
-        int opCode = 1;
+    public ReplyMessage regsiterCommand(int connectionId, String username, String password) {
+        int opCode = MessageType.REGISTER.getOpcode();
         if(loggedInMap.containsKey(username) || loggedInMap.containsValue(connectionId)) {
             return new ErrorMessage(opCode);
         }
@@ -90,37 +97,130 @@ public class DatabaseImpl implements Database <NetworkMessage>{
     }
 
     @Override
-    public NetworkMessage loginCommand() {
+    public ReplyMessage loginCommand(int connectionId, String username, String password) {
+        int opCode = MessageType.LOGIN.getOpcode();
+        boolean login=false;
+        if (loggedInMap.containsKey(username) || loggedInMap.containsValue(connectionId)) {
+            return new ErrorMessage(opCode);
+        }
+        User check = users.stream().filter(u -> u.getName().equals(username)).count() > 0 ? users.stream().filter(u -> u.getName().equals(username)).findFirst().get() : null ;
+        if(check != null && check.compareTo(new User(username,password)) == 0){
+            loggedInMap.put(username,connectionId);
+            login = true;
+        }
+        if(login)
+            return new AckMessage(opCode);
+        else
+            return new ErrorMessage(opCode);
+    }
+
+    @Override
+    public ReplyMessage LogoutCommand(int connectionId) {
+        int opCode = MessageType.LOGOUT.getOpcode();
+        if(isLoggedInbyConnId(connectionId)) {
+            if (loggedInMap.containsValue(connectionId)) {
+                getUserByConnectionID(connectionId).updateTimeStamp();
+                removeUser(connectionId);
+
+                return new AckMessage(opCode);
+            }
+            return new ErrorMessage(opCode);
+        }else{
+            return new ErrorMessage(opCode);
+        }
+    }
+
+    @Override
+    public ArrayList<String> postCommand(String content, int connectionId) {
+        int opCode = MessageType.POST.getOpcode();
+        ArrayList<String> users = new ArrayList<>();
+        Matcher m = Pattern.compile("(?=@([^\\s]+))").matcher(content);
+        while(m.find()){
+            users.add(m.group(1));
+        }
+        users.addAll(getUserByConnectionID(connectionId).getFollowers());
+        return users;
+    }
+
+    @Override
+    public ReplyMessage followCommand(int connectionId, ArrayList<String> users, int sign) {
+        int opCode = MessageType.FOLLOW.getOpcode();
+        if(isLoggedInbyConnId(connectionId)) {
+            int succesfull = 0;
+            if (sign == 0) {
+                if (loggedInMap.containsValue(connectionId)) {
+                    User user = getUserByConnectionID(connectionId);
+                    if (user != null) {
+                        ArrayList<String> userList = users.stream()
+                                .filter(u -> getUserbyName(u) != null && !getUserByConnectionID(connectionId).isFollow(u))
+                                .collect(Collectors.toCollection(ArrayList::new));
+                        userList.stream().forEach(u -> getUserbyName(u).addFollower(user.getName()));
+                        succesfull = userList.size();
+                        if (succesfull > 0) {
+                            user.addFollowers(userList);
+                        } else if (succesfull == 0) {
+                            return new ErrorMessage(opCode);
+                        }
+                    } else {
+                        return new ErrorMessage(opCode);
+                    }
+                }
+            } else if (sign == 1) {
+                if (loggedInMap.containsValue(connectionId)) {
+                    User user = getUserByConnectionID(connectionId);
+                    if (user != null) {
+                        ArrayList<String> userList = users.stream()
+                                .filter(u -> getUserbyName(u) != null && getUserByConnectionID(connectionId).isFollow(u))
+                                .collect(Collectors.toCollection(ArrayList::new));
+                        userList.stream().forEach(u -> getUserbyName(u).removeFollower(user.getName()));
+                        succesfull = userList.size();
+                        if (succesfull > 0) {
+                            user.unfollowUsers(userList);
+                            return new AckMessage(opCode);
+                        } else if (succesfull == 0) {
+                            return new ErrorMessage(opCode);
+                        }
+                    } else {
+                        return new ErrorMessage(opCode);
+                    }
+                }
+
+            }
+
+            return new AckMessage(opCode);
+        }
+        else{
+            return new ErrorMessage(opCode);
+        }
+    }
+
+    @Override
+    public ReplyMessage pmCommand(int connectionId, String username) {
         return null;
     }
 
     @Override
-    public NetworkMessage LogoutCommand() {
-        return null;
-    }
+    public ReplyMessage userListCommand(int connectionId) {
+        int opCode = MessageType.USERLIST.getOpcode();
+        if(isLoggedInbyConnId(connectionId)) {
+            String userList = new UserListMessage().getUsers();
+            return new AckMessage(opCode, getNumOfUsers(), userList);
+        }else{
+            return new ErrorMessage(opCode);
+        }    }
 
     @Override
-    public NetworkMessage followCommand() {
-        return null;
+    public ReplyMessage statCommand(int connectionId, String username) {
+        int opCode = MessageType.STAT.getOpcode();
+        if(isLoggedInbyConnId(connectionId)) {
+            return new AckMessage(opCode, getUserbyName(username).getNumOfPost(), getUserbyName(username).getNumOfFollowers(), getUserbyName(username).getNumOfFollowing());
+        }
+        else{
+            return new ErrorMessage(opCode);
+        }
     }
 
-    @Override
-    public ArrayList<String> postCommand(String content) {
-        return null;
-    }
+    public static interface Message{
 
-    @Override
-    public NetworkMessage pmCommand() {
-        return null;
-    }
-
-    @Override
-    public NetworkMessage userListCommand() {
-        return null;
-    }
-
-    @Override
-    public NetworkMessage statCommand() {
-        return null;
     }
 }

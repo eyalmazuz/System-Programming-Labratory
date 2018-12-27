@@ -1,20 +1,30 @@
-package bgu.spl.net.impl.networkProtocol.Operation;
+package bgu.spl.net.impl.networkProtocol.Task;
 
 import bgu.spl.net.impl.Utils;
+import bgu.spl.net.impl.networkProtocol.Database;
 import bgu.spl.net.impl.networkProtocol.MessageType;
+import bgu.spl.net.impl.networkProtocol.ReplayMessage.ReplyMessage;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Pattern;
 
-public class Follow_Unfollow_Message extends NetworkMessage {
+public class Follow_Unfollow_Message implements Task<Database> {
+
     private int sign;
     private int numOfUsers;
     private ConcurrentLinkedQueue<String> userNameList;
+    private String messageStr;
+    private int opCode;
 
     public Follow_Unfollow_Message() {
-        MessageType messageType = MessageType.FOLLOW;
-        setOpCode(messageType.getOpcode());
+        opCode = MessageType.FOLLOW.getOpcode();
+    }
+
+    @Override
+    public ReplyMessage run(Database arg, int connectionId) {
+        return arg.followCommand(connectionId, new ArrayList<String>(userNameList), sign);
     }
 
     @Override

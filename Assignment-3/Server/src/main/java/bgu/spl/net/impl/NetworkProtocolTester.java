@@ -2,7 +2,7 @@ package bgu.spl.net.impl;
 
 import bgu.spl.net.api.bidi.BidiMessagingProtocol;
 import bgu.spl.net.api.bidi.Connections;
-import bgu.spl.net.impl.networkProtocol.Operation.NetworkMessage;
+import bgu.spl.net.impl.networkProtocol.NetworkMessage;
 
 public class NetworkProtocolTester implements BidiMessagingProtocol<NetworkMessage> {
     @Override

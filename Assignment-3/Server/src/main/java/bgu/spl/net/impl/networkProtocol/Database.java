@@ -1,27 +1,36 @@
 package bgu.spl.net.impl.networkProtocol;
 
-import bgu.spl.net.impl.networkProtocol.Operation.NetworkMessage;
+import bgu.spl.net.impl.networkProtocol.ReplayMessage.ReplyMessage;
 
 import java.util.ArrayList;
 
-public interface Database <T>{
+public interface Database{
 
 
-    NetworkMessage regsiterCommand(int connectionId, String username, String password);
+    ReplyMessage regsiterCommand(int connectionId, String username, String password);
 
-    T loginCommand();
+    ReplyMessage loginCommand(int connectionId, String s, String username);
 
-    T LogoutCommand();
+    ReplyMessage LogoutCommand(int connectionId);
 
-    T followCommand();
+    ReplyMessage followCommand(int connectionId, ArrayList<String> users, int sign);
 
-    ArrayList<String> postCommand(String content);
+    ArrayList<String> postCommand(String content, int connectionId);
 
-    T pmCommand();
+    ReplyMessage pmCommand(int connectionId, String username);
 
-    T userListCommand();
+    ReplyMessage userListCommand(int connectionId);
 
-    T statCommand();
+    ReplyMessage statCommand(int connectionId, String username);
 
 
+    boolean isLoggedInbyConnId(int connectionId);
+
+    boolean isLoggedInByName(String user);
+
+    int getConnetionIdByName(String user);
+
+    User getUserbyName(String user);
+
+    User getUserByConnectionID(int connectionId);
 }

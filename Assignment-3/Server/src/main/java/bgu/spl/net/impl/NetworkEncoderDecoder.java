@@ -2,8 +2,9 @@ package bgu.spl.net.impl;
 
 import bgu.spl.net.api.MessageEncoderDecoder;
 import bgu.spl.net.impl.networkProtocol.MessageType;
-import bgu.spl.net.impl.networkProtocol.Operation.*;
-import bgu.spl.net.impl.networkProtocol.Task.BaseTask;
+import bgu.spl.net.impl.networkProtocol.NetworkMessage;
+import bgu.spl.net.impl.networkProtocol.Task.*;
+import bgu.spl.net.impl.networkProtocol.Task.Task;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -61,10 +62,10 @@ public class NetworkEncoderDecoder implements MessageEncoderDecoder<NetworkMessa
         return copy;
     }
 
-    private BaseTask getClientMessage(short opCode){
+    private NetworkMessage getClientMessage(short opCode){
         MessageType messageType = MessageType.fromInteger(opCode);
         String ans = new String(bytes, start , len, StandardCharsets.UTF_8);
-        NetworkMessage networkMessage = null;
+        Task networkMessage = null;
         switch (messageType){
 
             case REGISTER:

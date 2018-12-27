@@ -19,7 +19,7 @@ public interface Server<T> extends Closeable {
      * @param port The port for the server socket
      * @param protocolFactory A factory that creats new MessagingProtocols
      * @param encoderDecoderFactory A factory that creats new MessageEncoderDecoder
-     * @param <T> The Operation Object for the protocol
+     * @param <T> The Task Object for the protocol
      * @return A new Thread per client server
      */
     public static <T> Server<T>  threadPerClient(
@@ -42,7 +42,7 @@ public interface Server<T> extends Closeable {
      * @param port The port for the server socket
      * @param protocolFactory A factory that creats new MessagingProtocols
      * @param encoderDecoderFactory A factory that creats new MessageEncoderDecoder
-     * @param <T> The Operation Object for the protocol
+     * @param <T> The Task Object for the protocol
      * @return A new reactor server
      */
     public static <T> Server<T> reactor(

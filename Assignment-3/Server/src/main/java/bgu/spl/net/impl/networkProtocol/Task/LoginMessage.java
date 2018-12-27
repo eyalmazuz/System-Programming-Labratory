@@ -1,21 +1,25 @@
-package bgu.spl.net.impl.networkProtocol.Operation;
+package bgu.spl.net.impl.networkProtocol.Task;
 
 import bgu.spl.net.impl.networkProtocol.Database;
 import bgu.spl.net.impl.networkProtocol.MessageType;
-import bgu.spl.net.impl.networkProtocol.Task.BaseTask;
+import bgu.spl.net.impl.networkProtocol.ReplayMessage.ReplyMessage;
 
 import java.util.regex.Pattern;
 
-public class RegisterMessage extends BaseTask<Database> {
+public class LoginMessage implements Task<Database> {
 
     private String username;
     private String password;
     private String messageStr;
+    private int opCode;
 
-    public RegisterMessage(){
-        super();
-        MessageType messageType = MessageType.REGISTER;
-        setOpCode(messageType.getOpcode());
+    public LoginMessage() {
+        opCode = MessageType.LOGIN.getOpcode();
+    }
+
+    @Override
+    public ReplyMessage run(Database arg, int connectionId) {
+        return arg.loginCommand(connectionId, username, password);
     }
 
     //assuming opcode is correct
@@ -26,6 +30,7 @@ public class RegisterMessage extends BaseTask<Database> {
             updateFields(msg);
             return true;
         }
+
         return false;
     }
 
@@ -43,10 +48,5 @@ public class RegisterMessage extends BaseTask<Database> {
 
     public String getPassword() {
         return password;
-    }
-
-    @Override
-    public NetworkMessage run(Database database) {
-        return database.regsiterCommand(connectionId, username, password);
     }
 }

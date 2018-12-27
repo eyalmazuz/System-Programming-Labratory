@@ -42,19 +42,21 @@ int main (int argc, char *argv[]) {
         return 1;
     }
 
-    Task listen(&connectionHandler);
+    bool flag = false;
+    Task listen(&connectionHandler, &flag);
     boost::thread listen_toServer_thread{listen};
-
     while (1){
         const short bufsize = 1024;
         char buf[bufsize];
-        std::cin.getline(buf, bufsize);
+        if(!flag) {
+            std::cin.getline(buf, bufsize);
+        }
         std::string line(buf);
         messageEncoder encoder;
         std::vector<char> bytes(encoder.encode(line));
         char c[bytes.size()];
         std::copy(bytes.begin(), bytes.end(), c);
-        if(!connectionHandler.sendBytes(c, bytes.size())){
+        if(!connectionHandler.sendBytesArray(c, '\0', bytes.size())){
             std::cout<< "Disconnected. Exiting...\n" << std::endl;
             break;
         }
