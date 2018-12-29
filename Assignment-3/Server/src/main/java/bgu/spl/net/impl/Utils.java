@@ -15,5 +15,19 @@ public class Utils {
         return result;
     }
 
+    public static void setShortToBytes(byte[] bytesArr,short num, int start)
+    {
+        bytesArr[start] = (byte)((num >> 8) & 0xFF);
+        bytesArr[start+1] = (byte)(num & 0xFF);
+    }
+
+    public static void setStringToBytes(byte[] bytesArr,String str, int start)
+    {
+        byte [] strByte = str.getBytes();
+        System.arraycopy(strByte, 0, bytesArr, start, strByte.length);
+    }
+
+
+
 
 }

@@ -24,17 +24,14 @@ std::vector<char> messageEncoder::encode(std::string &line) {
     std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
                                     std::istream_iterator<std::string>{}};
 
-    opcodesMap map;
-    opcodes type = map[tokens[0]];
-    char *opcode;
+    clientOpcodesMap map;
+    clientOpcodes type = map[tokens[0]];
     switch (type){
         case LOGIN: {
             return encodeLogin(line);
-            break;
         }
         case REGISTER: {
             return encodeRegister(line);
-            break;
         }
         case LOGOUT:{
             return encodeLogout(line);

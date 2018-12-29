@@ -6,6 +6,7 @@ import bgu.spl.net.impl.networkProtocol.ReplayMessage.ReplyMessage;
 import bgu.spl.net.impl.networkProtocol.Task.UserListMessage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -149,11 +150,12 @@ public class DatabaseImpl implements Database{
         int opCode = MessageType.FOLLOW.getOpcode();
         if(isLoggedInbyConnId(connectionId)) {
             int succesfull = 0;
+            ArrayList<String> userList = null;
             if (sign == 0) {
                 if (loggedInMap.containsValue(connectionId)) {
                     User user = getUserByConnectionID(connectionId);
                     if (user != null) {
-                        ArrayList<String> userList = users.stream()
+                        userList = users.stream()
                                 .filter(u -> getUserbyName(u) != null && !getUserByConnectionID(connectionId).isFollow(u))
                                 .collect(Collectors.toCollection(ArrayList::new));
                         userList.stream().forEach(u -> getUserbyName(u).addFollower(user.getName()));
@@ -171,14 +173,14 @@ public class DatabaseImpl implements Database{
                 if (loggedInMap.containsValue(connectionId)) {
                     User user = getUserByConnectionID(connectionId);
                     if (user != null) {
-                        ArrayList<String> userList = users.stream()
+                        userList = users.stream()
                                 .filter(u -> getUserbyName(u) != null && getUserByConnectionID(connectionId).isFollow(u))
                                 .collect(Collectors.toCollection(ArrayList::new));
                         userList.stream().forEach(u -> getUserbyName(u).removeFollower(user.getName()));
                         succesfull = userList.size();
                         if (succesfull > 0) {
                             user.unfollowUsers(userList);
-                            return new AckMessage(opCode);
+                            //return new AckMessage(opCode);
                         } else if (succesfull == 0) {
                             return new ErrorMessage(opCode);
                         }
@@ -188,8 +190,9 @@ public class DatabaseImpl implements Database{
                 }
 
             }
-
-            return new AckMessage(opCode);
+            StringBuilder userlistSB = new StringBuilder("");
+            users.stream().forEach(u -> userlistSB.append(u + " "));
+            return new AckMessage(opCode,succesfull+"", userlistSB.toString().trim());
         }
         else{
             return new ErrorMessage(opCode);
@@ -211,7 +214,7 @@ public class DatabaseImpl implements Database{
         if(isLoggedInbyConnId(connectionId)) {
             StringBuilder userlist = new StringBuilder("");
             users.stream().forEach(u -> userlist.append(u.getName()).append(" "));
-            return new AckMessage(opCode, getNumOfUsers(), userlist.toString());
+            return new AckMessage(opCode, getNumOfUsers(), userlist.toString().trim());
         }else{
             return new ErrorMessage(opCode);
         }    }

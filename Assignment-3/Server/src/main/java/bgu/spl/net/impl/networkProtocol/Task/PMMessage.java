@@ -1,10 +1,7 @@
 package bgu.spl.net.impl.networkProtocol.Task;
 
 import bgu.spl.net.api.bidi.Connections;
-import bgu.spl.net.impl.networkProtocol.Database;
-import bgu.spl.net.impl.networkProtocol.Message;
-import bgu.spl.net.impl.networkProtocol.MessageType;
-import bgu.spl.net.impl.networkProtocol.NetworkMessage;
+import bgu.spl.net.impl.networkProtocol.*;
 import bgu.spl.net.impl.networkProtocol.ReplayMessage.AckMessage;
 import bgu.spl.net.impl.networkProtocol.ReplayMessage.ErrorMessage;
 import bgu.spl.net.impl.networkProtocol.ReplayMessage.Notification;
@@ -39,7 +36,7 @@ public class PMMessage implements Task<Database> {
                 synchronized (username) {
                     if (database.isLoggedInByName(username)) {
                         int connId = database.getConnetionIdByName(username);
-                        Notification reply = new Notification(opCode, "Private", database.getUserByConnectionID(connectionId).getName()+ " ", content);
+                        Notification reply = new Notification(NotificationType.PM, database.getUserByConnectionID(connectionId).getName(), content);
                         connections.send(connId, reply);
                     }
                     database.getUserbyName(username).addMessage(new Message(content, time, database.getUserByConnectionID(connectionId).getName()));

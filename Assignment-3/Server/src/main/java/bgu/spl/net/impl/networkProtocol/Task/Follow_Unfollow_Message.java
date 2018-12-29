@@ -64,10 +64,4 @@ public class Follow_Unfollow_Message implements Task<Database> {
         return userNameList;
     }
 
-    private short bytesToShort(byte[] byteArr)
-    {
-        short result = (short)((byteArr[0] & 0xff) << 8);
-        result += (short)(byteArr[1] & 0xff);
-        return result;
-    }
 }

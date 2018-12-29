@@ -10,7 +10,7 @@
 #include <map>
 #include <vector>
 
-enum opcodes{
+enum clientOpcodes{
     REGISTER=1,
     LOGIN=2,
     LOGOUT=3,
@@ -21,8 +21,8 @@ enum opcodes{
     STAT=8
 };
 
-struct opcodesMap : public std::map<std::string,opcodes>{
-    opcodesMap(){
+struct clientOpcodesMap : public std::map<std::string,clientOpcodes>{
+    clientOpcodesMap(){
         this->operator[]("REGISTER") = REGISTER;
         this->operator[]("LOGIN") = LOGIN;
         this->operator[]("LOGOUT") = LOGOUT;
@@ -33,24 +33,24 @@ struct opcodesMap : public std::map<std::string,opcodes>{
         this->operator[]("STAT") = STAT;
 
     }
-    ~opcodesMap(){};
+    ~clientOpcodesMap(){};
 };
 
 
 class messageEncoder {
 private:
+    void shortToBytes(short num, char *bytesArr);
+    std::vector<char> encodeLogin(std::string &line);
+    std::vector<char> encodeRegister(std::string &line);
+    std::vector<char> encodeLogout(std::string &line);
+    std::vector<char> encodeFollow(std::string &line);
+    std::vector<char> encodePost(std::string &line);
+    std::vector<char> encodeUserList(std::string &line);
+    std::vector<char> encodeStats(std::string &line);
+    std::vector<char> encodePM(std::string &line);
 public:
-        messageEncoder();
-        void shortToBytes(short num, char *bytesArr);
-        std::vector<char> encode(std::string &line);
-        std::vector<char> encodeLogin(std::string &line);
-        std::vector<char> encodeRegister(std::string &line);
-        std::vector<char> encodeLogout(std::string &line);
-        std::vector<char> encodeFollow(std::string &line);
-        std::vector<char> encodePost(std::string &line);
-        std::vector<char> encodeUserList(std::string &line);
-        std::vector<char> encodeStats(std::string &line);
-        std::vector<char> encodePM(std::string &line);
+    messageEncoder();
+    std::vector<char> encode(std::string &line);
 };
 
 

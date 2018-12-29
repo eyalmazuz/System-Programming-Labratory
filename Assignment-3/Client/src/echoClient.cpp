@@ -45,6 +45,8 @@ int main (int argc, char *argv[]) {
     bool flag = false;
     Task listen(&connectionHandler, &flag);
     boost::thread listen_toServer_thread{listen};
+    messageEncoder encoder;
+
     while (1){
         const short bufsize = 1024;
         char buf[bufsize];
@@ -52,11 +54,11 @@ int main (int argc, char *argv[]) {
             std::cin.getline(buf, bufsize);
         }
         std::string line(buf);
-        messageEncoder encoder;
+        if (line == "") break;
         std::vector<char> bytes(encoder.encode(line));
         char c[bytes.size()];
         std::copy(bytes.begin(), bytes.end(), c);
-        if(!connectionHandler.sendBytesArray(c, '\0', bytes.size())){
+        if(!connectionHandler.sendBytes(c,bytes.size())){
             std::cout<< "Disconnected. Exiting...\n" << std::endl;
             break;
         }

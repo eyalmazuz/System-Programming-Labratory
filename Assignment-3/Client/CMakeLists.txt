@@ -14,7 +14,7 @@ if(Boost_FOUND)
             include/Task.h
             src/Task.cpp
             src/messageEncoder.cpp
-            include/messageEncoder.h)
+            include/messageEncoder.h include/messageDecoder.h src/messageDecoder.cpp)
     target_link_libraries(Client ${Boost_LIBRARIES})
 endif()
 

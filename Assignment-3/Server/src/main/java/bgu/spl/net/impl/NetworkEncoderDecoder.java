@@ -3,6 +3,8 @@ package bgu.spl.net.impl;
 import bgu.spl.net.api.MessageEncoderDecoder;
 import bgu.spl.net.impl.networkProtocol.MessageType;
 import bgu.spl.net.impl.networkProtocol.NetworkMessage;
+import bgu.spl.net.impl.networkProtocol.ReplayMessage.ReplyMessage;
+import bgu.spl.net.impl.networkProtocol.ReplayMessage.ReplyType;
 import bgu.spl.net.impl.networkProtocol.Task.*;
 import bgu.spl.net.impl.networkProtocol.Task.Task;
 
@@ -21,6 +23,8 @@ public class NetworkEncoderDecoder implements MessageEncoderDecoder<NetworkMessa
     public NetworkMessage decodeNextByte(byte nextByte) {
         //notice that the top 128 ascii characters have the same representation as their utf-8 counterparts
         //this allow us to do the following comparison
+        pushByte(nextByte);
+
         if (start == -1 && len >= 2){
             start = len - 2;
             //opCode = bytesToShort(new byte[]{bytes[start],bytes[start+1]});
@@ -34,13 +38,14 @@ public class NetworkEncoderDecoder implements MessageEncoderDecoder<NetworkMessa
             return popMessage();
         }
 
-        pushByte(nextByte);
+
         return null; //not a line yet
     }
 
     @Override
     public byte[] encode(NetworkMessage message) {
-        return (message + "\n").getBytes(); //uses utf8 by default
+        return ((ReplyMessage)message).encode();
+        //return (message + "\n").getBytes(); //uses utf8 by default
     }
 
     private void pushByte(byte nextByte) {
@@ -112,12 +117,5 @@ public class NetworkEncoderDecoder implements MessageEncoderDecoder<NetworkMessa
 
         return null;
 
-    }
-
-    private short bytesToShort(byte[] byteArr)
-    {
-        short result = (short)((byteArr[0] & 0xff) << 8);
-        result += (short)(byteArr[1] & 0xff);
-        return result;
     }
 }
