@@ -51,11 +51,20 @@ std::string messageDecoder::decodeNotification() {
     if (byte == zeroByte) zeroCounter++;
     if (zeroCounter < 2) return "";
     std::string ans(ToString(NOTIFICATION));
-    ans.append(bytes[3] == 0 ? " PM " : " Public ");
-    int i = 4;
-    while (bytes[i] != zeroByte) {ans += bytes[i];++i;}
+    ans.append(bytes[2] == 0 ? " PM " : " Public ");
+    int i = 3;
+    while (bytes[i] != zeroByte)
+    {
+        ans += bytes[i];
+        ++i;
+    }
+    ans += " ";
     i++;
-    while (bytes[i] != zeroByte) {ans += bytes[i];++i;}
+    while (bytes[i] != zeroByte)
+    {
+        ans += bytes[i];
+        ++i;
+    }
     return ans;
 }
 
