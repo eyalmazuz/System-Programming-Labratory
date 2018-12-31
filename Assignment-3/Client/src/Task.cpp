@@ -24,7 +24,6 @@ void Task::operator()() {
         std::string answer = messageDecode.decodeNextByte(tmp[0]);
         if(answer=="ACK 2") {
             isConnected->store(true);
-            std::cout << "Task: isConnected " + std::to_string(isConnected->load()) << std::endl;
         }
 
         if (answer.length() > 0) {

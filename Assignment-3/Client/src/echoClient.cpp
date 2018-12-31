@@ -50,8 +50,6 @@ int main (int argc, char *argv[]) {
     while (1) {
         const short bufsize = 1024;
         char buf[bufsize];
-        //isConnected.store(false);
-        std::cout << "Main: isConnected " + std::to_string(isConnected.load()) << std::endl;
         std::cin.getline(buf, bufsize);
         std::string line(buf);
 

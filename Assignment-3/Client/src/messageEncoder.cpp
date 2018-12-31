@@ -54,6 +54,7 @@ std::vector<char> messageEncoder::encode(std::string &line) {
 
     }
 
+    return {};
 }
 
 std::vector<char> messageEncoder::encodeLogin(std::string &line) {
@@ -124,7 +125,7 @@ std::vector<char> messageEncoder::encodeLogout(std::string &line) {
 
     for(auto t : tokens){
         bytes.insert(bytes.end(), t.begin(), t.end());
-        bytes.push_back('\0');
+        bytes.push_back(zeroByte);
     }
 
     return bytes;

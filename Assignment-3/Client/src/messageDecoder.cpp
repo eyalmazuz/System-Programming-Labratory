@@ -6,10 +6,7 @@
 #include "../include/messageDecoder.h"
 #include "../include/messageEncoder.h"
 
-messageDecoder::messageDecoder() {
-    len = 0;
-    zeroCounter = 0;
-}
+messageDecoder::messageDecoder() :len(0), zeroCounter(0), byte(0) {}
 
 std::string messageDecoder::decodeNextByte(char byte) {
     bytes[len++] = byte;
