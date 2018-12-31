@@ -42,18 +42,19 @@ int main (int argc, char *argv[]) {
         return 1;
     }
 
-    bool flag = false;
-    Task listen(&connectionHandler, &flag);
+    std::atomic<bool> isConnected(false);
+    Task listen(&connectionHandler, &isConnected);
     boost::thread listen_toServer_thread{listen};
     messageEncoder encoder;
 
-    while (1){
+    while (1) {
         const short bufsize = 1024;
         char buf[bufsize];
-        if(!flag) {
-            std::cin.getline(buf, bufsize);
-        }
+        //isConnected.store(false);
+        std::cout << "Main: isConnected " + std::to_string(isConnected.load()) << std::endl;
+        std::cin.getline(buf, bufsize);
         std::string line(buf);
+
         if (line == "") break;
         std::vector<char> bytes(encoder.encode(line));
         char c[bytes.size()];
@@ -64,6 +65,9 @@ int main (int argc, char *argv[]) {
         }
         // connectionHandler.sendLine(line) appends '\n' to the message. Therefor we send len+1 bytes.
         std::cout << "Sent " << bytes.size()+1 << " bytes to server" << std::endl;
+        if(isConnected.load() && line=="LOGOUT") {
+            break;
+        }
 
     }
 

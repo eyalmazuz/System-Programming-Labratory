@@ -12,7 +12,7 @@ public class NetworkProtocol<T> implements BidiMessagingProtocol<NetworkMessage>
     private Connections<NetworkMessage> connections;
     private Database database;
     private int connectionId;
-
+    private boolean flag;
     public NetworkProtocol(Database database) {
         this.database = database;
     }
@@ -21,6 +21,7 @@ public class NetworkProtocol<T> implements BidiMessagingProtocol<NetworkMessage>
     public void start(int connectionId, Connections<NetworkMessage> connections) {
         this.connectionId=connectionId;
         this.connections=connections;
+        this.flag = false;
     }
 
     @Override
@@ -36,19 +37,21 @@ public class NetworkProtocol<T> implements BidiMessagingProtocol<NetworkMessage>
             connections.send(connectionId,replay);
         }else if(msg instanceof LoginMessage){
             replay = ((LoginMessage) msg).run(database,connectionId);
-            User user = database.getUserByConnectionID(connectionId);
             connections.send(connectionId,replay);
-            user.getMessages().stream()
-                    .filter(m -> m.getTime() > user.getLogoutTime())
-                    .forEach( m-> connections.send(connectionId, new Notification( NotificationType.PUBLIC, m.getUserName(), m.getMessage())));
+            User user = database.getUserByConnectionID(connectionId);
+            if (user != null) {
+                user.getMessages().stream()
+                        .filter(m -> m.getTime() > user.getLogoutTime())
+                        .forEach(m -> connections.send(connectionId, new Notification(NotificationType.PUBLIC, m.getUserName(), m.getMessage())));
+            }
         }else{
             replay = ((Task)msg).run(database, connectionId);
-            connections.send(connectionId,replay);
+            flag = connections.send(connectionId,replay);
         }
         System.out.println("sending replay: " + replay);
 
         //ToDo: change it after creating logout task class
-        if(replay.toString().equals("ACK 3"))
+        if(replay.toString().equals("ACK 3") && flag)
             this.connections.disconnect(this.connectionId);
 
     }

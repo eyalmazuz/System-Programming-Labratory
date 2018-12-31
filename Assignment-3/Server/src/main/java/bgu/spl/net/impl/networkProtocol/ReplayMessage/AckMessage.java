@@ -37,7 +37,7 @@ public class AckMessage implements ReplyMessage {
                 break;
             case FOLLOW: case USERLIST:
                 //2 ack opcode, 2 message opCode, 2 NumOfUsers,string-length UserNameList, 1 zeroByte
-                bytes = new byte[7+data[1].length()];
+                bytes = new byte[7+data[1].getBytes().length];
                 Utils.setShortToBytes(bytes, (short) ReplyType.ACK.getOpcode(),0);
                 Utils.setShortToBytes(bytes, (short) opCode,2);
                 Utils.setShortToBytes(bytes, Short.parseShort(data[0]),4);

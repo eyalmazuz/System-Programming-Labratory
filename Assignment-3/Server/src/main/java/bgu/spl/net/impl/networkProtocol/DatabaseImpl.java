@@ -84,16 +84,18 @@ public class DatabaseImpl implements Database{
     @Override
     public ReplyMessage regsiterCommand(int connectionId, String username, String password) {
         int opCode = MessageType.REGISTER.getOpcode();
-        if(loggedInMap.containsKey(username) || loggedInMap.containsValue(connectionId)) {
-            return new ErrorMessage(opCode);
-        }
-        User check = getUserbyName(username);
-        if(check != null){
-            return new ErrorMessage(opCode);
-        }
+        synchronized (loggedInMap) {
+            if (loggedInMap.containsKey(username) || loggedInMap.containsValue(connectionId)) {
+                return new ErrorMessage(opCode);
+            }
+            User check = getUserbyName(username);
+            if (check != null) {
+                return new ErrorMessage(opCode);
+            }
 
-        User user = new User(username,password);
-        addUser(user);
+            User user = new User(username, password);
+            addUser(user);
+        }
         return new AckMessage(opCode);
     }
 
@@ -133,12 +135,11 @@ public class DatabaseImpl implements Database{
 
     @Override
     public ArrayList<String> postCommand(String content, int connectionId) {
-        int opCode = MessageType.POST.getOpcode();
         ArrayList<String> users = new ArrayList<>();
         Matcher m = Pattern.compile("(?=@([^\\s]+))").matcher(content);
         while(m.find()){
             String user = m.group(1);
-            if(users.contains(user))
+            if(getUserbyName(user) != null)
                 users.add(user);
         }
         users.addAll(getUserByConnectionID(connectionId).getFollowers());
@@ -191,7 +192,7 @@ public class DatabaseImpl implements Database{
 
             }
             StringBuilder userlistSB = new StringBuilder("");
-            users.stream().forEach(u -> userlistSB.append(u + " "));
+            userList.stream().forEach(u -> userlistSB.append(u + " "));
             return new AckMessage(opCode,succesfull+"", userlistSB.toString().trim());
         }
         else{

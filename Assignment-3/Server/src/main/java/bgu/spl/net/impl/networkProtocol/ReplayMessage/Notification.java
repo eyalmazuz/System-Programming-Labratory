@@ -24,11 +24,11 @@ public class Notification implements ReplyMessage {
     public byte[] encode() {
         byte zeroByte = '\0';
         //2 opcode, 1 notification type, string-length user,string-length content, 1 zeroByte
-        byte[] bytes = new byte[5+userName.length() + content.length()];
+        byte[] bytes = new byte[5+userName.getBytes().length + content.getBytes().length];
         Utils.setShortToBytes(bytes, (short) ReplyType.NOTIFICATION.getOpcode(),0);
         bytes[2] = (byte) type.getOpcode();
         Utils.setStringToBytes(bytes,userName,3);
-        bytes[4] = zeroByte;
+        bytes[3+userName.length()] = zeroByte;
         Utils.setStringToBytes(bytes,content,4+userName.length());
         bytes[bytes.length-1] = zeroByte;
         return bytes;
