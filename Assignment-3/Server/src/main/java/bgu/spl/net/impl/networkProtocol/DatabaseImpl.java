@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,13 +19,13 @@ import java.util.stream.Collectors;
 //ToDo: check if necessary to lock/unblock ConcurrentHashMap<String, Integer> loggedInMap;
 public class DatabaseImpl implements Database{
     private ReentrantReadWriteLock usersRWLock;
-    private ConcurrentLinkedQueue<User> users;
+    private CopyOnWriteArrayList<User> users;
     private ConcurrentHashMap<String, Integer> loggedInMap;
 
 
     public DatabaseImpl() {
         this.usersRWLock = new ReentrantReadWriteLock();
-        this.users = new ConcurrentLinkedQueue<>();
+        this.users = new CopyOnWriteArrayList<>();
         this.loggedInMap = new ConcurrentHashMap<>();
     }
 
@@ -46,10 +47,6 @@ public class DatabaseImpl implements Database{
 
     public int getConnetionIdByName(String name){
         return loggedInMap.keySet().stream().filter(u -> u.equals(name)).count() > 0 ? loggedInMap.get(name) : 0;
-    }
-
-    public void addUser(User user){
-        users.add(user);
     }
 
     public String getNumOfUsers() {
@@ -84,19 +81,24 @@ public class DatabaseImpl implements Database{
     @Override
     public ReplyMessage regsiterCommand(int connectionId, String username, String password) {
         int opCode = MessageType.REGISTER.getOpcode();
-        synchronized (loggedInMap) {
-            if (loggedInMap.containsKey(username) || loggedInMap.containsValue(connectionId)) {
-                return new ErrorMessage(opCode);
-            }
-            User check = getUserbyName(username);
-            if (check != null) {
-                return new ErrorMessage(opCode);
-            }
-
-            User user = new User(username, password);
-            addUser(user);
+        if (loggedInMap.containsKey(username) || loggedInMap.containsValue(connectionId)) {
+            return new ErrorMessage(opCode);
         }
+        User check = getUserbyName(username);
+        if (check != null) {
+            return new ErrorMessage(opCode);
+        }
+
+        User user = new User(username, password);
+        if(!addUser(user)){
+            return new ErrorMessage(opCode);
+        }
+
         return new AckMessage(opCode);
+    }
+
+    private boolean addUser(User user){
+        return users.addIfAbsent(user);
     }
 
     @Override
@@ -108,7 +110,9 @@ public class DatabaseImpl implements Database{
         }
         User check = users.stream().filter(u -> u.getName().equals(username)).count() > 0 ? users.stream().filter(u -> u.getName().equals(username)).findFirst().get() : null ;
         if(check != null && check.compareTo(new User(username,password)) == 0){
-            loggedInMap.put(username,connectionId);
+
+            if (loggedInMap.putIfAbsent(username,connectionId) != null)
+                return new ErrorMessage(opCode);
             login = true;
         }
         if(login)
@@ -223,15 +227,11 @@ public class DatabaseImpl implements Database{
     @Override
     public ReplyMessage statCommand(int connectionId, String username) {
         int opCode = MessageType.STAT.getOpcode();
-        if(isLoggedInbyConnId(connectionId)) {
+        if(isLoggedInbyConnId(connectionId) && getUserbyName(username) != null) {
             return new AckMessage(opCode, getUserbyName(username).getNumOfPost(), getUserbyName(username).getNumOfFollowers(), getUserbyName(username).getNumOfFollowing());
         }
         else{
             return new ErrorMessage(opCode);
         }
-    }
-
-    public static interface Message{
-
     }
 }

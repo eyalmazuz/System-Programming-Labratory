@@ -29,11 +29,12 @@ public class PostMessage implements Task<Database> {
         if(database.isLoggedInbyConnId(connectionId)) {
             long time = System.currentTimeMillis();
             for (String user : users) {
-                //synchronized (user) {
+                //synchronized (database.getUserByConnectionID(connectionId)) {
                     if (database.isLoggedInByName(user)) {
                         int connId = database.getConnetionIdByName(user);
                         Notification reply = new Notification(NotificationType.PUBLIC, database.getUserByConnectionID(connectionId).getName(), content);
                         connections.send(connId, reply);
+
                     }
                     database.getUserbyName(user).addMessage(new Message(content, time, database.getUserByConnectionID(connectionId).getName()));
                 //}

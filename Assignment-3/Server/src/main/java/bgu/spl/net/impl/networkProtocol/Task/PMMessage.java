@@ -33,14 +33,14 @@ public class PMMessage implements Task<Database> {
         if (user != null) {
             if (database.isLoggedInbyConnId(connectionId)) {
                 long time = System.currentTimeMillis();
-                synchronized (username) {
+                //synchronized (database.getUserByConnectionID(connectionId)) {
                     if (database.isLoggedInByName(username)) {
                         int connId = database.getConnetionIdByName(username);
                         Notification reply = new Notification(NotificationType.PM, database.getUserByConnectionID(connectionId).getName(), content);
                         connections.send(connId, reply);
                     }
                     database.getUserbyName(username).addMessage(new Message(content, time, database.getUserByConnectionID(connectionId).getName()));
-                }
+                //}
                 database.getUserByConnectionID(connectionId).addPost(new Message(content, time, database.getUserByConnectionID(connectionId).getName()));
                 ans = new AckMessage(opCode);
             } else {
