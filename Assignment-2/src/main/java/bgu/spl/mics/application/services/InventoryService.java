@@ -1,6 +1,15 @@
 package bgu.spl.mics.application.services;
 
 import bgu.spl.mics.MicroService;
+import bgu.spl.mics.application.messages.CheckAvailability;
+import bgu.spl.mics.application.messages.TakingBookEvent;
+import bgu.spl.mics.application.messages.TerminateBroadcast;
+import bgu.spl.mics.application.passiveObjects.Inventory;
+import bgu.spl.mics.application.passiveObjects.MoneyRegister;
+import bgu.spl.mics.application.passiveObjects.OrderResult;
+import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
+
+import java.util.concurrent.CountDownLatch;
 
 /**
  * InventoryService is in charge of the book inventory and stock.
@@ -14,15 +23,38 @@ import bgu.spl.mics.MicroService;
 
 public class InventoryService extends MicroService{
 
-	public InventoryService() {
-		super("Change_This_Name");
-		// TODO Implement this
+	private Inventory inv;
+	private CountDownLatch countDownLatch;
+
+	public InventoryService(String name,CountDownLatch countDownLatch) {
+		super(name);
+		inv = Inventory.getInstance();
+		this.countDownLatch = countDownLatch;
 	}
 
 	@Override
 	protected void initialize() {
-		// TODO Implement this
-		
+		subscribeBroadcast(TerminateBroadcast.class, br->{
+			//System.out.println("terminating: " + getName());
+			terminate();
+			//Thread.currentThread().interrupt();
+		});
+		subscribeEvent(CheckAvailability.class, ev->{
+//			try {
+//				Thread.sleep(5);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+			complete(ev, inv.checkAvailabiltyAndGetPrice(ev.getBookTitle())); //if not exist return -1
+
+		});
+		subscribeEvent(TakingBookEvent.class, ev->{
+			//System.out.println(getName()+": receiving TakingBookEvent from " + ev.getSenderName());
+			if (inv.checkAvailabiltyAndGetPrice(ev.getBookTitle()) == -1 || inv.take(ev.getBookTitle()) == OrderResult.NOT_IN_STOCK)
+				complete(ev, false);
+			complete(ev,true);
+		});
+		countDownLatch.countDown();
 	}
 
 }

@@ -37,7 +37,9 @@ public class Future<T> {
 	public T get() {
 		try {
 			latch.await();
-		}catch (InterruptedException e){}
+		}catch (InterruptedException e){
+			return null;
+		}
 
 		return value;
 	}
@@ -81,7 +83,6 @@ public class Future<T> {
 		} catch (TimeoutException e) {
 
 		}
-
 		return null;
 	}
 

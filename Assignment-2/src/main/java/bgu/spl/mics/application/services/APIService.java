@@ -1,6 +1,19 @@
 package bgu.spl.mics.application.services;
 
 import bgu.spl.mics.MicroService;
+import bgu.spl.mics.application.messages.BookOrderEvent;
+import bgu.spl.mics.application.messages.FiftyPercentDiscountBroadcast;
+import bgu.spl.mics.application.messages.TerminateBroadcast;
+import bgu.spl.mics.application.messages.TickBroadcast;
+import bgu.spl.mics.application.passiveObjects.Customer;
+import bgu.spl.mics.application.passiveObjects.Inventory;
+import bgu.spl.mics.application.passiveObjects.MoneyRegister;
+import bgu.spl.mics.application.passiveObjects.ResourcesHolder;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.concurrent.CountDownLatch;
+import java.util.stream.Collectors;
 
 /**
  * APIService is in charge of the connection between a client and the store.
@@ -13,15 +26,43 @@ import bgu.spl.mics.MicroService;
  */
 public class APIService extends MicroService{
 
-	public APIService() {
-		super("Change_This_Name");
-		// TODO Implement this
+	private Customer customer;
+	private Deque<Integer> orderSchedulesStack;
+	private CountDownLatch countDownLatch;
+
+	public APIService(String name, Customer customer, CountDownLatch countDownLatch) {
+		super(name);
+		this.customer = customer;
+		this.orderSchedulesStack = customer.getOrderSchedules().stream()
+				.map(l->l.getTick())
+				.sorted()
+				.collect(Collectors.toCollection(ArrayDeque::new));
+		this.countDownLatch = countDownLatch;
 	}
 
 	@Override
 	protected void initialize() {
-		// TODO Implement this
-		
+		subscribeBroadcast(TerminateBroadcast.class, br->{
+			//System.out.println("terminating: " + getName());
+			terminate();
+			//Thread.currentThread().interrupt();
+		});
+		subscribeBroadcast(TickBroadcast.class, br -> {
+			if (orderSchedulesStack != null && !orderSchedulesStack.isEmpty() && br.getCurrentTick() == orderSchedulesStack.peek()) {
+				//System.out.println(getName()+": receiving broadcast from " + br.getSenderName());
+				//System.out.println(getName()+": sending book order event ");
+				customer.getOrderSchedules().stream()
+						.filter(l -> l.getTick() == br.getCurrentTick())
+						.forEach(b -> sendEvent(new BookOrderEvent(getName(),customer,orderSchedulesStack.poll(),b.getBookTitle())));
+			}
+		});
+		subscribeBroadcast(FiftyPercentDiscountBroadcast.class, br ->{
+			customer.getOrderSchedules().stream()
+					.filter(l->l.getBookTitle().equals(br.getBookName()))
+					.findFirst()
+					.get()
+					.setFiftyDiscount(true);
+		});
+		countDownLatch.countDown();
 	}
-
 }
