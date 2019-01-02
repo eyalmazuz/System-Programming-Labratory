@@ -23,12 +23,17 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
         this.protocol = protocol;
     }
 
+    public boolean isClosed(){
+        return sock.isClosed();
+    }
+
     @Override
     public void run() {
         try (Socket sock = this.sock) { //just for automatic closing
             int read;
 
             in = new BufferedInputStream(sock.getInputStream());
+            out = new BufferedOutputStream(sock.getOutputStream());
 
             while (!protocol.shouldTerminate() && connected && (read = in.read()) >= 0) {
                 T nextMessage = encdec.decodeNextByte((byte) read);
@@ -53,9 +58,10 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     public void send(T msg) {
         if (msg != null) {
             try {
-                out = new BufferedOutputStream(sock.getOutputStream());
-                out.write(encdec.encode(msg));
-                out.flush();
+                synchronized (out) {
+                    out.write(encdec.encode(msg));
+                    out.flush();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

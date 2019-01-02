@@ -33,7 +33,6 @@ public class NetworkProtocol<T> implements BidiMessagingProtocol<NetworkMessage>
         if(msg instanceof PMMessage){
             replay = ((PMMessage)msg).run(database, connections, connectionId);
             connections.send(connectionId,replay);
-
         }else if(msg instanceof PostMessage){
             replay = ((PostMessage)msg).run(database, connections, connectionId);
             connections.send(connectionId,replay);
@@ -54,14 +53,7 @@ public class NetworkProtocol<T> implements BidiMessagingProtocol<NetworkMessage>
 
         //ToDo: change it after creating logout task class
         if(replay.toString().equals("ACK 3") && flag) {
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//            try {
-//                Thread.sleep(10);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-            if (((ConnectionsImpl)connections).isQueueEmpty(connectionId))
-                this.connections.disconnect(this.connectionId);
+            this.connections.disconnect(this.connectionId);
         }
 
     }

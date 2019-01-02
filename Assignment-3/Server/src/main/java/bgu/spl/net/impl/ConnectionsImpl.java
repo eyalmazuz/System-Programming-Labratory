@@ -24,12 +24,6 @@ public class ConnectionsImpl<T> implements Connections<T> {
         return this.idCounter;
     }
 
-    public boolean isQueueEmpty(int connectionId){
-        if (connections.get(connectionId) instanceof NonBlockingConnectionHandler)
-               return  ((NonBlockingConnectionHandler)connections.get(connectionId)).isQueueEmpty();
-        return true;
-    }
-
     @Override
     public boolean send(int connectionId, T msg) {
         try {
@@ -49,12 +43,6 @@ public class ConnectionsImpl<T> implements Connections<T> {
 
     @Override
     public void disconnect(int connectionId) {
-        ConnectionHandler handler=connections.remove(connectionId);
-        try{
-            handler.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        connections.remove(connectionId);
     }
 }

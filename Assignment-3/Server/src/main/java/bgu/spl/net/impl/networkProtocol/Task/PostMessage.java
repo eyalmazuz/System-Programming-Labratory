@@ -29,7 +29,7 @@ public class PostMessage implements Task<Database> {
         if(database.isLoggedInbyConnId(connectionId)) {
             long time = System.currentTimeMillis();
             for (String user : users) {
-                //synchronized (database.getUserByConnectionID(connectionId)) {
+                synchronized (database.getUserByConnectionID(connectionId).getFollowers()) {
                     if (database.isLoggedInByName(user)) {
                         int connId = database.getConnetionIdByName(user);
                         Notification reply = new Notification(NotificationType.PUBLIC, database.getUserByConnectionID(connectionId).getName(), content);
@@ -37,7 +37,7 @@ public class PostMessage implements Task<Database> {
 
                     }
                     database.getUserbyName(user).addMessage(new Message(content, time, database.getUserByConnectionID(connectionId).getName(),NotificationType.PUBLIC));
-                //}
+                }
             }
             database.getUserByConnectionID(connectionId).addPost(new Message(content, time, database.getUserByConnectionID(connectionId).getName(),NotificationType.PUBLIC));
             ans = new AckMessage(opCode);
