@@ -2,6 +2,7 @@ package bgu.spl.net.impl.networkProtocol;
 
 import bgu.spl.net.api.bidi.BidiMessagingProtocol;
 import bgu.spl.net.api.bidi.Connections;
+import bgu.spl.net.impl.ConnectionsImpl;
 import bgu.spl.net.impl.networkProtocol.ReplayMessage.Notification;
 import bgu.spl.net.impl.networkProtocol.ReplayMessage.ReplyMessage;
 import bgu.spl.net.impl.networkProtocol.Task.*;
@@ -54,12 +55,13 @@ public class NetworkProtocol<T> implements BidiMessagingProtocol<NetworkMessage>
         //ToDo: change it after creating logout task class
         if(replay.toString().equals("ACK 3") && flag) {
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            this.connections.disconnect(this.connectionId);
+//            try {
+//                Thread.sleep(10);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+            if (((ConnectionsImpl)connections).isQueueEmpty(connectionId))
+                this.connections.disconnect(this.connectionId);
         }
 
     }

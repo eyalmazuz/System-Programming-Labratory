@@ -77,7 +77,7 @@ public class User implements Comparable<User> {
 
     public String getNumOfPost() {
 
-        return String.valueOf(postList.stream().count());
+        return String.valueOf(postList.stream().filter(f -> f.getNotificationType() == NotificationType.PUBLIC).count());
     }
 
     public String getNumOfFollowers() {

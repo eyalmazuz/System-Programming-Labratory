@@ -36,10 +36,10 @@ public class PostMessage implements Task<Database> {
                         connections.send(connId, reply);
 
                     }
-                    database.getUserbyName(user).addMessage(new Message(content, time, database.getUserByConnectionID(connectionId).getName()));
+                    database.getUserbyName(user).addMessage(new Message(content, time, database.getUserByConnectionID(connectionId).getName(),NotificationType.PUBLIC));
                 //}
             }
-            database.getUserByConnectionID(connectionId).addPost(new Message(content, time, database.getUserByConnectionID(connectionId).getName()));
+            database.getUserByConnectionID(connectionId).addPost(new Message(content, time, database.getUserByConnectionID(connectionId).getName(),NotificationType.PUBLIC));
             ans = new AckMessage(opCode);
         }
         else{

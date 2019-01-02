@@ -5,11 +5,17 @@ public class Message {
     private String content;
     private long timeStamp;
     private String userName;
+    private NotificationType notificationType;
 
-    public Message(String content, long timeStamp, String userName){
+    public Message(String content, long timeStamp, String userName, NotificationType notificationType){
         this.userName = userName;
         this.content = content;
         this.timeStamp = timeStamp;
+        this.notificationType = notificationType;
+    }
+
+    public NotificationType getNotificationType() {
+        return notificationType;
     }
 
     public long getTime(){

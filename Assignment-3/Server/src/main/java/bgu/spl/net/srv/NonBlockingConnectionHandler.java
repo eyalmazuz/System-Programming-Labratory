@@ -76,6 +76,10 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
         }
     }
 
+    public boolean isQueueEmpty(){
+        return writeQueue.isEmpty();
+    }
+
     public boolean isClosed() {
         return !chan.isOpen();
     }

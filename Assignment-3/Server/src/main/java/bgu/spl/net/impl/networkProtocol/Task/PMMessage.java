@@ -28,7 +28,6 @@ public class PMMessage implements Task<Database> {
 
     public ReplyMessage run(Database database, Connections<NetworkMessage> connections, int connectionId) {
         ReplyMessage ans;
-        ArrayList<String> users = new ArrayList<>();
         String user = database.pmCommand(connectionId, username);
         if (user != null) {
             if (database.isLoggedInbyConnId(connectionId)) {
@@ -39,9 +38,9 @@ public class PMMessage implements Task<Database> {
                         Notification reply = new Notification(NotificationType.PM, database.getUserByConnectionID(connectionId).getName(), content);
                         connections.send(connId, reply);
                     }
-                    database.getUserbyName(username).addMessage(new Message(content, time, database.getUserByConnectionID(connectionId).getName()));
+                    database.getUserbyName(username).addMessage(new Message(content, time, database.getUserByConnectionID(connectionId).getName(),NotificationType.PM));
                 //}
-                database.getUserByConnectionID(connectionId).addPost(new Message(content, time, database.getUserByConnectionID(connectionId).getName()));
+                database.getUserByConnectionID(connectionId).addPost(new Message(content, time, database.getUserByConnectionID(connectionId).getName(),NotificationType.PM));
                 ans = new AckMessage(opCode);
             } else {
                 ans = new ErrorMessage(opCode);
