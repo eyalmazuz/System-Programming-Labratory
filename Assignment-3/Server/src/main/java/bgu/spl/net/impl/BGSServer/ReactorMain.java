@@ -10,7 +10,7 @@ public class ReactorMain {
 
     public static void main(String[] args) {
         Database database = new DatabaseImpl();
-        Server.reactor(Runtime.getRuntime().availableProcessors(),
+        Server.reactor(Integer.valueOf(args[1]),
                 Integer.valueOf(args[0]),
                 () -> new NetworkProtocol(database),
                 () -> new NetworkEncoderDecoder()).serve();

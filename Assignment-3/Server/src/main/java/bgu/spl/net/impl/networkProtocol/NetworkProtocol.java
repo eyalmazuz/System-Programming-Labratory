@@ -28,7 +28,7 @@ public class NetworkProtocol<T> implements BidiMessagingProtocol<NetworkMessage>
     @Override
     public void process(NetworkMessage msg) {
         ReplyMessage replay = null;
-        System.out.println("message received: " + msg);
+        //System.out.println("message received: " + msg);
         flag = false;
         if(msg instanceof PMMessage){
             replay = ((PMMessage)msg).run(database, connections, connectionId);
@@ -43,13 +43,13 @@ public class NetworkProtocol<T> implements BidiMessagingProtocol<NetworkMessage>
             if (user != null) {
                 user.getMessages().stream()
                         .filter(m -> m.getTime() > user.getLogoutTime())
-                        .forEach(m -> connections.send(connectionId, new Notification(NotificationType.PUBLIC, m.getUserName(), m.getMessage())));
+                        .forEach(m -> connections.send(connectionId, new Notification(m.getNotificationType(), m.getUserName(), m.getMessage())));
             }
         }else{
             replay = ((Task)msg).run(database, connectionId);
             flag = connections.send(connectionId,replay);
         }
-        System.out.println("sending replay: " + replay);
+        //System.out.println("sending replay: " + replay);
 
         //ToDo: change it after creating logout task class
         if(replay.toString().equals("ACK 3") && flag) {
