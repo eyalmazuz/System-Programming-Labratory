@@ -16,15 +16,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-//ToDo: check if necessary to lock/unblock ConcurrentHashMap<String, Integer> loggedInMap;
 public class DatabaseImpl implements Database{
-    private ReentrantReadWriteLock usersRWLock;
     private CopyOnWriteArrayList<User> users;
     private ConcurrentHashMap<String, Integer> loggedInMap;
 
 
     public DatabaseImpl() {
-        this.usersRWLock = new ReentrantReadWriteLock();
         this.users = new CopyOnWriteArrayList<>();
         this.loggedInMap = new ConcurrentHashMap<>();
     }
@@ -143,7 +140,7 @@ public class DatabaseImpl implements Database{
         Matcher m = Pattern.compile("(?=@([^\\s]+))").matcher(content);
         while(m.find()){
             String user = m.group(1);
-            if(getUserbyName(user) != null)
+            if(getUserbyName(user) != null && !users.contains(user))
                 users.add(user);
         }
         users.addAll(getUserByConnectionID(connectionId).getFollowers());

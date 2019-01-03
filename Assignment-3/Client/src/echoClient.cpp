@@ -9,23 +9,6 @@
 * This code assumes that the server replies the exact text the client sent it (as opposed to the practical session example)
 */
 
-//TODO DELETE THIS
-struct HexCharStruct
-{
-    unsigned char c;
-    HexCharStruct(unsigned char _c) : c(_c) { }
-};
-
-inline std::ostream& operator<<(std::ostream& o, const HexCharStruct& hs)
-{
-    return (o << std::hex << (int)hs.c);
-}
-
-inline HexCharStruct hex(unsigned char _c)
-{
-    return HexCharStruct(_c);
-}
-
 int main (int argc, char *argv[]) {
     if (argc < 3) {
         std::cerr << "Usage: " << argv[0] << " host port" << std::endl << std::endl;
@@ -34,8 +17,6 @@ int main (int argc, char *argv[]) {
     std::string host = argv[1];
     short port = atoi(argv[2]);
 
-    //TODO Check about client termination when sending LOGOUT message
-    // add 2 thread client support
     ConnectionHandler connectionHandler(host, port);
     if (!connectionHandler.connect()) {
         std::cerr << "Cannot connect to " << host << ":" << port << std::endl;
