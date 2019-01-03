@@ -62,7 +62,7 @@ int main (int argc, char *argv[]) {
             break;
         }
         // connectionHandler.sendLine(line) appends '\n' to the message. Therefor we send len+1 bytes.
-        std::cout << "Sent " << bytes.size()+1 << " bytes to server" << std::endl;
+        //std::cout << "Sent " << bytes.size()+1 << " bytes to server" << std::endl;
         if(isConnected.load() && line=="LOGOUT") {
             break;
         }

@@ -28,7 +28,7 @@ void Task::operator()() {
         }
 
         if (answer.length() > 0) {
-            std::cout << answer << std::endl << std::endl;
+            std::cout << answer << std::endl;
         }
         if (answer == "ACK 3") {
             connectionHandler->close();
