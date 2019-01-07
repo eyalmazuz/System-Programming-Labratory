@@ -1,28 +1,27 @@
 import sqlite3
+from persistence import *
+
+def checkIfAviable(classroomId):
+    return repo.classrooms.find({'id':classroomId}).current_course_time_left
 
 
-def selectTable(conn,tableName):
-    return conn.cursor().execute("SELECT * FROM " + tableName +"").fetchall()
+def assignedCourse(courseId,classroomId,graduate):
+    classrooms.update({"id":classroomId},{"current_course_id":courseId})
+    studentsInCourseNumber = courses.find({'id':courseId}).number_of_students
+    nextStudentNumber = students.find({'grade':graduate}).count - studentsInCourseNumber
+    students.update({'grade':graduate},{"count":nextStudentNumber})
 
 
-def checkIfAviable(conn, classroomId):
-    # inst = Dao(Classrooms, conn)
-    #obj = ins.findall()
-    #for classroom in obj:
-    #
-    return conn.cursor().execute("SELECT current_course_time_left FROM classrooms WHERE classroomId = "+classroomId+"")
 
 
-def assignedCourse(conn,courseId):
+repo = Repository()
+students = repo.students.find_all()
+courses = repo.courses.find_all()
+classrooms = repo.classrooms.find_all()
 
-
-conn = sqlite3.connect('classes.db')
-courses = selectTable(conn,"courses")
-classrooms = selectTable(conn,"classrooms")
-
-while courses is not empty:
+while courses.count() != 0:
     for classroom in classrooms:
-        if checkIfAviable(conn,classroomId=)
+        if checkIfAviable(classroom.current_course_id):
             assing course
             class.courseID = courseID
             class.timeLeft = course.timeLeft
