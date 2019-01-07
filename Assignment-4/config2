@@ -1,0 +1,7 @@
+S, hist_grad, 12
+S, cs_undgrad, 550
+R, 1, 90/233
+R, 2, 90/234
+C, 1, French Revolution, hist_grad, 10, 1, 4
+C, 2, SPL 191(1), cs_undgrad, 80, 1, 2
+C, 3, SPL 191(2), cs_undgrad, 80, 2, 2
