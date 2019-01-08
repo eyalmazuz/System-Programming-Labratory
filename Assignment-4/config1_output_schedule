@@ -1,0 +1,34 @@
+(0) 90/233: French Revolution is schedule to start
+courses
+(1, 'French Revolution', 'hist_grad', 10, 1, 4)
+classrooms
+(1, '90/233', 1, 4)
+students
+('hist_grad', 2)
+(1) 90/233: occupied by French Revolution
+courses
+(1, 'French Revolution', 'hist_grad', 10, 1, 4)
+classrooms
+(1, '90/233', 1, 3)
+students
+('hist_grad', 2)
+(2) 90/233: occupied by French Revolution
+courses
+(1, 'French Revolution', 'hist_grad', 10, 1, 4)
+classrooms
+(1, '90/233', 1, 2)
+students
+('hist_grad', 2)
+(3) 90/233: occupied by French Revolution
+courses
+(1, 'French Revolution', 'hist_grad', 10, 1, 4)
+classrooms
+(1, '90/233', 1, 1)
+students
+('hist_grad', 2)
+(4) 90/233: French Revolution is done
+courses
+classrooms
+(1, '90/233', 0, 0)
+students
+('hist_grad', 2)

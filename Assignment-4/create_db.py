@@ -10,7 +10,7 @@ def main(args):
         repo.create_tables()
         with open(args[1], 'r') as config:
             for line in config.readlines():
-                data = line.split(', ')
+                data = line.strip().split(',')
                 table = data.pop(0)
                 data = [d.strip() for d in data]
                 if table == 'S':
@@ -22,8 +22,9 @@ def main(args):
                 elif table == 'C':
                     instance = Course(*data)
                     repo.courses.insert(instance)
+        repo.print_db()
 
-    atexit.register(repo._close)
+        atexit.register(repo._close)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,10 @@
+courses
+(1, 'French Revolution', 'hist_grad', 10, 1, 4)
+(2, 'SPL 191(1)', 'cs_undgrad', 80, 1, 2)
+(3, 'SPL 191(2)', 'cs_undgrad', 80, 2, 2)
+classrooms
+(1, '90/233', 0, 0)
+(2, '90/234', 0, 0)
+students
+('hist_grad', 12)
+('cs_undgrad', 550)

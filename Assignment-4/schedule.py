@@ -27,8 +27,9 @@ def decrease_time_left(cl):
         cl.current_course_time_left = time_left - 1
 
 
-def remove_course(course_id):
+def remove_course(course_id, class_id):
     repo.courses.delete(id=course_id)
+    repo.classrooms.update({'current_course_id': 0}, {'id': class_id})
 
 
 repo = Repository()
@@ -53,7 +54,7 @@ while len(courses) != 0:
             decrease_time_left(classroom)
         if classroom.current_course_time_left == 0 and classroom.current_course_id != 0:
             print("({}) {}: {} is done".format(c, classroom.location.decode('UTF-8'), course.course_name.decode('UTF-8')))
-            remove_course(course.id)
+            remove_course(course.id, classroom.id)
             course = findCourse(classroom.id)
             if course != 0:
                 assignedCourse(course.id)
@@ -65,4 +66,4 @@ while len(courses) != 0:
     courses = repo.courses.find_all()
     classrooms = repo.classrooms.find_all()
     c = c + 1
-    #ToDo: add printDb here
+    repo.print_db()
