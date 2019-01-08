@@ -21,6 +21,7 @@ def row_map(row, col_mapping, dto_type):
     ctor_args = [row[idx] for idx in col_mapping]
     return dto_type(*ctor_args)
 
+
 class Dao:
     def __init__(self, dto_type, conn):
         self._conn = conn
@@ -52,7 +53,7 @@ class Dao:
         stmt = 'SELECT * FROM {} WHERE {}'.format(self._table_name, ' AND '.join([col + '=?' for col in column_names]))
 
         c = self._conn.cursor()
-        c.execute(stmt, params)
+        c.execute(stmt, list(params))
         return orm(c, self._dto_type)
 
     def delete(self, **keyvals):
@@ -62,7 +63,7 @@ class Dao:
         stmt = 'DELETE FROM {} WHERE {}'.format(self._table_name, ' AND '.join([col + '=?' for col in column_names]))
 
         c = self._conn.cursor()
-        c.execute(stmt, params)
+        c.execute(stmt, list(params))
 
     def update(self, set_values, cond):
         set_column_names = set_values.keys()
@@ -71,9 +72,9 @@ class Dao:
         cond_column_names = cond.keys()
         cond_params = cond.values()
 
-        params = set_params + cond_params
+        params = list(set_params) + list(cond_params)
 
-        stmt = 'UPDATE {} SET ({}) WHERE ({})'.format(self._table_name,
+        stmt = 'UPDATE {} SET {} WHERE {}'.format(self._table_name,
                                                       ', '.join([set + '=?' for set in set_column_names]),
                                                         ' AND '.join([cond + '=?' for cond in cond_column_names]))
 

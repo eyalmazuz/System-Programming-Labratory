@@ -1,17 +1,48 @@
 import sqlite3
 from persistence import *
 
-def checkIfAviable(classroomId):
-    return repo.classrooms.find({'id':classroomId}).current_course_time_left
+
+# def checkIfOccupied(class_id):
+#     res = repo.classrooms.find(id=class_id)
+#     if len(res) == 0:
+#         return -1
+#     return repo.classrooms.find(id=class_id)[0].current_course_time_left
+#
+#
+# def checkIfFree(class_id):
+#     res = repo.classrooms.find(id=class_id, current_course_id=0)
+#     if len(res) == 0:
+#         return -1
+#     return repo.classrooms.find(id=class_id, current_course_id=0)[0].current_course_time_left
 
 
-def assignedCourse(courseId,classroomId,graduate):
-    classrooms.update({"id":classroomId},{"current_course_id":courseId})
-    studentsInCourseNumber = courses.find({'id':courseId}).number_of_students
-    nextStudentNumber = students.find({'grade':graduate}).count - studentsInCourseNumber
-    students.update({'grade':graduate},{"count":nextStudentNumber})
+def findCourse(class_id):
+    res = repo.courses.find(class_id=class_id)
+    if len(res) == 0:
+        return 0
+    return repo.courses.find(class_id=class_id)[0]
 
 
+def assignedCourse(course_id):
+    students_in_course_number = repo.courses.find(id=course_id)[0].number_of_students
+    graduate = repo.courses.find(id=course_id)[0].student.decode('UTF-8')
+    next_student_number = repo.students.find(grade=graduate)[0].count - students_in_course_number
+    repo.students.update({"count": next_student_number}, {'grade': graduate})
+
+
+def updateCourseFields(co, class_id):
+    repo.classrooms.update({'current_course_id': co.id, 'current_course_time_left': co.course_length}, {'id': class_id})
+
+
+def decrease_time_left(cl):
+    time_left = cl.current_course_time_left
+    if time_left > 0:
+        repo.classrooms.update({'current_course_time_left': time_left - 1}, {'id': cl.id})
+        cl.current_course_time_left = time_left - 1
+
+
+def remove_course(course_id):
+    repo.courses.delete(id=course_id)
 
 
 repo = Repository()
@@ -19,17 +50,29 @@ students = repo.students.find_all()
 courses = repo.courses.find_all()
 classrooms = repo.classrooms.find_all()
 
-while courses.count() != 0:
+c = 0
+while len(courses) != 0:
     for classroom in classrooms:
-        if checkIfAviable(classroom.current_course_id):
-            assing course
-            class.courseID = courseID
-            class.timeLeft = course.timeLeft
-            print((i) class.getLocation course.getname is scheduled to start)
-        elif class occupied
-            print((i) classroom.getlocation is occupied by course.getname)
-            class.current course time left -= 1
-        if current course time left == 0
-            print((i) classroom.getlocation course.getname is done)
-            db.remove course(course)
-            assign class
+        course = findCourse(classroom.id)
+        if course == 0:
+            continue
+
+        if classroom.current_course_time_left == 0 and classroom.current_course_id == 0:
+            assignedCourse(course.id)
+            updateCourseFields(course, classroom.id)
+            print("({}) {}: {} is scheduled to start".format(c, classroom.location.decode('UTF-8'), course.course_name.decode('UTF-8')))
+        elif classroom.current_course_time_left > 0:
+            print("({}) {}: occupied by {}".format(c, classroom.location.decode('UTF-8'), course.course_name.decode('UTF-8')))
+            decrease_time_left(classroom)
+        if classroom.current_course_time_left == 0 and classroom.current_course_id != 0:
+            print("({}) {}: {} is done".format(c, classroom.location.decode('UTF-8'), course.course_name.decode('UTF-8')))
+            remove_course(course.id)
+            course = findCourse(classroom.id)
+            if course != 0:
+                assignedCourse(course.id)
+                updateCourseFields(course, classroom.id)
+
+    students = repo.students.find_all()
+    courses = repo.courses.find_all()
+    classrooms = repo.classrooms.find_all()
+    c = c + 1
