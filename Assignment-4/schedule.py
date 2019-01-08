@@ -2,20 +2,6 @@ import sqlite3
 from persistence import *
 
 
-# def checkIfOccupied(class_id):
-#     res = repo.classrooms.find(id=class_id)
-#     if len(res) == 0:
-#         return -1
-#     return repo.classrooms.find(id=class_id)[0].current_course_time_left
-#
-#
-# def checkIfFree(class_id):
-#     res = repo.classrooms.find(id=class_id, current_course_id=0)
-#     if len(res) == 0:
-#         return -1
-#     return repo.classrooms.find(id=class_id, current_course_id=0)[0].current_course_time_left
-
-
 def findCourse(class_id):
     res = repo.courses.find(class_id=class_id)
     if len(res) == 0:
