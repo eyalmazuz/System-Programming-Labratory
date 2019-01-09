@@ -46,6 +46,11 @@ class Dao:
         c.execute('SELECT * FROM {}'.format(self._table_name))
         return orm(c, self._dto_type)
 
+    def find_all_tuples(self):
+        c = self._conn.cursor()
+        c.execute('SELECT * FROM {}'.format(self._table_name))
+        return c.fetchall()
+
     def find(self, **keyvals):
         column_names = keyvals.keys()
         params = keyvals.values()

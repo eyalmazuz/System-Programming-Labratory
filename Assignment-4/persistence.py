@@ -33,14 +33,14 @@ class Student:
 
 def print_table(list_of_tuples):
     for item in list_of_tuples:
-        print(tuple([item.decode('utf-8') if type(item)==bytes else item for item in item.__dict__.values()]))
+        print(item)
     pass
 
 
 class Repository(object):
     def __init__(self):
         self._conn = sqlite3.connect('schedule.db')
-        self._conn.text_factory = bytes
+        self._conn.text_factory = str
         self.students = Dao(Student, self._conn)
         self.classrooms = Dao(Classroom, self._conn)
         self.courses = Dao(Course, self._conn)
@@ -77,11 +77,11 @@ class Repository(object):
 
     def print_db(self):
         print('courses')
-        print_table(self.courses.find_all())
+        print_table(self.courses.find_all_tuples())
         print('classrooms')
-        print_table(self.classrooms.find_all())
+        print_table(self.classrooms.find_all_tuples())
         print('students')
-        print_table(self.students.find_all())
+        print_table(self.students.find_all_tuples())
 
 # singleton
 
