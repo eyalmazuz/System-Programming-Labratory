@@ -5,7 +5,7 @@ import os
 
 
 def main(args):
-    if not os.path.exists('classes.db'):
+    if not os.path.exists('schedule.db'):
         repo = Repository()
         repo.create_tables()
         with open(args[1], 'r') as config:
@@ -23,8 +23,8 @@ def main(args):
                     instance = Course(*data)
                     repo.courses.insert(instance)
         repo.print_db()
-
         atexit.register(repo._close)
+        repo._commit()
 
 
 if __name__ == "__main__":

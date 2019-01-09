@@ -39,11 +39,14 @@ def print_table(list_of_tuples):
 
 class Repository(object):
     def __init__(self):
-        self._conn = sqlite3.connect('classes.db')
+        self._conn = sqlite3.connect('schedule.db')
         self._conn.text_factory = bytes
         self.students = Dao(Student, self._conn)
         self.classrooms = Dao(Classroom, self._conn)
         self.courses = Dao(Course, self._conn)
+
+    def _commit(self):
+        self._conn.commit()
 
     def _close(self):
         self._conn.commit()
