@@ -11,7 +11,7 @@ def findCourse(class_id,repo):
 
 def assignedCourse(course_id,repo):
     students_in_course_number = repo.courses.find(id=course_id)[0].number_of_students
-    graduate = repo.courses.find(id=course_id)[0].student.decode('UTF-8')
+    graduate = repo.courses.find(id=course_id)[0].student
     next_student_number = repo.students.find(grade=graduate)[0].count - students_in_course_number
     repo.students.update({"count": next_student_number}, {'grade': graduate})
 
@@ -48,23 +48,23 @@ def main():
             if classroom.current_course_time_left == 0 and classroom.current_course_id == 0:
                 assignedCourse(course.id, repo)
                 updateCourseFields(course, classroom.id, repo)
-                print("({}) {}: {} is schedule to start".format(c, classroom.location.decode('UTF-8'),
-                                                                course.course_name.decode('UTF-8')))
+                print("({}) {}: {} is schedule to start".format(c, classroom.location,
+                                                                course.course_name))
             elif classroom.current_course_time_left > 0:
                 if classroom.current_course_time_left > 1:
-                    print("({}) {}: occupied by {}".format(c, classroom.location.decode('UTF-8'),
-                                                           course.course_name.decode('UTF-8')))
+                    print("({}) {}: occupied by {}".format(c, classroom.location,
+                                                           course.course_name))
                 decrease_time_left(classroom, repo)
             if classroom.current_course_time_left == 0 and classroom.current_course_id != 0:
-                print("({}) {}: {} is done".format(c, classroom.location.decode('UTF-8'),
-                                                   course.course_name.decode('UTF-8')))
+                print("({}) {}: {} is done".format(c, classroom.location,
+                                                   course.course_name))
                 remove_course(course.id, classroom.id, repo)
                 course = findCourse(classroom.id, repo)
                 if course != 0:
                     assignedCourse(course.id, repo)
                     updateCourseFields(course, classroom.id, repo)
-                    print("({}) {}: {} is schedule to start".format(c, classroom.location.decode('UTF-8'),
-                                                                    course.course_name.decode('UTF-8')))
+                    print("({}) {}: {} is schedule to start".format(c, classroom.location,
+                                                                    course.course_name))
 
         students = repo.students.find_all()
         courses = repo.courses.find_all()
