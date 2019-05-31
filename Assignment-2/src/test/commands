@@ -1,0 +1,30 @@
+start ev-handler a 3
+start sender a1 event
+start sender a2 event
+start sender a3 event
+
+start brod-listener b 1
+start sender b1 broadcast
+start sender b2 broadcast
+start sender b3 broadcast
+
+
+
+start ev-handler a 3
+Event Handler a started
+start sender a1 event
+Sender a1 started
+Event Handler a got a new event from a1! (mbt: 2)
+Completed processing the event, its result is "Hello from a" - success
+process took: 5
+start sender a2 event
+Sender a2 started
+Event Handler a got a new event from a2! (mbt: 1)
+Completed processing the event, its result is "Hello from a" - success
+process took: 1
+start sender a3 event
+Sender a3 started
+Event Handler a got a new event from a3! (mbt: 0)
+Event Handler a terminating.
+Completed processing the event, its result is "Hello from a" - success
+process took: 4

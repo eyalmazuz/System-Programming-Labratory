@@ -2,6 +2,8 @@ package bgu.spl.net.srv;
 
 import bgu.spl.net.api.MessageEncoderDecoder;
 import bgu.spl.net.api.MessagingProtocol;
+import bgu.spl.net.api.bidi.BidiMessagingProtocol;
+
 import java.io.Closeable;
 import java.util.function.Supplier;
 
@@ -17,12 +19,12 @@ public interface Server<T> extends Closeable {
      * @param port The port for the server socket
      * @param protocolFactory A factory that creats new MessagingProtocols
      * @param encoderDecoderFactory A factory that creats new MessageEncoderDecoder
-     * @param <T> The Message Object for the protocol
+     * @param <T> The Task Object for the protocol
      * @return A new Thread per client server
      */
     public static <T> Server<T>  threadPerClient(
             int port,
-            Supplier<MessagingProtocol<T> > protocolFactory,
+            Supplier<BidiMessagingProtocol<T>> protocolFactory,
             Supplier<MessageEncoderDecoder<T> > encoderDecoderFactory) {
 
         return new BaseServer<T>(port, protocolFactory, encoderDecoderFactory) {
@@ -40,13 +42,13 @@ public interface Server<T> extends Closeable {
      * @param port The port for the server socket
      * @param protocolFactory A factory that creats new MessagingProtocols
      * @param encoderDecoderFactory A factory that creats new MessageEncoderDecoder
-     * @param <T> The Message Object for the protocol
+     * @param <T> The Task Object for the protocol
      * @return A new reactor server
      */
     public static <T> Server<T> reactor(
             int nthreads,
             int port,
-            Supplier<MessagingProtocol<T>> protocolFactory,
+            Supplier<BidiMessagingProtocol<T>> protocolFactory,
             Supplier<MessageEncoderDecoder<T>> encoderDecoderFactory) {
         return new Reactor<T>(nthreads, port, protocolFactory, encoderDecoderFactory);
     }

@@ -2,7 +2,8 @@ package bgu.spl.mics.application.passiveObjects;
 
 import bgu.spl.mics.Future;
 
-import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.Semaphore;
 
 /**
  * Passive object representing the resource manager.
@@ -16,15 +17,14 @@ import java.util.ArrayList;
 public class ResourcesHolder {
 
 	private static ResourcesHolder ourInstance = null;
-
-	private ArrayList<DeliveryVehicle> deliveryVehicles;
-
+	private ConcurrentLinkedQueue<DeliveryVehicle> deliveryVehicles;
+	//private Semaphore semaphore;
 
 	/**
 	 * Retrieves the single instance of this class.
 	 */
 
-	private ResourcesHolder() { deliveryVehicles = new ArrayList<>(); }
+	private ResourcesHolder() { deliveryVehicles = new ConcurrentLinkedQueue<>(); }
 
 	public static ResourcesHolder getInstance() {
 		if(ourInstance == null){
@@ -32,38 +32,41 @@ public class ResourcesHolder {
 		}
 		return ourInstance;
 	}
-	
+
 	/**
-     * Tries to acquire a vehicle and gives a future object which will
-     * resolve to a vehicle.
-     * <p>
-     * @return 	{@link Future<DeliveryVehicle>} object which will resolve to a 
-     * 			{@link DeliveryVehicle} when completed.   
-     */
+	 * Tries to acquire a vehicle and gives a future object which will
+	 * resolve to a vehicle.
+	 * <p>
+	 * @return 	{@link Future <DeliveryVehicle>} object which will resolve to a
+	 * 			{@link DeliveryVehicle} when completed.
+	 */
 	public Future<DeliveryVehicle> acquireVehicle() {
-		//TODO: Implement this
-		return null;
+		Future<DeliveryVehicle> vehicleFuture = new Future<DeliveryVehicle>();
+		if (!deliveryVehicles.isEmpty())
+			vehicleFuture.resolve(deliveryVehicles.poll());
+		return vehicleFuture;
 	}
-	
+
 	/**
-     * Releases a specified vehicle, opening it again for the possibility of
-     * acquisition.
-     * <p>
-     * @param vehicle	{@link DeliveryVehicle} to be released.
-     */
+	 * Releases a specified vehicle, opening it again for the possibility of
+	 * acquisition.
+	 * <p>
+	 * @param vehicle	{@link DeliveryVehicle} to be released.
+	 */
 	public void releaseVehicle(DeliveryVehicle vehicle) {
-		//TODO: Implement this
+        deliveryVehicles.add(vehicle);
+        //semaphore.release();
 	}
-	
+
 	/**
-     * Receives a collection of vehicles and stores them.
-     * <p>
-     * @param vehicles	Array of {@link DeliveryVehicle} instances to store.
-     */
+	 * Receives a collection of vehicles and stores them.
+	 * <p>
+	 * @param vehicles	Array of {@link DeliveryVehicle} instances to store.
+	 */
 	public void load(DeliveryVehicle[] vehicles) {
 		for (DeliveryVehicle vehicle : vehicles) {
 			deliveryVehicles.add(vehicle);
 		}
+		//semaphore = new Semaphore(vehicles.length,true);
 	}
-
 }

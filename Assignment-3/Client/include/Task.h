@@ -12,8 +12,9 @@
 class Task {
 private:
     ConnectionHandler* connectionHandler;
+    std::atomic<bool> *isConnected;
 public:
-    Task(ConnectionHandler* connectionHandler);
+    Task(ConnectionHandler* connectionHandler, std::atomic<bool> *isConnected);
     void operator()();
 
 };

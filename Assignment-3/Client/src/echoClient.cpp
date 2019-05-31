@@ -2,11 +2,13 @@
 #include <thread>
 #include "../include/connectionHandler.h"
 #include "../include/Task.h"
+#include "../include/messageEncoder.h"
 #include <boost/thread.hpp>
 
 /**
 * This code assumes that the server replies the exact text the client sent it (as opposed to the practical session example)
 */
+
 int main (int argc, char *argv[]) {
     if (argc < 3) {
         std::cerr << "Usage: " << argv[0] << " host port" << std::endl << std::endl;
@@ -15,28 +17,36 @@ int main (int argc, char *argv[]) {
     std::string host = argv[1];
     short port = atoi(argv[2]);
 
-    //TODO add support to read messages from the socket
-    // add 2 thread client support
     ConnectionHandler connectionHandler(host, port);
     if (!connectionHandler.connect()) {
         std::cerr << "Cannot connect to " << host << ":" << port << std::endl;
         return 1;
     }
 
-    Task listen(&connectionHandler);
+    std::atomic<bool> isConnected(false);
+    Task listen(&connectionHandler, &isConnected);
     boost::thread listen_toServer_thread{listen};
+    messageEncoder encoder;
 
-    while (1){
+    while (1) {
         const short bufsize = 1024;
         char buf[bufsize];
         std::cin.getline(buf, bufsize);
         std::string line(buf);
-        if (!connectionHandler.sendLine(line)) {
-            std::cout << "Disconnected. Exiting...\n" << std::endl;
+
+        if (line == "") break;
+        std::vector<char> bytes(encoder.encode(line));
+        char c[bytes.size()];
+        std::copy(bytes.begin(), bytes.end(), c);
+        if(!connectionHandler.sendBytes(c,bytes.size())){
+            std::cout<< "Disconnected. Exiting...\n" << std::endl;
             break;
         }
         // connectionHandler.sendLine(line) appends '\n' to the message. Therefor we send len+1 bytes.
-        std::cout << "Sent " << line.length()+1 << " bytes to server" << std::endl;
+        //std::cout << "Sent " << bytes.size()+1 << " bytes to server" << std::endl;
+        if(isConnected.load() && line=="LOGOUT") {
+            break;
+        }
 
     }
 

@@ -19,22 +19,27 @@ VegetarianCustomer::VegetarianCustomer(std::string name, int id) : Customer(name
 
 std::vector<int> VegetarianCustomer::order(const std::vector<Dish> &menu) {
     std::vector<int> orders;
-    int price = 0;
     int index = -1;
+    bool order = false;
     std::vector<Dish, std::allocator<Dish>>::const_iterator it;
     for (it = menu.begin(); it != menu.end(); ++it) {
         if ((*it).getType() == VEG) {
             orders.push_back((*it).getId());
+            order = true;
             break;
         }
     }
+    if (order) {
+    int price = -1;
     for (unsigned int i = 0; i < menu.size(); i++) {
-        if (menu[i].getPrice() > price && menu[i].getType() == BVG) {
+        if (menu[i].getType() == BVG && (price == -1 || menu[i].getPrice() > price)) {
             index = i;
+            price = menu[i].getPrice();
         }
     }
-    if(index != -1)
+    if (index != -1)
         orders.push_back(index);
+    }
     return orders;
 }
 
@@ -68,29 +73,37 @@ SpicyCustomer::SpicyCustomer(std::string name, int id) :Customer(name, id), firs
 
 std::vector<int> SpicyCustomer::order(const std::vector<Dish> &menu) {
     std::vector<int> orders;
-    int price = 0;
-    int index = -1;
+    //int price = 0;
+    //int index = -1;
+    int index=0,price=-1;
+    bool found=false;
+
     if(firstorder){
-        std::vector<Dish, std::allocator<Dish>>::const_iterator it;
-        for (it = menu.begin(); it != menu.end(); ++it) {
-            if ((*it).getPrice() > price && (*it).getType() == SPC) {
-                index = (*it).getId();
+        for(auto d : menu){
+            if (d.getType() == SPC && (price == -1 || d.getPrice() > price)) {
+                found = true;
+                index = d.getId();
+                price = d.getPrice();
             }
         }
-        if(index != -1)
+
+        if(found) {
             orders.push_back(index);
-        firstorder = false;
+            firstorder = false;
+        }
     }
     else{
-        int index = -1;
-        std::vector<Dish, std::allocator<Dish>>::const_iterator it;
-        for (it = menu.begin(); it != menu.end(); ++it) {
-            if ((*it).getPrice() < menu[index].getPrice()  && (*it).getType() == BVG) {
-                index = (*it).getId();
+        for(auto d : menu){
+            if (d.getType() == BVG && (price == -1 || d.getPrice() < price))  {
+                found = true;
+                index = d.getId();
+                price = d.getPrice();
             }
         }
-        if(index != -1)
+
+        if(found)
             orders.push_back(index);
+
     }
     return orders;
 }

@@ -47,7 +47,10 @@ public:
 	
     // Close down the connection properly.
     void close();
- 
+
+    //Send a message to remote host
+    bool sendBytesArray(const char bytes[], char delimiter, int bytesToWrite);
+
 }; //class ConnectionHandler
  
 #endif
